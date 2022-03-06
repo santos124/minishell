@@ -4,7 +4,7 @@ t_env	*env_create_new(char *key, char *sep, char *value)
 {
 	t_env	*new;
 
-	new = malloc(sizeof(t_env));
+	new = (t_env *)malloc(sizeof(t_env));
 	new->key = key;
 	new->separator = sep;
 	new->value = value;
@@ -66,12 +66,12 @@ void	add_current_path(t_all *all)
 }
 
 //взятие переменных среды
-void	parse_env(char **envp, t_all *all)
+void	parse_env(char **env, t_all *all)
 {
 	int	i;
 
 	i = -1;
-	while (envp[++i])
-		env_add_new(envp[i], &all->envp, all);
+	while (env[++i])
+		env_add_new(env[i], &all->env, all);
 	add_current_path(all);
 }
