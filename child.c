@@ -1,0 +1,105 @@
+#include "minishell.h"
+
+char	*find_path(char *cmd, char **envp, t_all *all)
+{
+	char	**paths;
+	char	*path;
+	char	*part_path;
+	int		i;
+
+	i = 0;
+	if (ft_strchr(cmd, '/') || (cmd[1] == '.'))
+		return (cmd);
+	while (ft_strnstr(envp[i], "PATH", 4) == 0)
+		i++;
+	paths = ft_split(envp[i] + 5, ':', all);
+	if (!paths)
+		ft_exit(12, "malloc", all);
+	i = 0;
+	while (paths[i])
+	{
+		part_path = ft_strjoin(paths[i], "/", all);
+		path = ft_strjoin(part_path, cmd, all);
+		free(part_path);
+		if (access(path, F_OK) == 0)
+			return (path);
+		i++;
+	}
+	return (NULL);
+}
+
+static void	open_dup(int i, t_command *cmd, t_all *all)
+{
+	int	file[2];
+
+	file[0] = -2;
+	if (cmd->in)
+	{
+		while (!cmd->in->target)
+			cmd->in = cmd->in->next;
+		file[0] = open(cmd->in->name, O_RDONLY);
+	}
+	if (file[0] == -1)
+		ft_exit(errno, cmd->in->name, all);
+	file[1] = -2;
+	if (cmd->out)
+	{
+		while (!cmd->out->target)
+			cmd->out = cmd->out->next;
+		if (cmd->out && cmd->out->two)
+			file[1] = open(cmd->out->name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		else if (cmd->out && !cmd->out->two)
+			file[1] = open(cmd->out->name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	}
+	if (file[1] == -1)
+		ft_exit(errno, cmd->out->name, all);
+	ft_dup2(i, file, cmd, all);
+}
+
+void	execve_faild(t_all *all, char *path, t_command *cmd)
+{
+	all->errnum = 127;
+	if (!path)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd->cmd[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+		ft_exit(all->errnum, NULL, all);
+	}
+	if (access(path, F_OK) != 0)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd->cmd[0], 2);
+		write(2, " : No such file or directory\n", 29);
+		ft_exit(all->errnum, NULL, all);
+	}
+	if (path && access(path, X_OK) != 0)
+	{
+		all->errnum = 126;
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd->cmd[0], 2);
+		ft_putstr_fd(": Permission denied\n", 2);
+		ft_exit(all->errnum, NULL, all);
+	}
+}
+
+void	child_process(int i, t_all *all)
+{
+	int			num;
+	t_command	*cmd;
+	char		*path;
+
+	cmd = all->cmd;
+	num = 0;
+	while (num++ < i)
+		cmd = cmd->next;
+	if (!cmd->cmd || !cmd->cmd[0])
+		exit(0);
+	open_dup(i, cmd, all);
+	if (cmd->built)
+		ft_exit(run_built(cmd, all), NULL, all);
+	ft_check_path(all, cmd->cmd[0]);
+	path = find_path(cmd->cmd[0], all->env, all);
+	if (execve(path, cmd->cmd, all->env) == -1)
+		execve_faild(all, path, cmd);
+}
