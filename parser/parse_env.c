@@ -72,6 +72,6 @@ void	parse_env(char **env, t_all *all)
 
 	i = -1;
 	while (env[++i])
-		env_add_new(env[i], &all->env, all);
+		env_add_new(env[i], &all->envp, all);
 	add_current_path(all);
 }
