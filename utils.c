@@ -1,59 +1,59 @@
 
 #include "minishell.h"
 
-int	ft_count_cmd(t_command *cmd)
+int	ft_count_cmd(t_command *cmd) //+
 {
-	int	res;
+	int	i;
 
 	if (!cmd->cmd[0])
 		return (0);
-	res = 0;
+	i = 0;
 	while (cmd)
 	{
-		res++;
 		cmd = cmd->next;
+		i++;
 	}
-	return (res);
+	return (i);
 }
 
-int	ft_count_envp(t_env *envp)
+int	ft_count_envp(t_env *envp) //+
 {
-	int	res;
+	int	i;
 
-	res = 0;
+	i = 0;
 	while (envp)
 	{
-		res++;
 		envp = envp->next;
+		i++;
 	}
-	return (res);
+	return (i);
 }
 
-void	ft_print_error(int errnum, char *str, char *cmd_name)
+void	ft_print_error(int errnum, char *str, char *cmd_name) //+
 {
-	char	*errmsg;
+	char	*error;
 
-	errmsg = strerror(errnum);
+	error = strerror(errnum);
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(cmd_name, 2);
-	write(2, ": ", 3);
+	ft_putstr_fd(": ", 2);
 	if (str)
 	{
-		write(2, str, ft_strlen(str));
-		write(2, ": ", 3);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": ", 2);
 	}
-	write(2, errmsg, ft_strlen(errmsg));
-	write(2, "\n", 1);
+	ft_putstr_fd(error, 2);
+	ft_putstr_fd("\n", 2);
+
 }
 
-void	ft_make_array(t_env *envp, char **env, int len, t_all *all)
+void	ft_make_array(t_env *envp, char **env, int len, t_all *all) //-
 {
 	int		i;
 	char	*arr;
 
-	(void)all;
-	i = -1;
-	while (++i < len)
+	i = 0;
+	while (i < len)
 	{
 		env[i] = ft_strdup(envp->key, all);
 		if (envp->separator)
@@ -69,17 +69,18 @@ void	ft_make_array(t_env *envp, char **env, int len, t_all *all)
 			env[i] = arr;
 		}
 		envp = envp->next;
+		i++;
 	}
 	env[i] = NULL;
 }
 
-void	ft_env_list_to_array(t_env *envp, t_all *all)
+void	ft_env_list_to_array(t_env *envp, t_all *all) //+
 {
-	int		len;
+	int		n;
 
-	len = ft_count_envp(envp);
-	all->env = malloc(sizeof(char *) * (len + 1));
-	if (!all->env)
+	n = ft_count_envp(envp);
+	all->env = (char **)malloc(sizeof(char *) * (n + 1));
+	if (all->env == NULL)
 		ft_exit(12, "malloc", all);
-	ft_make_array(envp, all->env, len, all);
+	ft_make_array(envp, all->env, n, all);
 }
