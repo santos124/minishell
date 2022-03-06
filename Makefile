@@ -54,6 +54,5 @@ fclean : clean
 	$(MAKE) fclean -C $(LIBFT_DIR)
 	rm -f $(NAME)
 
-x : all;	./minishell
 
 .PHONY : all clean fclean re bonus
