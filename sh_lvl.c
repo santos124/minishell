@@ -1,27 +1,35 @@
 #include "minishell.h"
 
+void	ft_sub_shlvl(t_all *all, t_env *tmp, int level)
+{
+	if (!tmp->value[0])
+	{
+		free(tmp->separator);
+		tmp->separator = ft_strdup("=", all);
+		free(tmp->value);
+		tmp->value = ft_strdup("1", all);
+	}
+	else
+	{
+		level = ft_atoi(tmp->value) + 1;
+		free(tmp->value);
+		tmp->value = ft_itoa(level, all);
+	}
+}
+
+
 void	ft_shlvl_check(t_all *all)
 {
 	t_env	*tmp;
-	int		value;
+	int		level;
 
 	tmp = all->envp;
-	value = 1;
+	level = 0;
 	while (tmp)
 	{
-		if (!ft_strcmp(tmp->key, "SHLVL") && !tmp->value[0])
+		if (!ft_strcmp(tmp->key, "SHLVL"))
 		{
-			free(tmp->separator);
-			tmp->separator = ft_strdup("=", all);
-			free(tmp->value);
-			tmp->value = ft_strdup("1", all);
-			return ;
-		}
-		else if (!ft_strcmp(tmp->key, "SHLVL") && tmp->value[0])
-		{
-			value += ft_atoi(tmp->value);
-			free(tmp->value);
-			tmp->value = ft_itoa(value, all);
+			ft_sub_shlvl(all, tmp, level);
 			return ;
 		}
 		tmp = tmp->next;

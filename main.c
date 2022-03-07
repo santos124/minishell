@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	set_built(t_command *cmd)
+void	set_built(t_command *cmd) //
 {
 	while (cmd)
 	{
@@ -25,7 +25,7 @@ void	set_built(t_command *cmd)
 	}
 }
 
-int	run_built(t_command *cmd, t_all *all)
+int	run_built(t_command *cmd, t_all *all) //
 {
 	if (cmd->built == 1)
 		return (ft_echo(all, cmd));
@@ -44,7 +44,7 @@ int	run_built(t_command *cmd, t_all *all)
 	return (0);
 }
 
-void	execution(t_all *all)
+void	execution(t_all *all) //
 {
 	int	fd;
 
@@ -71,10 +71,10 @@ void	execution(t_all *all)
 	}
 }
 
-int	main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env) //
 {
 	t_all	*all;
-	char	*line;
+	char	*str;
 
 	(void)argv;
 	ft_init_structs(&all);
@@ -84,8 +84,8 @@ int	main(int argc, char **argv, char **env)
 	ft_shlvl_check(all);
 	while (1)
 	{
-		go_readline(&line, all);
-		if (parser(all, line) == 0)
+		go_readline(&str, all);
+		if (parser(all, str) == 0)
 		{
 			execution(all);
 			free_structs(all);

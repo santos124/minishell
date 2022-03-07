@@ -26,12 +26,12 @@ t_env	*sub_sort_env(t_all *all, char operation)
 	{
 		if (operation == 'f')
 		{
-			if (ch_compare(tmp->key, first->key) <= 0) //
+			if (ch_compare(tmp->key, first->key) <= 0)
 				first = tmp;
 		}
 		if (operation == 'l')
 		{
-			if (ch_compare(tmp->key, first->key) > 0) //
+			if (ch_compare(tmp->key, first->key) > 0)
 				first = tmp;
 		}
 		tmp = tmp->next;
@@ -50,7 +50,7 @@ t_env	*sort_env_next(t_all *all, t_env *cur)
 	{
 		if (ch_compare(tmp->key, new->key) <= 0 &&
 			ch_compare(tmp->key, cur->key) > 0 &&
-			ft_strcmp(tmp->key, "_"))
+			ft_strcmp(tmp->key, "_")) // убирает одну строчку
 			new = tmp;
 		tmp = tmp->next;
 	}
@@ -76,7 +76,7 @@ void	sort_env(t_all *all) // сортировка переменной окрр�
 	while (i > 0)
 	{
 		new = sort_env_next(all, cur);
-		cur->alpha_next = new;
+		cur->alpha_next = new; // следующий по алфавиту в списке env
 		cur = new;
 		i--;
 	}

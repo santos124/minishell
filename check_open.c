@@ -73,7 +73,7 @@ static int	open_file(t_redir *tmp, t_all *all)
 		if (fd == -1)
 			return (err_open(errno, tmp->name, all));
 	}
-	else //в осталтных
+	else //в остальных
 	{
 		fd = open(tmp->name, O_RDWR);
 		if (fd == -1)
