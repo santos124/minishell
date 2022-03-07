@@ -45,23 +45,23 @@ void	env_add_new(char *env_line, t_env **first, t_all *all)
 //добавить текущий путь
 void	add_current_path(t_all *all)
 {
-	t_env	*temp;
+	t_env	*tmp;
 	char	*pwd;
-	char	*temp_path;
+	char	*tmp_path;
 	char	*new_path;
 
-	temp = all->envp;
-	while (ft_strcmp(temp->key, "PWD") != 0)
-		temp = temp->next;
-	pwd = temp->value;
-	temp = all->envp;
-	while (ft_strcmp(temp->key, "PATH") != 0)
-		temp = temp->next;
-	temp_path = ft_strjoin(temp->value, ":", all);
-	new_path = ft_strjoin(temp_path, pwd, all);
-	free(temp->value);
-	temp->value = ft_strdup(new_path, all);
-	free(temp_path);
+	tmp = all->envp;
+	while (ft_strcmp("PWD", tmp->key))
+		tmp = tmp->next;
+	pwd = tmp->value;
+	tmp = all->envp;
+	while (ft_strcmp("PATH", tmp->key))
+		tmp = tmp->next;
+	tmp_path = ft_strjoin(tmp->value, ":", all);
+	new_path = ft_strjoin(tmp_path, pwd, all);
+	free(tmp_path);
+	free(tmp->value);
+	tmp->value = ft_strdup(new_path, all);
 	free(new_path);
 }
 
