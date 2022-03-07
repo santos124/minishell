@@ -26,7 +26,7 @@ RDLN = -lreadline -L ~/.brew/Cellar/readline/8.1.1/lib \
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra -g -O3
+CFLAGS = -Wall -Werror -Wextra
 
 %.o:  %.c Makefile minishell.h
 	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
