@@ -58,7 +58,7 @@ typedef struct s_all
 }	t_all;
 
 char	**ft_split(char const *str, char c, t_all *all);
-char	*ft_strdup(const char *s1, t_all *all);
+char	*ft_strdup(const char *s1); //, t_all *all);
 char	*ft_strjoin(char const *s1, char const *s2, t_all *all);
 char	*ft_substr(char const *s, unsigned int start, size_t len, t_all *all);
 char	*ft_itoa(int n, t_all *all);
@@ -115,8 +115,8 @@ int		ft_check_path(t_all *all, char *cmd);
 int		check_x(t_all *all, char *path, char *cmd);
 
 /*redirects.c*/
-int		dup_cmd(t_command *cmd, t_all *all);
-void	redup_cmd(int fd, t_all *all);
+int		dup_cmd(t_command *cmd); //, t_all *all);
+void	redup_cmd(int fd); //, t_all *all);
 
 /*pipe.c*/
 void	ft_pipe(t_all *all);
@@ -139,7 +139,7 @@ int		check_arg_export(char *str, t_all *all);
 void	ft_cd_error(t_all *all, char *str, int flag);
 int		ft_exit_cmd(t_all *all, t_command *cmd);
 int		check_exit(t_all *all);
-int		ft_exit(int errnum, char *msg, t_all *all);
+int		ft_exit(int errnum, char *msg); //, t_all *all);
 void	free_structs(t_all *all);
 int		ft_last_err(t_all *all);
 

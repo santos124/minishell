@@ -55,7 +55,7 @@ void	ft_make_array(t_env *envp, char **env, int len, t_all *all) //-
 	i = 0;
 	while (i < len)
 	{
-		env[i] = ft_strdup(envp->key, all);
+		env[i] = ft_strdup(envp->key); //, all);
 		if (envp->separator)
 		{
 			arr = ft_strjoin(env[i], envp->separator, all);
@@ -81,6 +81,6 @@ void	ft_env_list_to_array(t_env *envp, t_all *all) //+
 	n = ft_count_envp(envp);
 	all->env = (char **)malloc(sizeof(char *) * (n + 1));
 	if (all->env == NULL)
-		ft_exit(12, "malloc", all);
+		ft_exit(12, "malloc"); //, all);
 	ft_make_array(envp, all->env, n, all);
 }

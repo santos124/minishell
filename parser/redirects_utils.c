@@ -55,7 +55,7 @@ void	all_redir_list(t_redir *new, t_all *all)
 		if (all->redir->in && all->redir->two)
 			all->redir->name = ft_strjoin("heredoc", "1", all);
 		if (all->redir->name == NULL)
-			ft_exit(12, "malloc", all);
+			ft_exit(12, "malloc"); //, all);
 	}
 	else
 	{
@@ -67,7 +67,7 @@ void	all_redir_list(t_redir *new, t_all *all)
 			all->redir->all_next->name = ft_strjoin("heredoc", \
 				ft_itoa(all->redir->all_next->cmd, all), all);
 		if (all->redir->name == NULL)
-			ft_exit(12, "malloc", all);
+			ft_exit(12, "malloc"); //, all);
 		all->redir = tmp;
 	}
 }

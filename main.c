@@ -62,9 +62,9 @@ void	execution(t_all *all) //
 		}
 		if (all->num == 1 && all->cmd->built)
 		{
-			fd = dup_cmd(all->cmd, all);
+			fd = dup_cmd(all->cmd); //, all);
 			all->errnum = run_built(all->cmd, all);
-			redup_cmd(fd, all);
+			redup_cmd(fd); //, all);
 		}
 		else if (all->num != 1 || all->cmd->cmd[0])
 			pipex(all);
@@ -79,7 +79,7 @@ int	main(int argc, char **argv, char **env) //
 	(void)argv;
 	ft_init_structs(&all);
 	if (argc != 1)
-		ft_exit(1, NULL, all);
+		ft_exit(1, NULL); //, all);
 	parse_env(env, all);
 	ft_shlvl_check(all);
 	while (1)

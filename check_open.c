@@ -46,7 +46,7 @@ int	ambiguous_redirect(t_redir *tmp, t_all *all)
 			if (env->value)
 			{
 				free (tmp->name);
-				tmp->name = ft_strdup(env->value, all);
+				tmp->name = ft_strdup(env->value); //, all);
 				return (0);
 			}
 		}

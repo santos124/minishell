@@ -4,7 +4,7 @@ void	ft_init_structs(t_all **all)
 {
 	(*all) = (t_all *)malloc(sizeof (t_all));
 	if (!(*all))
-		ft_exit(12, "malloc", NULL);
+		ft_exit(12, "malloc"); //, NULL);
 	(*all)->cmd = NULL;
 	(*all)->redir = NULL;
 	(*all)->envp = NULL;

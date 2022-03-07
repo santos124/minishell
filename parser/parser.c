@@ -76,7 +76,7 @@ char	*parse_line(char **str, t_all *all, t_command *cmd)
 	cmd->cmd = ft_split(one_cmd, ' ', all);
 	replace_spaces(cmd->cmd);
 	free(one_cmd);
-	new_str = ft_strdup(&((*str)[i]), all);
+	new_str = ft_strdup(&((*str)[i])); //, all);
 	free(*str);
 	return (new_str);
 }
@@ -86,7 +86,7 @@ int	parser(t_all *all, char *str)
 	t_command	*tmp;
 
 	if (!str)
-		ft_exit(12, "malloc", all);
+		ft_exit(12, "malloc"); //, all);
 	tabs_to_spaces(&str);
 	if (check_syntax(str, all))
 		return (1);
@@ -95,7 +95,7 @@ int	parser(t_all *all, char *str)
 	tmp = all->cmd;
 	str = parse_line(&str, all, all->cmd);
 	if (!str)
-		ft_exit(12, "malloc", all);
+		ft_exit(12, "malloc"); //, all);
 	while (str[0] && str[0] == '|')
 	{
 		all->cmd->next = new_command();
@@ -103,7 +103,7 @@ int	parser(t_all *all, char *str)
 		all->num_cmd++;
 		str = parse_line(&str, all, all->cmd);
 		if (!str)
-			ft_exit(12, "malloc", all);
+			ft_exit(12, "malloc"); //, all);
 	}
 	all->cmd = tmp;
 	free(str);

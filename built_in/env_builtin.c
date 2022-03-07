@@ -13,7 +13,7 @@ int	ft_check_path(t_all *all, char *cmd)
 	}
 	all->errnum = 127;
 	ft_print_error(2, NULL, cmd);
-	ft_exit(all->errnum, NULL, all);
+	ft_exit(all->errnum, NULL); //, all);
 	return (1);
 }
 

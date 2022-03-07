@@ -35,7 +35,7 @@ char	*env_replace(char *line, int *i, t_env *envp, t_all *all)
 	t_env	*temp;
 
 	begin = *i;
-	env_value = ft_strdup("", all);
+	env_value = ft_strdup(""); //, all);
 	(*i)++;
 	while (line[*i] && (line[*i] == '_' || ft_isalnum(line[*i])))
 		(*i)++;

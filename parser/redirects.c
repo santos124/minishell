@@ -12,7 +12,7 @@ void	new_in_redir(char *line, int *i, t_redir *new, t_all *all)
 	else if (line[*i + 1] && line[*i + 1] == '<')
 	{
 		new->limiter = save_redir_name(line, i, all);
-		new->name = ft_strdup("heredoc", all);
+		new->name = ft_strdup("heredoc"); //, all);
 		new->two = 1;
 		new->in = 1;
 	}

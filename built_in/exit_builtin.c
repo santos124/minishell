@@ -25,24 +25,24 @@ int	ft_exit_cmd(t_all *all, t_command *cmd)
 		return (1);
 	}
 	if (cmd->cmd[1] && !ft_isalldigit(cmd->cmd[1]))
-		ft_exit((unsigned char)ft_atoi(all->cmd->cmd[1]), NULL, all);
+		ft_exit((unsigned char)ft_atoi(all->cmd->cmd[1]), NULL); //, all);
 	else if (cmd->cmd[1])
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(cmd->cmd[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
-		ft_exit(255, NULL, all);
+		ft_exit(255, NULL); //, all);
 	}
 	else
-		ft_exit(0, NULL, all);
+		ft_exit(0, NULL); //, all);
 	return (0);
 }
 
-int	ft_exit(int errnum, char *msg, t_all *all)
+int	ft_exit(int errnum, char *msg) //, t_all *all)
 {
 	char	*errmsg;
 
-	(void)all;
+	//(void)all;
 	if (msg)
 	{
 		errmsg = strerror(errnum);

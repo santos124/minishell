@@ -11,7 +11,7 @@ void	go_readline(char **line, t_all *all)
 	else if (*line == NULL)
 	{
 		printf("\033[1Aminishell>>> exit\n");
-		ft_exit(all->errnum, NULL, all);
+		ft_exit(all->errnum, NULL); //, all);
 	}
 }
 
@@ -53,5 +53,5 @@ void	heredoc_sig_int(int sig)
 	(void)sig;
 	write(STDOUT_FILENO, "\b\b  \b\b\n", 7);
 	rl_on_new_line();
-	ft_exit(1, NULL, NULL);
+	ft_exit(1, NULL); //, NULL);
 }
