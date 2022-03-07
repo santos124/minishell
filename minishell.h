@@ -17,51 +17,58 @@
 typedef struct s_env //переменные среды список
 {
 	char			*key; //ключ
-	char			*separator; //разделитель
-	char			*value; //значение
+	char			sep; //*separator; //разделитель
+	char			*val;//*value; //значение
 	struct s_env	*next; //следующая в первоначальном порядке
-	struct s_env	*alpha_next; //следующая в упорядоченном порядке
+	struct s_env	*a_z_next; //*alpha_next; //следующая в упорядоченном
+			// алфавитном порядке
 }	t_env;
 
-typedef struct s_redir //редирект список
+typedef struct s_redirect//s_redir //редирект список
 {
-	char			*name; // команда которая учавствует обьектом редиректа или хирдок
-	char			*limiter; //при заднем редиректе двойном  << команда записывается сюда
-	int				cmd; ///порядковый номер команды для редиректа
-	int				target; // крайний редирект 1/0
-	int				two; //двойной редирект >> 1/0
-	int				in; //входной редирект 1/0
-	struct s_redir	*next; //следующий редирект после этого
-	struct s_redir	*all_next; //следующий редирект в общем списке
-}	t_redir;
+	char				*name; // команда которая учавствует обьектом редиректа или хирдок
+	char				*limiter; //при заднем редиректе двойном  << команда
+	// записывается сюда
+	// ??????????
+	int					cmd; // порядковый номер команды для редиректа
+	int					last;//target; // крайний редирект 1/0
+	int					doub; //two; //двойной редирект >> 1/0
+	int					in; //входной редирект 1/0
+	struct s_redirect	*next;//s_redir	*next; //следующий редирект после этого
+	struct s_redirect	*all_next;//s_redir	*all_next; //следующий редирект в
+	// общем
+	// списке
+}	t_red; //t_redir;
 
 typedef struct s_cmd //команда список
 {
 	char			**cmd; //команда в терминал
 	t_redir			*in;   //редирект < /УКАЗАТЕЛЬ
 	t_redir			*out;  //редирект > /УКАЗАТЕЛЬ
-	int				built; //номер реализованной команды 1-7
+	int				id_cmd;//built; //номер реализованной команды 1-7
 	struct s_cmd	*next; // указатель на следующий элемент команды
-}	t_command;
+}	t_cmd; //t_command;
 
 typedef struct s_all
 {
-	t_command		*cmd; //команда
-	t_redir			*redir; //редирект
+	t_red			*red;//ir			*redir; //редирект
+	int				**fd; //?????????
 	t_env			*envp; //указатель на переменную окружения
-	t_env			*envp_alpha; //переменная окружения самая первая
+	t_env			*a_envp//*envp_alpha; //переменная окружения самая первая
 	char			**env;
-	int				num; //число команд
-	int				num_cmd; //число команд
-	int				**fd;
-	int				errnum;
+	t_cmd			*cmd;//t_command		*cmd; //команда
+	int				num; //число команд ???????????
+	int				num_cmd; //число команд  ???????????
+	//int				errnum; убрать потому что не используем больше
 }	t_all;
 
-char	**ft_split(char const *str, char c, t_all *all);
-char	*ft_strdup(const char *s1); //, t_all *all);
-char	*ft_strjoin(char const *s1, char const *s2, t_all *all);
-char	*ft_substr(char const *s, unsigned int start, size_t len, t_all *all);
-char	*ft_itoa(int n, t_all *all);
+// неудивляться если не будет компилиться из-за t_all
+//char	**ft_split(char const *str, char c, t_all *all); // засунуть в libft
+//char	*ft_strdup(const char *s1); //, t_all *all); //
+//char	*ft_strjoin(char const *s1, char const *s2, t_all *all); //
+//char	*ft_substr(char const *s, unsigned int start, size_t len, t_all *all)
+; //
+//char	*ft_itoa(int n, t_all *all); //
 
 void	ft_print_all(t_all *all);
 
