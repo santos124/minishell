@@ -1,94 +1,84 @@
 #include "minishell.h"
 
-int	sort_env_compare(t_env *temp, t_env *second)
+int ch_compare(char *s1, char *s2)
 {
-	int	i;
+	int i;
 
 	i = 0;
-	while (temp->key[i])
+	while (s1[i])
 	{
-		if (temp->key[i] > second->key[i])
-			return (1);
-		else if (temp->key[i] < second->key[i])
-			return (-1);
+		if (s1[i] != s2[i])
+			return (s1[i] - s2[i]);
 		else
 			i++;
 	}
 	return (0);
 }
 
-t_env	*sort_env_find_first(t_all *all)
+t_env	*sub_sort_env(t_all *all, char operation)
 {
 	t_env	*first;
-	t_env	*temp;
+	t_env	*tmp;
 
 	first = all->envp;
-	temp = all->envp;
-	while (temp)
+	tmp = all->envp;
+	while (tmp)
 	{
-		if (sort_env_compare(temp, first) <= 0)
-			first = temp;
-		temp = temp->next;
+		if (operation == 'f')
+		{
+			if (ch_compare(tmp->key, first->key) <= 0) //
+				first = tmp;
+		}
+		if (operation == 'l')
+		{
+			if (ch_compare(tmp->key, first->key) > 0) //
+				first = tmp;
+		}
+		tmp = tmp->next;
 	}
 	return (first);
 }
 
-t_env	*sort_env_find_last(t_all *all)
+t_env	*sort_env_next(t_all *all, t_env *cur)
 {
-	t_env	*first;
-	t_env	*temp;
-
-	first = all->envp;
-	temp = all->envp;
-	while (temp)
-	{
-		if (sort_env_compare(temp, first) > 0)
-			first = temp;
-		temp = temp->next;
-	}
-	return (first);
-}
-
-t_env	*sort_env_find_next(t_all *all, t_env *current)
-{
-	t_env	*temp;
+	t_env	*tmp;
 	t_env	*new;
 
-	temp = all->envp;
-	new = sort_env_find_last(all);
-	while (temp)
+	tmp = all->envp;
+	new = sub_sort_env(all, 'l');
+	while (tmp)
 	{
-		if (sort_env_compare(temp, new) <= 0 && \
-			sort_env_compare(temp, current) > 0 && \
-			ft_strcmp(temp->key, "_"))
-			new = temp;
-		temp = temp->next;
+		if (ch_compare(tmp->key, new->key) <= 0 &&
+			ch_compare(tmp->key, cur->key) > 0 &&
+			ft_strcmp(tmp->key, "_"))
+			new = tmp;
+		tmp = tmp->next;
 	}
 	return (new);
 }
 
-void	sort_env(t_all *all)
+void	sort_env(t_all *all) // сортировка переменной окрружения
 {
-	t_env	*current;
-	t_env	*new;
-	t_env	*temp;
 	int		i;
+	t_env	*cur;
+	t_env	*tmp;
+	t_env	*new;
 
 	i = 0;
-	temp = all->envp;
-	while (temp)
+	tmp = all->envp;
+	while (tmp)
 	{
-		temp = temp->next;
+		tmp = tmp->next;
 		i++;
 	}
-	current = sort_env_find_first(all);
-	all->envp_alpha = current;
+	cur = sub_sort_env(all, 'f');
+	all->envp_alpha = cur; // первая строчка по алфавиту в списке env
 	while (i > 0)
 	{
-		new = sort_env_find_next(all, current);
-		current->alpha_next = new;
-		current = new;
+		new = sort_env_next(all, cur);
+		cur->alpha_next = new;
+		cur = new;
 		i--;
 	}
-	current->alpha_next = NULL;
+	cur->alpha_next = NULL;
 }
