@@ -1,44 +1,44 @@
 #include "../minishell.h"
 
-t_env	*env_create_new(char *key, char *sep, char *value)
+t_env	*env_create_new(char *key, char *sep, char *val)
 {
 	t_env	*new;
 
 	new = (t_env *)malloc(sizeof(t_env));
 	new->key = key;
 	new->separator = sep;
-	new->value = value;
-	new->next = NULL;
+	new->value = val;
+	new->next = 0;
 	return (new);
 }
 
 //добавить одну переменную среды
-void	env_add_new(char *env_line, t_env **first, t_all *all)
+void	env_add_new(char *env_str, t_env **start, t_all *all)
 {
 	t_env	*tmp;
 	char	*key;
 	char	*sep;
-	char	*value;
+	char	*val;
 	int		i;
 
 	i = 0;
 	sep = NULL;
-	value = NULL;
-	while (env_line[i] && (env_line[i] == '_' || ft_isalnum(env_line[i])))
+	val = NULL;
+	while (env_str[i] && (env_str[i] == '_' || ft_isalnum(env_str[i])))
 		i++;
-	key = ft_substr(env_line, 0, i, all);
-	if (ft_strchr(env_line, '='))
-		sep = ft_substr(env_line, i, 1, all);
-	if (env_line[i + 1])
-		value = ft_strdup(&env_line[i + 1], all);
-	if (*first == NULL)
-		*first = env_create_new(key, sep, value);
+	key = ft_substr(env_str, 0, i, all);
+	if (ft_strchr(env_str, '='))
+		sep = ft_substr(env_str, i, 1, all);
+	if (env_str[i + 1])
+		val = ft_strdup(&env_str[i + 1], all);
+	if (*start == NULL)
+		*start = env_create_new(key, sep, val);
 	else
 	{
-		tmp = *first;
+		tmp = *start;
 		while (tmp->next)
 			tmp = tmp->next;
-		tmp->next = env_create_new(key, sep, value);
+		tmp->next = env_create_new(key, sep, val);
 	}
 }
 

@@ -1,53 +1,53 @@
 #include "../minishell.h"
 
-void	remove_redirect(char *line, int start, int end)
+void	remove_redirect(char *str, int start, int end)
 {
 	int	len;
 	int	i;
 
 	len = end - start;
 	i = 0;
-	(void)line;
-	while (line[end + i])
+	while (str[end + i])
 	{
-		line[start + i] = line[end + i];
+		str[start + i] = str[end + i];
 		i++;
 	}
-	line[start + i] = '\0';
-	while (line[start + i + 1])
+	str[start + i] = 0;
+	while (str[start + i + 1])
 	{
-		line[start + i + 1] = '\0';
+		str[start + i + 1] = 0;
 		i++;
 	}
 }
 
-char	*save_redir_name(char *line, int *i, t_all *all)
+char	*save_redir_name(char *str, int *i, t_all *all)
 {
-	int		begin;
-	int		save;
-	int		count;
 	char	*result;
+	int		count;
+	int		start;
+	int		tmp;
 
-	save = *i;
 	count = 0;
-	while (line[*i] && (line[*i] == '>' || line[*i] == '<'))
+	tmp = *i;
+	while (str[*i] && (str[*i] == '>' || str[*i] == '<'))
 		(*i)++;
-	while (line[*i] && line[*i] == ' ')
+	while (str[*i] && str[*i] == ' ')
 		(*i)++;
-	begin = *i;
-	while (line[*i] && line[*i] != ' ' && line[*i] != '|')
+	start = *i;
+	while (str[*i] && str[*i] != ' ' && str[*i] != '|')
 		(*i)++;
-	result = ft_substr(line, begin, *i - begin, all);
-	remove_redirect(line, save, *i);
-	*i = save;
+	result = ft_substr(str, start, *i - start, all);
+	remove_redirect(str, tmp, *i);
+	*i = tmp;
 	return (result);
 }
 
+
 void	all_redir_list(t_redir *new, t_all *all)
 {
-	t_redir	*temp;
+	t_redir	*tmp;
 
-	temp = all->redir;
+	tmp = all->redir;
 	if (all->redir == NULL)
 	{
 		all->redir = new;
@@ -59,7 +59,7 @@ void	all_redir_list(t_redir *new, t_all *all)
 	}
 	else
 	{
-		while (all->redir->all_next)
+		while (all->redir->all_next != NULL)
 			all->redir = all->redir->all_next;
 		all->redir->all_next = new;
 		all->redir->all_next->cmd = all->num_cmd;
@@ -68,6 +68,6 @@ void	all_redir_list(t_redir *new, t_all *all)
 				ft_itoa(all->redir->all_next->cmd, all), all);
 		if (all->redir->name == NULL)
 			ft_exit(12, "malloc", all);
-		all->redir = temp;
+		all->redir = tmp;
 	}
 }
