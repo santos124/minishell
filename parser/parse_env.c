@@ -1,13 +1,13 @@
 #include "../minishell.h"
 
-t_env	*env_create_new(char *key, char *sep, char *value)
+t_env	*env_create_new(char *key, char *sep, char *val)
 {
 	t_env	*new;
 
 	new = (t_env *)malloc(sizeof(t_env));
 	new->key = key;
 	new->separator = sep;
-	new->value = value;
+	new->value = val;
 	new->next = 0;
 	return (new);
 }
