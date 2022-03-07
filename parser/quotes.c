@@ -47,8 +47,8 @@ char	*double_quotes(char *str, int *i, t_all *all)
 {
 	int		start;
 
-	(*i)++;
 	start = *i;
+	(*i)++;
 	while (str[*i] && str[*i + 1] && str[*i] != '\"')
 	{
 		if (str[*i] == '$' && (str[*i + 1] == '_' || \
