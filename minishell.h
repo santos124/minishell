@@ -17,7 +17,7 @@
 typedef struct s_env //переменные среды список
 {
 	char			*key; //ключ
-	char			sep; //*separator; //разделитель
+	char			*sep; //*separator; //разделитель
 	char			*val;//*value; //значение
 	struct s_env	*next; //следующая в первоначальном порядке
 	struct s_env	*a_z_next; //*alpha_next; //следующая в упорядоченном
@@ -43,30 +43,30 @@ typedef struct s_redirect//s_redir //редирект список
 typedef struct s_cmd //команда список
 {
 	char			**cmd; //команда в терминал
-	t_redir			*in;   //редирект < /УКАЗАТЕЛЬ
-	t_redir			*out;  //редирект > /УКАЗАТЕЛЬ
+	t_red			*in;   //редирект < /УКАЗАТЕЛЬ
+	t_red			*out;  //редирект > /УКАЗАТЕЛЬ
 	int				id_cmd;//built; //номер реализованной команды 1-7
 	struct s_cmd	*next; // указатель на следующий элемент команды
-}	t_cmd; //t_command;
+}	t_cmd; //t_cmd;
 
 typedef struct s_all
 {
 	t_red			*red;//ir			*redir; //редирект
 	int				**fd; //?????????
 	t_env			*envp; //указатель на переменную окружения
-	t_env			*a_envp//*envp_alpha; //переменная окружения самая первая
+	t_env			*a_envp;//*envp_alpha; //переменная окружения самая первая
 	char			**env;
-	t_cmd			*cmd;//t_command		*cmd; //команда
+	t_cmd			*cmd;//t_cmd		*cmd; //команда
 	int				num; //число команд ???????????
 	int				num_cmd; //число команд  ???????????
-	//int				errnum; убрать потому что не используем больше
+	int				errnum; //убрать потому что не используем больше
 }	t_all;
 
 // неудивляться если не будет компилиться из-за t_all
 //char	**ft_split(char const *str, char c, t_all *all); // засунуть в libft
 //char	*ft_strdup(const char *s1); //, t_all *all); //
 //char	*ft_strjoin(char const *s1, char const *s2, t_all *all); //
-//char	*ft_substr(char const *s, unsigned int start, size_t len, t_all *all)
+//char	*ft_substr(char const *s, unsigned int start, size_t len)
 ; //
 //char	*ft_itoa(int n, t_all *all); //
 
@@ -87,15 +87,15 @@ int		check_syntax(char *line, t_all *all);
 char	*single_quotes(char *line, int *i, t_all *all);
 char	*double_quotes(char *line, int *i, t_all *all);
 
-char	*parse_redirects(char *line, int *i, t_command *cmd, t_all *all);
-t_redir	*new_redir(char *line, int *i, t_all *all);
-char	*save_redir_name(char *line, int *i, t_all *all);
-void	all_redir_list(t_redir *new, t_all *all);
+char	*parse_redirects(char *line, int *i, t_cmd *cmd, t_all *all);
+t_red	*new_redir(char *line, int *i, t_all *all);
+char	*save_redir_name(char *line, int *i);
+void	all_redir_list(t_red *new, t_all *all);
 
 void	parse_env(char **envp, t_all *all);
 t_env	*env_create_new(char *key, char *sep, char *value);
-void	env_add_new(char *env_line, t_env **first, t_all *all);
-char	*env_replace(char *line, int *i, t_env *envp, t_all *all);
+void	env_add_new(char *env_str, t_env **start);
+char	*env_replace(char *line, int *i, t_env *envp);
 char	*exit_code_replace(char *line, t_all *all, int *i);
 void	sort_env(t_all *all);
 
@@ -105,10 +105,10 @@ void	sig_handler_parent(int sig_num);
 void	heredoc_sig_int(int sig);
 
 /*utils*/
-int		ft_count_cmd(t_command *cmd);
+int		ft_count_cmd(t_cmd *cmd);
 int		ft_count_envp(t_env *envp);
 void	ft_env_list_to_array(t_env *envp, t_all *all);
-void	ft_make_array(t_env *envp, char **env, int len, t_all *all);
+void	ft_make_array(t_env *envp, char **env, int len);
 void	ft_print_error(int errnum, char *str, char *cmd_name);
 
 /*check_open.c*/
@@ -117,12 +117,12 @@ int		check_open(t_all *all);
 /*child.c*/
 void	child_process(int i, t_all *all);
 void	execute(char **cmd, char **env, t_all *all);
-char	*find_path(char *cmd, char **envp, t_all *all);
+char	*find_path(char *cmd, char **envp);
 int		ft_check_path(t_all *all, char *cmd);
 int		check_x(t_all *all, char *path, char *cmd);
 
 /*redirects.c*/
-int		dup_cmd(t_command *cmd); //, t_all *all);
+int		dup_cmd(t_cmd *cmd); //, t_all *all);
 void	redup_cmd(int fd); //, t_all *all);
 
 /*pipe.c*/
@@ -130,21 +130,21 @@ void	ft_pipe(t_all *all);
 
 /*pipex.c*/
 void	pipex(t_all *all);
-void	ft_dup2(int i, int *file, t_command *cmd, t_all *all);
+void	ft_dup2(int i, int *file, t_cmd *cmd, t_all *all);
 
 /*./built_in*/
-int		ft_cd(t_all *all, t_command *cmd);
+int		ft_cd(t_all *all, t_cmd *cmd);
 int		ft_pwd(t_all *all);
-int		ft_env(t_all *all, t_command *cmd);
-int		ft_echo(t_all *all, t_command *cmd);
-int		ft_unset(t_command *cmd, t_all *all);
-int		ft_export(t_all *all, t_command *cmd);
+int		ft_env(t_all *all, t_cmd *cmd);
+int		ft_echo(t_all *all, t_cmd *cmd);
+int		ft_unset(t_cmd *cmd, t_all *all);
+int		ft_export(t_all *all, t_cmd *cmd);
 int		ft_add_new(char *str, t_all *all);
-int		ft_export_join(char *new, t_env *envp, t_all *all);
+// int		ft_export_join(char *new, t_env *envp, t_all *all);
 void	ft_export_unset_error(t_all *all, char *str, char *namecmd);
 int		check_arg_export(char *str, t_all *all);
 void	ft_cd_error(t_all *all, char *str, int flag);
-int		ft_exit_cmd(t_all *all, t_command *cmd);
+int		ft_exit_cmd(t_all *all, t_cmd *cmd);
 int		check_exit(t_all *all);
 int		ft_exit(int errnum, char *msg); //, t_all *all);
 void	free_structs(t_all *all);
@@ -152,7 +152,7 @@ int		ft_last_err(t_all *all);
 
 void	ft_shlvl_check(t_all *all);
 void	ft_init_structs(t_all **all);
-int		run_built(t_command *cmd, t_all *all);
+int		run_built(t_cmd *cmd, t_all *all);
 void	heredoc(char *name, char *limiter, t_all *all);
 
 #endif

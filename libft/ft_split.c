@@ -39,7 +39,7 @@ static int	ft_wlen(char const *str, char c)
 	return (size);
 }
 
-char	**ft_split(char const *str, char c, t_all *all)
+char	**ft_split(char const *str, char c)
 {
 	int		i;
 	int		j;
@@ -58,7 +58,7 @@ char	**ft_split(char const *str, char c, t_all *all)
 	{
 		while (*str == c)
 			str++;
-		split[j] = ft_substr(str, i, ft_wlen(str, c), all);
+		split[j] = ft_substr(str, i, ft_wlen(str, c));
 		str = str + ft_wlen(str, c);
 		j++;
 		count--;

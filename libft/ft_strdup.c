@@ -1,24 +1,12 @@
 #include "libft.h"
 
-char	*ft_strdup(const char *s1) //, t_all *all)
+char	*ft_strdup (const char *s1)
 {
-	char	*dst;
-	size_t	i;
+	char	*s2;
 
-	i = 0;
-	dst = (char *)malloc(sizeof(char) * (ft_strlen(s1) + 1));
-	if (!dst)
-		ft_exit(12, "malloc"); //, all);
-	if (dst)
-	{
-		while (s1[i])
-		{
-			dst[i] = s1[i];
-			i++;
-		}
-		dst[i] = '\0';
-		return (dst);
-	}
-	else
-		return (0);
+	s2 = ft_calloc(ft_strlen(s1) + 1, sizeof(char));
+	if (NULL == s2)
+		ft_exit(12, "malloc");
+	ft_memmove(s2, s1, ft_strlen(s1));
+	return (s2);
 }

@@ -15,7 +15,7 @@ int	ft_isalldigit(char *str)
 	return (0);
 }
 
-int	ft_exit_cmd(t_all *all, t_command *cmd)
+int	ft_exit_cmd(t_all *all, t_cmd *cmd)
 {
 	if (all->num == 1)
 		ft_putstr_fd("exit\n", 1);

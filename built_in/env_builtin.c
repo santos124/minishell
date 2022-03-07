@@ -46,7 +46,7 @@ void	ft_env_error(t_all *all, char *str)
 	write(2, " : No such file or directory\n", 29);
 }
 
-int	ft_env(t_all *all, t_command *cmd)
+int	ft_env(t_all *all, t_cmd *cmd)
 {
 	t_env	*tmp;
 
@@ -60,11 +60,11 @@ int	ft_env(t_all *all, t_command *cmd)
 	tmp = all->envp;
 	while (tmp)
 	{
-		if (tmp->separator && !ft_strcmp(tmp->separator, "="))
+		if (tmp->sep && !ft_strcmp(tmp->sep, "="))
 		{
 			ft_putstr_fd(tmp->key, 1);
-			ft_putstr_fd(tmp->separator, 1);
-			ft_putstr_fd(tmp->value, 1);
+			ft_putstr_fd(tmp->sep, 1);
+			ft_putstr_fd(tmp->val, 1);
 			ft_putstr_fd("\n", 1);
 		}
 		tmp = tmp->next;

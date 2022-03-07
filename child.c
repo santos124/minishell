@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	*find_path(char *cmd, char **envp, t_all *all)
+char	*find_path(char *cmd, char **envp)
 {
 	char	**paths;
 	char	*path;
@@ -12,14 +12,14 @@ char	*find_path(char *cmd, char **envp, t_all *all)
 		return (cmd);
 	while (ft_strnstr(envp[i], "PATH", 4) == 0)
 		i++;
-	paths = ft_split(envp[i] + 5, ':', all);
+	paths = ft_split(envp[i] + 5, ':');
 	if (!paths)
 		ft_exit(12, "malloc"); //, all);
 	i = 0;
 	while (paths[i])
 	{
-		part_path = ft_strjoin(paths[i], "/", all);
-		path = ft_strjoin(part_path, cmd, all);
+		part_path = ft_strjoin(paths[i], "/");
+		path = ft_strjoin(part_path, cmd);
 		free(part_path);
 		if (access(path, F_OK) == 0)
 			return (path);
@@ -28,14 +28,14 @@ char	*find_path(char *cmd, char **envp, t_all *all)
 	return (NULL);
 }
 
-static void	open_dup(int i, t_command *cmd, t_all *all)
+static void	open_dup(int i, t_cmd *cmd, t_all *all)
 {
 	int	file[2];
 
 	file[0] = -2;
 	if (cmd->in)
 	{
-		while (!cmd->in->target)
+		while (!cmd->in->last)
 			cmd->in = cmd->in->next;
 		file[0] = open(cmd->in->name, O_RDONLY);
 	}
@@ -44,11 +44,11 @@ static void	open_dup(int i, t_command *cmd, t_all *all)
 	file[1] = -2;
 	if (cmd->out)
 	{
-		while (!cmd->out->target)
+		while (!cmd->out->last)
 			cmd->out = cmd->out->next;
-		if (cmd->out && cmd->out->two)
+		if (cmd->out && cmd->out->doub)
 			file[1] = open(cmd->out->name, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else if (cmd->out && !cmd->out->two)
+		else if (cmd->out && !cmd->out->doub)
 			file[1] = open(cmd->out->name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	}
 	if (file[1] == -1)
@@ -56,7 +56,7 @@ static void	open_dup(int i, t_command *cmd, t_all *all)
 	ft_dup2(i, file, cmd, all);
 }
 
-void	execve_faild(t_all *all, char *path, t_command *cmd)
+void	execve_faild(t_all *all, char *path, t_cmd *cmd)
 {
 	all->errnum = 127;
 	if (!path)
@@ -86,7 +86,7 @@ void	execve_faild(t_all *all, char *path, t_command *cmd)
 void	child_process(int i, t_all *all)
 {
 	int			num;
-	t_command	*cmd;
+	t_cmd	*cmd;
 	char		*path;
 
 	cmd = all->cmd;
@@ -96,10 +96,10 @@ void	child_process(int i, t_all *all)
 	if (!cmd->cmd || !cmd->cmd[0])
 		exit(0);
 	open_dup(i, cmd, all);
-	if (cmd->built)
+	if (cmd->id_cmd)
 		ft_exit(run_built(cmd, all), NULL); //, all);
 	ft_check_path(all, cmd->cmd[0]);
-	path = find_path(cmd->cmd[0], all->env, all);
+	path = find_path(cmd->cmd[0], all->env);
 	if (execve(path, cmd->cmd, all->env) == -1)
 		execve_faild(all, path, cmd);
 }

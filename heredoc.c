@@ -8,7 +8,7 @@ static void	gnl_init_strings(char **end, char **line) //, t_all *all)
 		ft_exit(12, "malloc"); //, all);
 }
 
-static void	gnl(char **line, t_all *all)
+static void	gnl(char **line)
 {
 	char	*end;
 	char	*tmp;
@@ -24,7 +24,7 @@ static void	gnl(char **line, t_all *all)
 			*line = NULL;
 			return ;
 		}
-		tmp = ft_strjoin(*line, end, all);
+		tmp = ft_strjoin(*line, end);
 		if (!tmp)
 		{
 			free(end);
@@ -36,7 +36,7 @@ static void	gnl(char **line, t_all *all)
 	free(end);
 }
 
-void	heredoc_loop(char *name, char *limiter, t_all *all, int fd)
+void	heredoc_loop(char *name, char *limiter, int fd)
 {
 	char	*line;
 
@@ -44,7 +44,7 @@ void	heredoc_loop(char *name, char *limiter, t_all *all, int fd)
 	{
 		write(1, "> ", 2);
 		signal(SIGINT, &heredoc_sig_int);
-		gnl(&line, all);
+		gnl(&line);
 		if (!line)
 		{
 			write(1, "  \b\b", 1);
@@ -96,7 +96,7 @@ void	heredoc(char *name, char *limiter, t_all *all)
 		fd = open(name, O_RDWR | O_CREAT | O_TRUNC | O_APPEND, 0644);
 		if (fd == -1)
 			ft_exit(errno, name); //, all);
-		heredoc_loop(name, limiter, all, fd);
+		heredoc_loop(name, limiter, fd);
 		close(fd);
 		ft_exit(all->errnum, NULL); //, all);
 	}

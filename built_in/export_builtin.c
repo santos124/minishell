@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-int	ft_search_dups(t_env *envp, char *new, t_all *all)
+int	ft_search_dups(t_env *envp, char *new)
 {
 	char	*newkey;
 	int		i;
@@ -8,14 +8,14 @@ int	ft_search_dups(t_env *envp, char *new, t_all *all)
 	i = 0;
 	while (new[i] && (new[i] == '_' || ft_isalnum(new[i])))
 		i++;
-	newkey = ft_substr(new, 0, i, all);
+	newkey = ft_substr(new, 0, i);
 	while (envp)
 	{
 		if (!(ft_strcmp(envp->key, newkey)))
 		{
-			if (envp->value)
-				envp->value = NULL;
-			envp->value = ft_strdup(&new[i + 1]); //, all);
+			if (envp->val)
+				envp->val = NULL;
+			envp->val = ft_strdup(&new[i + 1]); //, all);
 			free(newkey);
 			return (1);
 		}
@@ -32,23 +32,23 @@ int	if_without_all(t_env *env, t_all *all)
 
 	(void) env;
 	sort_env(all);
-	tmp = all->envp_alpha;
+	tmp = all->a_envp;
 	while (tmp)
 	{
-		if (tmp->separator && tmp->value)
+		if (tmp->sep && tmp->val)
 			printf("declare -x %s%s\"%s\"\n", tmp->key, \
-					tmp->separator, tmp->value);
-		else if (tmp->separator)
+					tmp->sep, tmp->val);
+		else if (tmp->sep)
 			printf("declare -x %s%s\"\"\n", tmp->key, \
-					tmp->separator);
+					tmp->sep);
 		else
 			printf("declare -x %s\n", tmp->key);
-		tmp = tmp->alpha_next;
+		tmp = tmp->a_z_next;
 	}
 	return (0);
 }
 
-int	ft_export_join(char *new, t_env *envp, t_all *all)
+static int	ft_export_join(char *new, t_env *envp)
 {
 	int		i;
 
@@ -59,15 +59,15 @@ int	ft_export_join(char *new, t_env *envp, t_all *all)
 		return (0);
 	while (envp)
 	{
-		if (!(ft_strcmp(envp->key, ft_substr(new, 0, i, all))))
+		if (!(ft_strcmp(envp->key, ft_substr(new, 0, i))))
 		{
-			if (envp->separator)
-				free(envp->separator);
-			envp->separator = ft_strdup("="); //, all);
-			if (envp->value)
-				envp->value = ft_strjoin(envp->value, ft_strdup(&new[i + 2]), all);
+			if (envp->sep)
+				free(envp->sep);
+			envp->sep = ft_strdup("="); //, all);
+			if (envp->val)
+				envp->val = ft_strjoin(envp->val, ft_strdup(&new[i + 2]));
 			else
-				envp->value = ft_strdup(ft_strdup(&new[i + 2])); //, all), all);
+				envp->val = ft_strdup(ft_strdup(&new[i + 2])); //, all), all);
 			return (1);
 		}
 		envp = envp->next;
@@ -86,15 +86,15 @@ int	ft_add_new(char	*new, t_all *all)
 		i++;
 	if (new[i] != '+')
 		return (0);
-	line = ft_substr(new, 0, i, all);
-	line = ft_strjoin(line, "=", all);
-	line = ft_strjoin(line, &new[i + 2], all);
-	env_add_new(line, &all->envp, all);
+	line = ft_substr(new, 0, i);
+	line = ft_strjoin(line, "=");
+	line = ft_strjoin(line, &new[i + 2]);
+	env_add_new(line, &all->envp);
 	free(line);
 	return (1);
 }
 
-int	ft_export(t_all *all, t_command *cmd)
+int	ft_export(t_all *all, t_cmd *cmd)
 {
 	int	i;
 
@@ -110,12 +110,12 @@ int	ft_export(t_all *all, t_command *cmd)
 			break ;
 		if (ft_strchr(cmd->cmd[i], '+') && \
 			ft_strchr(cmd->cmd[i], '=') && \
-			(ft_export_join(cmd->cmd[i], all->envp, all)))
+			(ft_export_join(cmd->cmd[i], all->envp)))
 			continue ;
-		if (ft_search_dups(all->envp, cmd->cmd[i], all))
+		if (ft_search_dups(all->envp, cmd->cmd[i]))
 			continue ;
 		if (!ft_add_new(cmd->cmd[i], all))
-			env_add_new(cmd->cmd[i], &all->envp, all);
+			env_add_new(cmd->cmd[i], &all->envp);
 	}
 	return (all->errnum);
 }

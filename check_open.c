@@ -29,7 +29,7 @@ static int	err_open(int errnum, char *msg, t_all *all)
 	return (1);
 }
 
-int	ambiguous_redirect(t_redir *tmp, t_all *all)
+int	ambiguous_redirect(t_red *tmp, t_all *all)
 {
 	t_env	*env;
 
@@ -41,12 +41,12 @@ int	ambiguous_redirect(t_redir *tmp, t_all *all)
 	while (env)
 	{
 		if (!(ft_strcmp(env->key, ft_substr(tmp->name, \
-		1, ft_strlen(tmp->name), all))))
+		1, ft_strlen(tmp->name)))))
 		{
-			if (env->value)
+			if (env->val)
 			{
 				free (tmp->name);
-				tmp->name = ft_strdup(env->value); //, all);
+				tmp->name = ft_strdup(env->val); //, all);
 				return (0);
 			}
 		}
@@ -55,19 +55,19 @@ int	ambiguous_redirect(t_redir *tmp, t_all *all)
 	return (1);
 }
 
-static int	open_file(t_redir *tmp, t_all *all)
+static int	open_file(t_red *tmp, t_all *all)
 {
 	int	fd;
 
 	if (ambiguous_redirect(tmp, all) != 0)
 		return (err_open(ambiguous_redirect(tmp, all), tmp->name, all));
-	if (!tmp->in && tmp->two) // исходящий И 2
+	if (!tmp->in && tmp->doub) // исходящий И 2
 	{
 		fd = open(tmp->name, O_RDWR | O_CREAT | O_APPEND, 0644);
 		if (fd == -1)
 			return (err_open(errno, tmp->name, all));
 	}
-	else if (!tmp->in && !tmp->two) // исходящий И 1
+	else if (!tmp->in && !tmp->doub) // исходящий И 1
 	{
 		fd = open(tmp->name, O_RDWR | O_CREAT | O_TRUNC, 0644);
 		if (fd == -1)
@@ -85,12 +85,12 @@ static int	open_file(t_redir *tmp, t_all *all)
 
 int	check_open(t_all *all)
 {
-	t_redir	*tmp;
+	t_red	*tmp;
 
-	tmp = all->redir;
+	tmp = all->red;
 	while (tmp)
 	{
-		if (!tmp->in || !tmp->two) //не входящий ИЛИ не двойной
+		if (!tmp->in || !tmp->doub) //не входящий ИЛИ не двойной
 		{
 			if (open_file(tmp, all))
 				return (1);

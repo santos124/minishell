@@ -1,7 +1,7 @@
 
 #include "minishell.h"
 
-int	ft_count_cmd(t_command *cmd) //+
+int	ft_count_cmd(t_cmd *cmd) //+
 {
 	int	i;
 
@@ -47,7 +47,7 @@ void	ft_print_error(int errnum, char *str, char *cmd_name) //+
 
 }
 
-void	ft_make_array(t_env *envp, char **env, int len, t_all *all) //-
+void	ft_make_array(t_env *envp, char **env, int len) //-
 {
 	int		i;
 	char	*arr;
@@ -56,15 +56,15 @@ void	ft_make_array(t_env *envp, char **env, int len, t_all *all) //-
 	while (i < len)
 	{
 		env[i] = ft_strdup(envp->key); //, all);
-		if (envp->separator)
+		if (envp->sep)
 		{
-			arr = ft_strjoin(env[i], envp->separator, all);
+			arr = ft_strjoin(env[i], envp->sep);
 			free(env[i]);
 			env[i] = arr;
 		}
-		if (envp->value)
+		if (envp->val)
 		{
-			arr = ft_strjoin(env[i], envp->value, all);
+			arr = ft_strjoin(env[i], envp->val);
 			free(env[i]);
 			env[i] = arr;
 		}
@@ -82,5 +82,5 @@ void	ft_env_list_to_array(t_env *envp, t_all *all) //+
 	all->env = (char **)malloc(sizeof(char *) * (n + 1));
 	if (all->env == NULL)
 		ft_exit(12, "malloc"); //, all);
-	ft_make_array(envp, all->env, n, all);
+	ft_make_array(envp, all->env, n);
 }

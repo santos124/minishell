@@ -3,19 +3,19 @@
 void	free_redir_env_fd(t_all *all)
 {
 	int		i;
-	t_redir	*redir_temp;
+	t_red	*redir_temp;
 
-	while (all->redir)
+	while (all->red)
 	{
-		redir_temp = all->redir->all_next;
-		if (all->redir->in && all->redir->two)
+		redir_temp = all->red->all_next;
+		if (all->red->in && all->red->doub)
 		{
-			unlink(all->redir->name);
-			free(all->redir->limiter);
+			unlink(all->red->name);
+			free(all->red->limiter);
 		}
-		free(all->redir->name);
-		free(all->redir);
-		all->redir = redir_temp;
+		free(all->red->name);
+		free(all->red);
+		all->red = redir_temp;
 	}
 	i = 0;
 	while (all->env[i])
@@ -52,7 +52,7 @@ void	free_commands(t_all *all)
 
 void	free_structs(t_all *all)
 {
-	t_command	*cmd_temp;
+	t_cmd	*cmd_temp;
 
 	while (all->cmd)
 	{

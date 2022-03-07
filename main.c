@@ -1,45 +1,45 @@
 #include "minishell.h"
 
-void	set_built(t_command *cmd) //
+void	set_built(t_cmd *cmd) //
 {
 	while (cmd)
 	{
 		if (cmd->cmd[0])
 		{
 			if (!ft_strcmp(cmd->cmd[0], "echo"))
-				cmd->built = 1;
+				cmd->id_cmd = 1;
 			else if (!ft_strcmp(cmd->cmd[0], "cd"))
-				cmd->built = 2;
+				cmd->id_cmd = 2;
 			else if (!ft_strcmp(cmd->cmd[0], "pwd"))
-				cmd->built = 3;
+				cmd->id_cmd = 3;
 			else if (!ft_strcmp(cmd->cmd[0], "export"))
-				cmd->built = 4;
+				cmd->id_cmd = 4;
 			else if (!ft_strcmp(cmd->cmd[0], "unset"))
-				cmd->built = 5;
+				cmd->id_cmd = 5;
 			else if (!ft_strcmp(cmd->cmd[0], "env"))
-				cmd->built = 6;
+				cmd->id_cmd = 6;
 			else if (!ft_strcmp(cmd->cmd[0], "exit"))
-				cmd->built = 7;
+				cmd->id_cmd = 7;
 		}
 		cmd = cmd->next;
 	}
 }
 
-int	run_built(t_command *cmd, t_all *all) //
+int	run_built(t_cmd *cmd, t_all *all) //
 {
-	if (cmd->built == 1)
+	if (cmd->id_cmd == 1)
 		return (ft_echo(all, cmd));
-	if (cmd->built == 2)
+	if (cmd->id_cmd == 2)
 		return (ft_cd(all, cmd));
-	if (cmd->built == 3)
+	if (cmd->id_cmd == 3)
 		return (ft_pwd(all));
-	if (cmd->built == 4)
+	if (cmd->id_cmd == 4)
 		return (ft_export(all, cmd));
-	if (cmd->built == 5)
+	if (cmd->id_cmd == 5)
 		return (ft_unset(cmd, all));
-	if (cmd->built == 6)
+	if (cmd->id_cmd == 6)
 		return (ft_env(all, cmd));
-	if (cmd->built == 7)
+	if (cmd->id_cmd == 7)
 		return (ft_exit_cmd(all, cmd));
 	return (0);
 }
@@ -60,7 +60,7 @@ void	execution(t_all *all) //
 		{
 			ft_pipe(all);
 		}
-		if (all->num == 1 && all->cmd->built)
+		if (all->num == 1 && all->cmd->id_cmd)
 		{
 			fd = dup_cmd(all->cmd); //, all);
 			all->errnum = run_built(all->cmd, all);

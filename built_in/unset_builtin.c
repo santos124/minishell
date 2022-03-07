@@ -7,8 +7,8 @@ void	ft_del_env(t_env *env)
 	tmp = env->next;
 	env->next = tmp->next;
 	free(tmp->key);
-	free(tmp->separator);
-	free(tmp->value);
+	free(tmp->sep);
+	free(tmp->val);
 	free(tmp);
 }
 
@@ -21,8 +21,8 @@ int	ft_check_first(t_env **env, char *str)
 	{
 		*env = (*env)->next;
 		free(tmp->key);
-		free(tmp->separator);
-		free(tmp->value);
+		free(tmp->sep);
+		free(tmp->val);
 		free(tmp);
 		return (1);
 	}
@@ -55,7 +55,7 @@ int	ft_check_error(char *cmd, t_all *all)
 	return (0);
 }
 
-int	ft_unset(t_command *cmd, t_all *all)
+int	ft_unset(t_cmd *cmd, t_all *all)
 {
 	int		i;
 	t_env	*tmp1;

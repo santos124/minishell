@@ -54,7 +54,7 @@ char	*double_quotes(char *str, int *i, t_all *all)
 		if (str[*i] == '$' && (str[*i + 1] == '_' || \
 			ft_isalpha(str[*i + 1])))
 		{
-			str = env_replace(str, i, all->envp, all);
+			str = env_replace(str, i, all->envp);
 			(*i)--;
 		}
 		if (str[*i] == ' ')

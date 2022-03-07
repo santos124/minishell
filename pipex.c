@@ -21,7 +21,7 @@ void	ft_close(t_all *all, int *file, int num)
 		close(file[1]);
 }
 
-void	ft_dup2(int i, int *file, t_command *cmd, t_all *all)
+void	ft_dup2(int i, int *file, t_cmd *cmd, t_all *all)
 {
 	int	dup2res;
 

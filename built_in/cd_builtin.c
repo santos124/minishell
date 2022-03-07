@@ -13,18 +13,18 @@ void	env_after_cd(t_all **all)
 		tmp1 = tmp1->next;
 	if (tmp && tmp1)
 	{
-		free(tmp1->value);
-		tmp1->value = ft_strdup(tmp->value); //, *all);
-		free(tmp->value);
-		tmp->value = getcwd(NULL, 0);
-		if (!tmp->value)
+		free(tmp1->val);
+		tmp1->val = ft_strdup(tmp->val); //, *all);
+		free(tmp->val);
+		tmp->val = getcwd(NULL, 0);
+		if (!tmp->val)
 			ft_exit(errno, "getcwd"); //, *all);
 	}
 }
 
 /*	47	cd = getcwd(NULL, 0);//----absolute path to current dir*/
 
-char	*get_cd(t_command *cmd, t_env *envp, t_all *all)
+char	*get_cd(t_cmd *cmd, t_env *envp)
 {
 	char	*cd;
 	char	*pwd;
@@ -35,9 +35,9 @@ char	*get_cd(t_command *cmd, t_env *envp, t_all *all)
 		cd = getcwd(NULL, 0);
 		if (!cd)
 			ft_exit(errno, "getcwd"); //, all);
-		pwd = ft_strjoin(cd, "/", all);
+		pwd = ft_strjoin(cd, "/");
 		free(cd);
-		cd = ft_strjoin(pwd, cmd->cmd[1], all);
+		cd = ft_strjoin(pwd, cmd->cmd[1]);
 		free(pwd);
 		return (cd);
 	}
@@ -45,8 +45,8 @@ char	*get_cd(t_command *cmd, t_env *envp, t_all *all)
 		envp = envp->next;
 	if (envp)
 	{
-		pwd = ft_substr(cmd->cmd[1], 1, ft_strlen(cmd->cmd[1]) - 1, all);
-		cd = ft_strjoin(envp->value, pwd, all);
+		pwd = ft_substr(cmd->cmd[1], 1, ft_strlen(cmd->cmd[1]) - 1);
+		cd = ft_strjoin(envp->val, pwd);
 		free(pwd);
 	}
 	return (cd);
@@ -64,7 +64,7 @@ void	ft_cd_error(t_all *all, char *str, int flag)
 		write(2, " : Not a directory\n", 19);
 }
 
-int	ft_cd(t_all *all, t_command *cmd)
+int	ft_cd(t_all *all, t_cmd *cmd)
 {
 	char	*cd;
 
@@ -74,7 +74,7 @@ int	ft_cd(t_all *all, t_command *cmd)
 	if (cmd->cmd[1][0] == '/' || cmd->cmd[1][0] == '.')
 		cd = ft_strdup(cmd->cmd[1]); //, all);
 	else
-		cd = get_cd(cmd, all->envp, all);
+		cd = get_cd(cmd, all->envp);
 	if (!cd)
 	{
 		write(2, "cd: HOME not set\n", 17);

@@ -20,7 +20,7 @@ void	remove_redirect(char *str, int start, int end)
 	}
 }
 
-char	*save_redir_name(char *str, int *i, t_all *all)
+char	*save_redir_name(char *str, int *i)
 {
 	char	*result;
 	int		count;
@@ -36,38 +36,38 @@ char	*save_redir_name(char *str, int *i, t_all *all)
 	start = *i;
 	while (str[*i] && str[*i] != ' ' && str[*i] != '|')
 		(*i)++;
-	result = ft_substr(str, start, *i - start, all);
+	result = ft_substr(str, start, *i - start);
 	remove_redirect(str, tmp, *i);
 	*i = tmp;
 	return (result);
 }
 
 
-void	all_redir_list(t_redir *new, t_all *all)
+void	all_redir_list(t_red *new, t_all *all)
 {
-	t_redir	*tmp;
+	t_red	*tmp;
 
-	tmp = all->redir;
-	if (all->redir == NULL)
+	tmp = all->red;
+	if (all->red == NULL)
 	{
-		all->redir = new;
-		all->redir->cmd = 1;
-		if (all->redir->in && all->redir->two)
-			all->redir->name = ft_strjoin("heredoc", "1", all);
-		if (all->redir->name == NULL)
+		all->red = new;
+		all->red->cmd = 1;
+		if (all->red->in && all->red->doub)
+			all->red->name = ft_strjoin("heredoc", "1");
+		if (all->red->name == NULL)
 			ft_exit(12, "malloc"); //, all);
 	}
 	else
 	{
-		while (all->redir->all_next != NULL)
-			all->redir = all->redir->all_next;
-		all->redir->all_next = new;
-		all->redir->all_next->cmd = all->num_cmd;
-		if (all->redir->all_next->in && all->redir->all_next->two)
-			all->redir->all_next->name = ft_strjoin("heredoc", \
-				ft_itoa(all->redir->all_next->cmd, all), all);
-		if (all->redir->name == NULL)
+		while (all->red->all_next != NULL)
+			all->red = all->red->all_next;
+		all->red->all_next = new;
+		all->red->all_next->cmd = all->num_cmd;
+		if (all->red->all_next->in && all->red->all_next->doub)
+			all->red->all_next->name = ft_strjoin("heredoc", \
+				ft_itoa(all->red->all_next->cmd));
+		if (all->red->name == NULL)
 			ft_exit(12, "malloc"); //, all);
-		all->redir = tmp;
+		all->red = tmp;
 	}
 }

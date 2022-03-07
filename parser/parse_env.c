@@ -6,14 +6,14 @@ t_env	*env_create_new(char *key, char *sep, char *val)
 
 	new = (t_env *)malloc(sizeof(t_env));
 	new->key = key;
-	new->separator = sep;
-	new->value = val;
+	new->sep = sep;
+	new->val = val;
 	new->next = 0;
 	return (new);
 }
 
 //добавить одну переменную среды
-void	env_add_new(char *env_str, t_env **start, t_all *all)
+void	env_add_new(char *env_str, t_env **start)
 {
 	t_env	*tmp;
 	char	*key;
@@ -26,9 +26,9 @@ void	env_add_new(char *env_str, t_env **start, t_all *all)
 	val = NULL;
 	while (env_str[i] && (env_str[i] == '_' || ft_isalnum(env_str[i])))
 		i++;
-	key = ft_substr(env_str, 0, i, all);
+	key = ft_substr(env_str, 0, i);
 	if (ft_strchr(env_str, '='))
-		sep = ft_substr(env_str, i, 1, all);
+		sep = ft_substr(env_str, i, 1);
 	if (env_str[i + 1])
 		val = ft_strdup(&env_str[i + 1]); //, all);
 	if (*start == NULL)
@@ -53,15 +53,15 @@ void	add_current_path(t_all *all)
 	tmp = all->envp;
 	while (ft_strcmp("PWD", tmp->key))
 		tmp = tmp->next;
-	pwd = tmp->value;
+	pwd = tmp->val;
 	tmp = all->envp;
 	while (ft_strcmp("PATH", tmp->key))
 		tmp = tmp->next;
-	tmp_path = ft_strjoin(tmp->value, ":", all);
-	new_path = ft_strjoin(tmp_path, pwd, all);
+	tmp_path = ft_strjoin(tmp->val, ":");
+	new_path = ft_strjoin(tmp_path, pwd);
 	free(tmp_path);
-	free(tmp->value);
-	tmp->value = ft_strdup(new_path); //, all);
+	free(tmp->val);
+	tmp->val = ft_strdup(new_path); //, all);
 	free(new_path);
 }
 
@@ -72,6 +72,6 @@ void	parse_env(char **env, t_all *all)
 
 	i = -1;
 	while (env[++i])
-		env_add_new(env[i], &all->envp, all);
+		env_add_new(env[i], &all->envp);
 	add_current_path(all);
 }

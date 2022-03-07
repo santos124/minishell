@@ -72,13 +72,13 @@ void	sort_env(t_all *all) // сортировка переменной окрр�
 		i++;
 	}
 	cur = sub_sort_env(all, 'f');
-	all->envp_alpha = cur; // первая строчка по алфавиту в списке env
+	all->a_envp = cur; // первая строчка по алфавиту в списке env
 	while (i > 0)
 	{
 		new = sort_env_next(all, cur);
-		cur->alpha_next = new; // следующий по алфавиту в списке env
+		cur->a_z_next = new; // следующий по алфавиту в списке env
 		cur = new;
 		i--;
 	}
-	cur->alpha_next = NULL;
+	cur->a_z_next = NULL;
 }

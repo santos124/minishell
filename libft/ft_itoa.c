@@ -17,13 +17,12 @@ static int	ft_nbrlen(int n)
 	return (len);
 }
 
-char	*ft_itoa(int n, t_all *all)
+char	*ft_itoa(int n)
 {
 	int		i;
 	int		len_n;
 	char	*str;
 
-	(void)all;
 	i = 0;
 	if (n == -2147483648)
 		return (ft_strdup("-2147483648")); //, all));

@@ -19,24 +19,24 @@ int	dup_fd(int fd) //, t_all *all) //+
 	return (fd2);
 }
 
-int	dup_cmd(t_command *cmd) //, t_all *all)
+int	dup_cmd(t_cmd *cmd) //, t_all *all)
 {
 	int		fd;
 	int		fd2;
-	t_redir	*tmp;
+	t_red	*tmp;
 
 	tmp = cmd->out;
 	if (!cmd->out)
 		return (-1);
 	while (cmd->out)
 	{
-		if (cmd->out->two == 1)
+		if (cmd->out->doub == 1)
 			fd2 = open(cmd->out->name, O_RDWR | O_CREAT | O_APPEND, 0777);
 		else
 			fd2 = open(cmd->out->name, O_RDWR | O_CREAT | O_TRUNC, 0777);
 		if (fd2 == -1)
 			ft_exit(errno, cmd->out->name); //, all);
-		if (cmd->out->target == 1)
+		if (cmd->out->last == 1)
 			fd = dup_fd(fd2); //, all);
 		close(fd2);
 		cmd->out = cmd->out->next;

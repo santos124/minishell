@@ -18,7 +18,7 @@ int	check_n(char *str)
 	return (1);
 }
 
-int	ft_echo(t_all *all, t_command *cmd)
+int	ft_echo(t_all *all, t_cmd *cmd)
 {
 	int	i;
 

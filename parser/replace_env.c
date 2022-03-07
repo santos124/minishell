@@ -27,31 +27,31 @@ static char	*replace_str(char *line, char *old, char *new, int start)
 	return (result);
 }
 
-char	*env_replace(char *line, int *i, t_env *envp, t_all *all)
+char	*env_replace(char *line, int *i, t_env *envp)
 {
 	int		begin;
 	char	*env_key;
-	char	*env_value;
+	char	*env_val;
 	t_env	*temp;
 
 	begin = *i;
-	env_value = ft_strdup(""); //, all);
+	env_val = ft_strdup(""); //, all);
 	(*i)++;
 	while (line[*i] && (line[*i] == '_' || ft_isalnum(line[*i])))
 		(*i)++;
-	env_key = ft_substr(line, begin + 1, *i - begin - 1, all);
+	env_key = ft_substr(line, begin + 1, *i - begin - 1);
 	temp = envp;
 	while (temp)
 	{
 		if (ft_strcmp(temp->key, env_key) == 0)
 		{
-			free(env_value);
-			env_value = temp->value;
+			free(env_val);
+			env_val = temp->val;
 		}
 		temp = temp->next;
 	}
-	line = replace_str(line, env_key, env_value, begin);
-	*i = begin + ft_strlen(env_value) - 1;
+	line = replace_str(line, env_key, env_val, begin);
+	*i = begin + ft_strlen(env_val) - 1;
 	free(env_key);
 	return (line);
 }
@@ -60,7 +60,7 @@ char	*exit_code_replace(char *line, t_all *all, int *i)
 {
 	char	*exit_code;
 
-	exit_code = ft_itoa(all->errnum, all);
+	exit_code = ft_itoa(all->errnum);
 	line = replace_str(line, "?", exit_code, *i);
 	return (line);
 }
