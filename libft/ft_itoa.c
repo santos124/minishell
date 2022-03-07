@@ -23,13 +23,14 @@ char	*ft_itoa(int n, t_all *all)
 	int		len_n;
 	char	*str;
 
+	(void)all;
 	i = 0;
 	if (n == -2147483648)
-		return (ft_strdup("-2147483648", all));
+		return (ft_strdup("-2147483648")); //, all));
 	len_n = ft_nbrlen(n);
 	str = (char *)malloc(sizeof(char) * (len_n + 1));
 	if (!str)
-		ft_exit(12, "malloc", all);
+		ft_exit(12, "malloc"); //, all);
 	str[len_n] = '\0';
 	if (n < 0)
 	{

@@ -1,62 +1,62 @@
 #include "minishell.h"
 
-int	dup_fd(int file, t_all *all)
+int	dup_fd(int fd) //, t_all *all) //+
 {
-	int	fd;
+	int	fd2;
 
-	fd = dup(STDOUT_FILENO);
-	if (fd == -1)
+	fd2 = dup(1);
+	if (fd2 == -1)
 	{
-		close(file);
-		ft_exit(errno, "dup", all);
-	}
-	if (dup2(file, STDOUT_FILENO) == -1)
-	{
-		close(file);
 		close(fd);
-		ft_exit(errno, "dup2", all);
+		ft_exit(errno, "dup2"); //"dup"); //, all);
 	}
-	return (fd);
+	if (dup2(fd, 1) == -1)
+	{
+		close(fd);
+		close(fd2);
+		ft_exit(errno, "dup2"); //, all);
+	}
+	return (fd2);
 }
 
-int	dup_cmd(t_command *cmd, t_all *all)
+int	dup_cmd(t_command *cmd) //, t_all *all)
 {
 	int		fd;
-	int		file;
-	t_redir	*temp;
+	int		fd2;
+	t_redir	*tmp;
 
-	temp = cmd->out;
+	tmp = cmd->out;
 	if (!cmd->out)
 		return (-1);
 	while (cmd->out)
 	{
 		if (cmd->out->two == 1)
-			file = open(cmd->out->name, O_RDWR | O_CREAT | O_APPEND, 0777);
+			fd2 = open(cmd->out->name, O_RDWR | O_CREAT | O_APPEND, 0777);
 		else
-			file = open(cmd->out->name, O_RDWR | O_CREAT | O_TRUNC, 0777);
-		if (file == -1)
-			ft_exit(errno, cmd->out->name, all);
+			fd2 = open(cmd->out->name, O_RDWR | O_CREAT | O_TRUNC, 0777);
+		if (fd2 == -1)
+			ft_exit(errno, cmd->out->name); //, all);
 		if (cmd->out->target == 1)
-			fd = dup_fd(file, all);
-		close(file);
+			fd = dup_fd(fd2); //, all);
+		close(fd2);
 		cmd->out = cmd->out->next;
 	}
-	cmd->out = temp;
+	cmd->out = tmp;
 	return (fd);
 }
 
-void	redup_cmd(int fd, t_all *all)
+void	redup_cmd(int fd) //, t_all *all)  //+
 {
-	int	i;
+	//int	i;
 
-	(void)all;
+	//(void)all;
 	if (fd == -1)
 		return ;
-	i = dup2(fd, STDOUT_FILENO);
-	if (i == -1)
+	//i = dup2(fd, 1);
+	if (dup2(fd, 1) == -1)
 	{
 		close(fd);
-		ft_exit(errno, "dup2", all);
+		ft_exit(errno, "dup2");//, all);
 	}
 	close(fd);
 	return ;

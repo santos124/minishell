@@ -1,13 +1,13 @@
 #include "minishell.h"
 
-void	ft_sub_shlvl(t_all *all, t_env *tmp, int level)
+void	ft_sub_shlvl(t_all *all, t_env *tmp, int level) //+
 {
 	if (!tmp->value[0])
 	{
 		free(tmp->separator);
-		tmp->separator = ft_strdup("=", all);
+		tmp->separator = ft_strdup("="); //, all);
 		free(tmp->value);
-		tmp->value = ft_strdup("1", all);
+		tmp->value = ft_strdup("1"); //, all);
 	}
 	else
 	{
@@ -18,7 +18,7 @@ void	ft_sub_shlvl(t_all *all, t_env *tmp, int level)
 }
 
 
-void	ft_shlvl_check(t_all *all)
+void	ft_shlvl_check(t_all *all) //+
 {
 	t_env	*tmp;
 	int		level;

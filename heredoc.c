@@ -1,11 +1,11 @@
 #include "minishell.h"
 
-static void	gnl_init_strings(char **end, char **line, t_all *all)
+static void	gnl_init_strings(char **end, char **line) //, t_all *all)
 {
-	*line = ft_strdup("\0", all);
-	*end = ft_strdup("\0\0", all);
+	*line = ft_strdup("\0"); //, all);
+	*end = ft_strdup("\0\0"); //, all);
 	if (!*line || !*end)
-		ft_exit(12, "malloc", all);
+		ft_exit(12, "malloc"); //, all);
 }
 
 static void	gnl(char **line, t_all *all)
@@ -13,7 +13,7 @@ static void	gnl(char **line, t_all *all)
 	char	*end;
 	char	*tmp;
 
-	gnl_init_strings(&end, line, all);
+	gnl_init_strings(&end, line); //, all);
 	while (*end != '\n')
 	{
 		read(0, end, 1);
@@ -28,7 +28,7 @@ static void	gnl(char **line, t_all *all)
 		if (!tmp)
 		{
 			free(end);
-			ft_exit(12, "malloc", all);
+			ft_exit(12, "malloc"); //, all);
 		}
 		free(*line);
 		*line = tmp;
@@ -53,9 +53,9 @@ void	heredoc_loop(char *name, char *limiter, t_all *all, int fd)
 		if (ft_strcmp(line, limiter))
 		{
 			if (write(fd, line, ft_strlen(line)) == -1)
-				ft_exit(errno, name, all);
+				ft_exit(errno, name); //, all);
 			if (write(fd, "\n", 1) == -1)
-				ft_exit(errno, name, all);
+				ft_exit(errno, name); //, all);
 		}
 		else
 			break ;
@@ -87,7 +87,7 @@ void	heredoc(char *name, char *limiter, t_all *all)
 	{
 		all->errnum = errno;
 		waitpid(pid, &status, 0);
-		ft_exit(all->errnum, "fork", all);
+		ft_exit(all->errnum, "fork"); //, all);
 	}
 	if (pid != 0)
 		signal(SIGINT, SIG_IGN);
@@ -95,10 +95,10 @@ void	heredoc(char *name, char *limiter, t_all *all)
 	{
 		fd = open(name, O_RDWR | O_CREAT | O_TRUNC | O_APPEND, 0644);
 		if (fd == -1)
-			ft_exit(errno, name, all);
+			ft_exit(errno, name); //, all);
 		heredoc_loop(name, limiter, all, fd);
 		close(fd);
-		ft_exit(all->errnum, NULL, all);
+		ft_exit(all->errnum, NULL); //, all);
 	}
 	ft_waitpid(pid, status, all);
 	signal(SIGINT, &sig_handler_parent);

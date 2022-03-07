@@ -14,11 +14,11 @@ void	env_after_cd(t_all **all)
 	if (tmp && tmp1)
 	{
 		free(tmp1->value);
-		tmp1->value = ft_strdup(tmp->value, *all);
+		tmp1->value = ft_strdup(tmp->value); //, *all);
 		free(tmp->value);
 		tmp->value = getcwd(NULL, 0);
 		if (!tmp->value)
-			ft_exit(errno, "getcwd", *all);
+			ft_exit(errno, "getcwd"); //, *all);
 	}
 }
 
@@ -34,7 +34,7 @@ char	*get_cd(t_command *cmd, t_env *envp, t_all *all)
 	{
 		cd = getcwd(NULL, 0);
 		if (!cd)
-			ft_exit(errno, "getcwd", all);
+			ft_exit(errno, "getcwd"); //, all);
 		pwd = ft_strjoin(cd, "/", all);
 		free(cd);
 		cd = ft_strjoin(pwd, cmd->cmd[1], all);
@@ -70,9 +70,9 @@ int	ft_cd(t_all *all, t_command *cmd)
 
 	cd = NULL;
 	if (!cmd->cmd[1])
-		cmd->cmd[1] = ft_strdup("~", all);
+		cmd->cmd[1] = ft_strdup("~"); //, all);
 	if (cmd->cmd[1][0] == '/' || cmd->cmd[1][0] == '.')
-		cd = ft_strdup(cmd->cmd[1], all);
+		cd = ft_strdup(cmd->cmd[1]); //, all);
 	else
 		cd = get_cd(cmd, all->envp, all);
 	if (!cd)

@@ -53,7 +53,7 @@ char	**ft_split(char const *str, char c, t_all *all)
 	i = 0;
 	split = malloc(sizeof(char *) * (count + 1));
 	if (!split)
-		ft_exit(12, "malloc", all);
+		ft_exit(12, "malloc"); //, all);
 	while (count > 0)
 	{
 		while (*str == c)

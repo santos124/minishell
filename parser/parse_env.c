@@ -30,7 +30,7 @@ void	env_add_new(char *env_str, t_env **start, t_all *all)
 	if (ft_strchr(env_str, '='))
 		sep = ft_substr(env_str, i, 1, all);
 	if (env_str[i + 1])
-		val = ft_strdup(&env_str[i + 1], all);
+		val = ft_strdup(&env_str[i + 1]); //, all);
 	if (*start == NULL)
 		*start = env_create_new(key, sep, val);
 	else
@@ -61,7 +61,7 @@ void	add_current_path(t_all *all)
 	new_path = ft_strjoin(tmp_path, pwd, all);
 	free(tmp_path);
 	free(tmp->value);
-	tmp->value = ft_strdup(new_path, all);
+	tmp->value = ft_strdup(new_path); //, all);
 	free(new_path);
 }
 
