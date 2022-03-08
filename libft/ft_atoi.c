@@ -1,29 +1,41 @@
 #include "libft.h"
 
+static int	ft_isspace(int c)
+{
+	return (c == '\n' || c == '\t' || c == '\v' || \
+			c == '\f' || c == '\r' || c == ' ');
+}
+
+static int	ft_sign(int c)
+{
+	if (c == '-')
+		return (-1);
+	return (1);
+}
+
 int	ft_atoi(const char *str)
 {
-	int		sign;
-	size_t	res;
-	int		i;
+	int					i;
+	unsigned long long	n;
+	int					sign;
 
-	sign = 1;
-	res = 0;
 	i = 0;
-	while ((str[i] == '\t' || str[i] == '\n' || str[i] == '\r' || str[i] == '\v'\
-	|| str[i] == ' ' || str[i] == '\f') && (str[i] != '\0'))
+	n = 0;
+	sign = 1;
+	while (ft_isspace(str[i]))
 		i++;
-	if (str[i] == '-')
-		sign = -1;
-	if ((str[i] == '+') || (str[i] == '-'))
-		i++;
-	while ((str[i] >= '0' && str[i] <= '9') && (str[i] != '\0'))
+	if (str[i] == '-' || str[i] == '+')
 	{
-		res = (str[i] - '0') + res * 10;
-		if (res > 2147483648 && sign == -1)
-			return (0);
-		if (res > 2147483647 && sign == 1)
-			return (-1);
+		sign = ft_sign(str[i]);
 		i++;
 	}
-	return ((int)res * sign);
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		if (n > 2147483647 && sign > 0)
+			return (-1);
+		if (n > 2147483648 && sign < 0)
+			return (0);
+		n = n * 10 + (str[i++] - '0');
+	}
+	return ((int)(sign * n));
 }
