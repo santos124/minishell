@@ -64,10 +64,13 @@ char	*parse_line(char **str, t_all *all, t_cmd *cmd)
 	int		start;
 	char	*new_str;
 
-	i = -1;
+	i = 0;
 	start = 0;
-	if ((*str)[++i] == '|')
+	if ((*str)[i] == '|')
+	{
 		start++;
+		i++;
+	}
 	parse_line_loop(str, all, cmd, &i);
 	if ((*str)[i] == '|')
 		one_cmd = ft_substr(*str, start, i - 1);
