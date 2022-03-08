@@ -80,16 +80,16 @@ char	*unexpected_token(char *line)
 		return (";;");
 	else if (wrong_semicolon(line))
 		return (";");
-	else if (wrong_redirects(line))
-		return (wrong_redirects(line));
-	else if (empty_redirect(line))
+	else if (bad_redirects(line))
+		return (bad_redirects(line));
+	else if (empty_redir(line))
 		return ("newline");
 	else
 		return (NULL);
 }
 
 //проверка на синтаксис
-int	check_syntax(char *line, t_all *all)
+int	parse_check_err(char *line, t_all *all)
 {
 	if (unexpected_token(line))
 	{
@@ -98,9 +98,9 @@ int	check_syntax(char *line, t_all *all)
 		all->errnum = 258;
 		return (1);
 	}
-	else if (other_syntax_cases(line))
+	else if (next_err_syntax(line))
 	{
-		printf("%s\n", other_syntax_cases(line));
+		printf("%s\n", next_err_syntax(line));
 		all->errnum = 258;
 		return (1);
 	}

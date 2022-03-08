@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-int	ft_check_path(t_all *all, char *cmd)
+int	valid_path(t_all *all, char *cmd)
 {
 	t_env	*tmp;
 
@@ -12,26 +12,26 @@ int	ft_check_path(t_all *all, char *cmd)
 		tmp = tmp->next;
 	}
 	all->errnum = 127;
-	ft_print_error(2, NULL, cmd);
-	ft_exit(all->errnum, NULL); //, all);
+	print_error(2, NULL, cmd);
+	err_exit(all->errnum, NULL); //, all);
 	return (1);
 }
 
-int	check_arg_export(char *str, t_all *all)
+int	check_env(char *str, t_all *all)
 {
 	int	i;
 
 	i = 0;
 	if (!ft_isalpha(str[0]))
 	{
-		ft_export_unset_error(all, str, "export");
+		env_print_err(all, str, "export");
 		return (1);
 	}
 	while (str[i] && (str[i] == '_' || ft_isalnum(str[i])))
 		i++;
 	if (str[i] == '+' && str[i + 1] != '=')
 	{
-		ft_export_unset_error(all, str, "export");
+		env_print_err(all, str, "export");
 		return (1);
 	}
 	return (0);

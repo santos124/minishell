@@ -25,7 +25,7 @@ void	set_built(t_cmd *cmd) //
 	}
 }
 
-int	run_built(t_cmd *cmd, t_all *all) //
+int	run_builtin(t_cmd *cmd, t_all *all) //
 {
 	if (cmd->id_cmd == 1)
 		return (ft_echo(all, cmd));
@@ -40,7 +40,7 @@ int	run_built(t_cmd *cmd, t_all *all) //
 	if (cmd->id_cmd == 6)
 		return (ft_env(all, cmd));
 	if (cmd->id_cmd == 7)
-		return (ft_exit_cmd(all, cmd));
+		return (ft_exit(all, cmd));
 	return (0);
 }
 
@@ -50,10 +50,10 @@ void	execution(t_all *all) //
 
 	fd = 0;
 	set_built(all->cmd);
-	ft_env_list_to_array(all->envp, all);
-	if (!check_open(all))
+	env_to_arr(all->envp, all);
+	if (!open_file(all))
 	{
-		all->num = ft_count_cmd(all->cmd);
+		all->num = count_cmd(all->cmd);
 		if (all->num == 0)
 			return ;
 		if (all->num > 1)
@@ -63,7 +63,7 @@ void	execution(t_all *all) //
 		if (all->num == 1 && all->cmd->id_cmd)
 		{
 			fd = dup_cmd(all->cmd); //, all);
-			all->errnum = run_built(all->cmd, all);
+			all->errnum = run_builtin(all->cmd, all);
 			redup_cmd(fd); //, all);
 		}
 		else if (all->num != 1 || all->cmd->cmd[0])
@@ -77,18 +77,18 @@ int	main(int argc, char **argv, char **env) //
 	char	*str;
 
 	(void)argv;
-	ft_init_structs(&all);
+	init_struct(&all);
 	if (argc != 1)
-		ft_exit(1, NULL); //, all);
+		err_exit(1, NULL); //, all);
 	parse_env(env, all);
-	ft_shlvl_check(all);
+	shlvl_check(all);
 	while (1)
 	{
-		go_readline(&str, all);
+		get_line(&str, all);
 		if (parser(all, str) == 0)
 		{
 			execution(all);
-			free_structs(all);
+			free_struct(all);
 		}
 	}
 	return (0);

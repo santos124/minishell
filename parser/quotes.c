@@ -25,7 +25,7 @@ void	remove_quotes(char *str, int start, int *i)
 }
 
 //del all
-char	*single_quotes(char *str, int *i, t_all *all)
+char	*single_qts(char *str, int *i, t_all *all)
 {
 	int		start;
 
@@ -43,7 +43,7 @@ char	*single_quotes(char *str, int *i, t_all *all)
 	return (str);
 }
 
-char	*double_quotes(char *str, int *i, t_all *all)
+char	*doub_qts(char *str, int *i, t_all *all)
 {
 	int		start;
 
@@ -54,7 +54,7 @@ char	*double_quotes(char *str, int *i, t_all *all)
 		if (str[*i] == '$' && (str[*i + 1] == '_' || \
 			ft_isalpha(str[*i + 1])))
 		{
-			str = env_replace(str, i, all->envp);
+			str = replace_env(str, i, all->envp);
 			(*i)--;
 		}
 		if (str[*i] == ' ')

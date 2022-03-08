@@ -18,11 +18,9 @@ void	env_after_cd(t_all **all)
 		free(tmp->val);
 		tmp->val = getcwd(NULL, 0);
 		if (!tmp->val)
-			ft_exit(errno, "getcwd"); //, *all);
+			err_exit(errno, "getcwd"); //, *all);
 	}
 }
-
-/*	47	cd = getcwd(NULL, 0);//----absolute path to current dir*/
 
 char	*get_cd(t_cmd *cmd, t_env *envp)
 {
@@ -34,7 +32,7 @@ char	*get_cd(t_cmd *cmd, t_env *envp)
 	{
 		cd = getcwd(NULL, 0);
 		if (!cd)
-			ft_exit(errno, "getcwd"); //, all);
+			err_exit(errno, "getcwd"); //, all);
 		pwd = ft_strjoin(cd, "/");
 		free(cd);
 		cd = ft_strjoin(pwd, cmd->cmd[1]);
@@ -52,7 +50,7 @@ char	*get_cd(t_cmd *cmd, t_env *envp)
 	return (cd);
 }
 
-void	ft_cd_error(t_all *all, char *str, int flag)
+static void	cd_error(t_all *all, char *str, int flag)
 {
 	all->errnum = 1;
 	write(2, "cd", 2);
@@ -83,12 +81,12 @@ int	ft_cd(t_all *all, t_cmd *cmd)
 	if (access(cd, F_OK) == 0 && all->num == 1)
 	{
 		if (chdir(cd) != 0)
-			ft_cd_error(all, cmd->cmd[1], 2);
+			cd_error(all, cmd->cmd[1], 2);
 		else
 			env_after_cd(&all);
 	}
 	else
-		ft_cd_error(all, cmd->cmd[1], 1);
+		cd_error(all, cmd->cmd[1], 1);
 	free(cd);
 	return (all->errnum);
 }

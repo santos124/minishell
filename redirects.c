@@ -8,13 +8,13 @@ int	dup_fd(int fd) //, t_all *all) //+
 	if (fd2 == -1)
 	{
 		close(fd);
-		ft_exit(errno, "dup2"); //"dup"); //, all);
+		err_exit(errno, "dup2"); //"dup"); //, all);
 	}
 	if (dup2(fd, 1) == -1)
 	{
 		close(fd);
 		close(fd2);
-		ft_exit(errno, "dup2"); //, all);
+		err_exit(errno, "dup2"); //, all);
 	}
 	return (fd2);
 }
@@ -35,7 +35,7 @@ int	dup_cmd(t_cmd *cmd) //, t_all *all)
 		else
 			fd2 = open(cmd->out->name, O_RDWR | O_CREAT | O_TRUNC, 0777);
 		if (fd2 == -1)
-			ft_exit(errno, cmd->out->name); //, all);
+			err_exit(errno, cmd->out->name); //, all);
 		if (cmd->out->last == 1)
 			fd = dup_fd(fd2); //, all);
 		close(fd2);
@@ -56,7 +56,7 @@ void	redup_cmd(int fd) //, t_all *all)  //+
 	if (dup2(fd, 1) == -1)
 	{
 		close(fd);
-		ft_exit(errno, "dup2");//, all);
+		err_exit(errno, "dup2");//, all);
 	}
 	close(fd);
 	return ;

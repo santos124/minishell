@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-t_env	*env_create_new(char *key, char *sep, char *val)
+t_env	*create_env(char *key, char *sep, char *val)
 {
 	t_env	*new;
 
@@ -13,7 +13,7 @@ t_env	*env_create_new(char *key, char *sep, char *val)
 }
 
 //добавить одну переменную среды
-void	env_add_new(char *env_str, t_env **start)
+void	add_env(char *env_str, t_env **start)
 {
 	t_env	*tmp;
 	char	*key;
@@ -32,13 +32,13 @@ void	env_add_new(char *env_str, t_env **start)
 	if (env_str[i + 1])
 		val = ft_strdup(&env_str[i + 1]); //, all);
 	if (*start == NULL)
-		*start = env_create_new(key, sep, val);
+		*start = create_env(key, sep, val);
 	else
 	{
 		tmp = *start;
 		while (tmp->next)
 			tmp = tmp->next;
-		tmp->next = env_create_new(key, sep, val);
+		tmp->next = create_env(key, sep, val);
 	}
 }
 
@@ -72,6 +72,6 @@ void	parse_env(char **env, t_all *all)
 
 	i = -1;
 	while (env[++i])
-		env_add_new(env[i], &all->envp);
+		add_env(env[i], &all->envp);
 	add_current_path(all);
 }

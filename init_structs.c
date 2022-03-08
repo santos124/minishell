@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-void	ft_init_structs(t_all **all)
+void	init_struct(t_all **all)
 {
 	(*all) = (t_all *)malloc(sizeof (t_all));
 	if (!(*all))
-		ft_exit(12, "malloc"); //, NULL);
+		err_exit(12, "malloc"); //, NULL);
 	(*all)->cmd = NULL;
 	(*all)->red = NULL;
 	(*all)->envp = NULL;

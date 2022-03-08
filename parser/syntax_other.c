@@ -37,7 +37,7 @@ int	unclosed_quotes(char *line)
 }
 
 //незакрытые двойные кавычки
-int	unclosed_double_quotes(char *line)
+int	unclosed_doub_qts(char *line)
 {
 	int	i;
 	int	quotes1;
@@ -59,20 +59,20 @@ int	unclosed_double_quotes(char *line)
 	return (0);
 }
 
-char	*other_syntax_cases(char *line)
+char	*next_err_syntax(char *line)
 {
 	if (last_pipe(line))
 		return ("minishell: syntax error: unexpected end of file");
 	else if (unclosed_quotes(line))
 		return ("minishell: unexpected EOF while looking for matching `\'\'");
-	else if (unclosed_double_quotes(line))
+	else if (unclosed_doub_qts(line))
 		return ("minishell: unexpected EOF while looking for matching `\"\'");
 	else
 		return (NULL);
 }
 
 //табы и '\n' заменить на пробелы
-void	tabs_to_spaces(char **line)
+void	format_blanks(char **line)
 {
 	int	i;
 

@@ -55,7 +55,7 @@ int	ambiguous_redirect(t_red *tmp, t_all *all)
 	return (1);
 }
 
-static int	open_file(t_red *tmp, t_all *all)
+static int	common_open(t_red *tmp, t_all *all)
 {
 	int	fd;
 
@@ -83,7 +83,7 @@ static int	open_file(t_red *tmp, t_all *all)
 	return (0);
 }
 
-int	check_open(t_all *all)
+int	open_file(t_all *all)
 {
 	t_red	*tmp;
 
@@ -92,11 +92,11 @@ int	check_open(t_all *all)
 	{
 		if (!tmp->in || !tmp->doub) //не входящий ИЛИ не двойной
 		{
-			if (open_file(tmp, all))
+			if (common_open(tmp, all))
 				return (1);
 		}
 		else
-			heredoc(tmp->name, tmp->limiter, all);
+			heredoc_open(tmp->name, tmp->limiter, all);
 		tmp = tmp->all_next;
 	}
 	return (0);

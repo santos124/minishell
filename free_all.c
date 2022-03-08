@@ -50,7 +50,7 @@ void	free_commands(t_all *all)
 	}
 }
 
-void	free_structs(t_all *all)
+void	free_struct(t_all *all)
 {
 	t_cmd	*cmd_temp;
 

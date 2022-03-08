@@ -27,7 +27,7 @@ static char	*replace_str(char *line, char *old, char *new, int start)
 	return (result);
 }
 
-char	*env_replace(char *line, int *i, t_env *envp)
+char	*replace_env(char *line, int *i, t_env *envp)
 {
 	int		begin;
 	char	*env_key;
@@ -56,7 +56,7 @@ char	*env_replace(char *line, int *i, t_env *envp)
 	return (line);
 }
 
-char	*exit_code_replace(char *line, t_all *all, int *i)
+char	*get_last_exit_code(char *line, t_all *all, int *i)
 {
 	char	*exit_code;
 

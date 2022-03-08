@@ -1,9 +1,9 @@
 #include "minishell.h"
 
-void	go_readline(char **line, t_all *all)
+void	get_line(char **line, t_all *all)
 {
-	signal(SIGINT, &sig_handler_parent);
-	signal(SIGQUIT, &sig_handler_parent);
+	signal(SIGINT, &handler_parent);
+	signal(SIGQUIT, &handler_parent);
 	rl_on_new_line();
 	*line = readline("minishell>>> ");
 	if (*line && **line)
@@ -11,11 +11,11 @@ void	go_readline(char **line, t_all *all)
 	else if (*line == NULL)
 	{
 		printf("\033[1Aminishell>>> exit\n");
-		ft_exit(all->errnum, NULL); //, all);
+		err_exit(all->errnum, NULL); //, all);
 	}
 }
 
-void	sig_handler_child(int sig_num)
+void	handler_child(int sig_num)
 {
 	if (sig_num == SIGINT)
 	{
@@ -28,7 +28,7 @@ void	sig_handler_child(int sig_num)
 	}
 }
 
-void	sig_handler_parent(int sig_num)
+void	handler_parent(int sig_num)
 {
 	if (sig_num == SIGINT)
 	{
@@ -48,10 +48,10 @@ void	sig_handler_parent(int sig_num)
 	}
 }
 
-void	heredoc_sig_int(int sig)
+void	handler_heredoc(int sig)
 {
 	(void)sig;
 	write(STDOUT_FILENO, "\b\b  \b\b\n", 7);
 	rl_on_new_line();
-	ft_exit(1, NULL); //, NULL);
+	err_exit(1, NULL); //, NULL);
 }

@@ -20,16 +20,16 @@ void	parse_line_loop(char **str, t_all *all, t_cmd *cmd, int *i)
 		while ((*str)[*i] == ' ')
 			(*i)++;
 		if ((*str)[*i] == '\"')
-			(*str) = double_quotes((*str), i, all);
+			(*str) = doub_qts((*str), i, all);
 		else if ((*str)[*i] == '\'')
-			(*str) = single_quotes((*str), i, all);
+			(*str) = single_qts((*str), i, all);
 		if ((*str)[*i] == '$' && ((*str)[*i + 1] == '_' || \
 			ft_isalpha((*str)[*i + 1])))
-			(*str) = env_replace((*str), i, all->envp);
+			(*str) = replace_env((*str), i, all->envp);
 		if ((*str)[*i] == '$' && (*str)[*i + 1] == '?')
-			(*str) = exit_code_replace((*str), all, i);
+			(*str) = get_last_exit_code((*str), all, i);
 		if (((*str)[*i] == '>' || (*str)[*i] == '<') && (*str)[(*i) + 1])
-			(*str) = parse_redirects((*str), i, cmd, all);
+			(*str) = parsing_reds((*str), i, cmd, all);
 		if ((*str)[*i] != '|')
 			(*i)++;
 		else
@@ -89,16 +89,16 @@ int	parser(t_all *all, char *str)
 	t_cmd	*tmp;
 
 	if (!str)
-		ft_exit(12, "malloc"); //, all);
-	tabs_to_spaces(&str);
-	if (check_syntax(str, all))
+		err_exit(12, "malloc"); //, all);
+	format_blanks(&str);
+	if (parse_check_err(str, all))
 		return (1);
 	all->cmd = new_command();
 	all->num_cmd = 1;
 	tmp = all->cmd;
 	str = parse_line(&str, all, all->cmd);
 	if (!str)
-		ft_exit(12, "malloc"); //, all);
+		err_exit(12, "malloc"); //, all);
 	while (str[0] && str[0] == '|')
 	{
 		all->cmd->next = new_command();
@@ -106,7 +106,7 @@ int	parser(t_all *all, char *str)
 		all->num_cmd++;
 		str = parse_line(&str, all, all->cmd);
 		if (!str)
-			ft_exit(12, "malloc"); //, all);
+			err_exit(12, "malloc"); //, all);
 	}
 	all->cmd = tmp;
 	free(str);

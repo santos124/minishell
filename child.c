@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	*find_path(char *cmd, char **envp)
+static char	*get_path(char *cmd, char **envp)
 {
 	char	**paths;
 	char	*path;
@@ -14,7 +14,7 @@ char	*find_path(char *cmd, char **envp)
 		i++;
 	paths = ft_split(envp[i] + 5, ':');
 	if (!paths)
-		ft_exit(12, "malloc"); //, all);
+		err_exit(12, "malloc"); //, all);
 	i = 0;
 	while (paths[i])
 	{
@@ -40,7 +40,7 @@ static void	open_dup(int i, t_cmd *cmd, t_all *all)
 		file[0] = open(cmd->in->name, O_RDONLY);
 	}
 	if (file[0] == -1)
-		ft_exit(errno, cmd->in->name); //, all);
+		err_exit(errno, cmd->in->name); //, all);
 	file[1] = -2;
 	if (cmd->out)
 	{
@@ -52,7 +52,7 @@ static void	open_dup(int i, t_cmd *cmd, t_all *all)
 			file[1] = open(cmd->out->name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	}
 	if (file[1] == -1)
-		ft_exit(errno, cmd->out->name); //, all);
+		err_exit(errno, cmd->out->name); //, all);
 	ft_dup2(i, file, cmd, all);
 }
 
@@ -64,14 +64,14 @@ void	execve_faild(t_all *all, char *path, t_cmd *cmd)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd->cmd[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
-		ft_exit(all->errnum, NULL); //, all);
+		err_exit(all->errnum, NULL); //, all);
 	}
 	if (access(path, F_OK) != 0)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd->cmd[0], 2);
 		write(2, " : No such file or directory\n", 29);
-		ft_exit(all->errnum, NULL); //, all);
+		err_exit(all->errnum, NULL); //, all);
 	}
 	if (path && access(path, X_OK) != 0)
 	{
@@ -79,11 +79,11 @@ void	execve_faild(t_all *all, char *path, t_cmd *cmd)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd->cmd[0], 2);
 		ft_putstr_fd(": Permission denied\n", 2);
-		ft_exit(all->errnum, NULL); //, all);
+		err_exit(all->errnum, NULL); //, all);
 	}
 }
 
-void	child_process(int i, t_all *all)
+void	child_action(int i, t_all *all)
 {
 	int			num;
 	t_cmd	*cmd;
@@ -97,9 +97,9 @@ void	child_process(int i, t_all *all)
 		exit(0);
 	open_dup(i, cmd, all);
 	if (cmd->id_cmd)
-		ft_exit(run_built(cmd, all), NULL); //, all);
-	ft_check_path(all, cmd->cmd[0]);
-	path = find_path(cmd->cmd[0], all->env);
+		err_exit(run_builtin(cmd, all), NULL); //, all);
+	valid_path(all, cmd->cmd[0]);
+	path = get_path(cmd->cmd[0], all->env);
 	if (execve(path, cmd->cmd, all->env) == -1)
 		execve_faild(all, path, cmd);
 }

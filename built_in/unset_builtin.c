@@ -29,7 +29,7 @@ int	ft_check_first(t_env **env, char *str)
 	return (0);
 }
 
-void	ft_export_unset_error(t_all *all, char *str, char *namecmd)
+void	env_print_err(t_all *all, char *str, char *namecmd)
 {
 	all->errnum = 1;
 	ft_putstr_fd(namecmd, 2);
@@ -47,7 +47,7 @@ int	ft_check_error(char *cmd, t_all *all)
 	{
 		if (!(ft_isalpha(cmd[j])) && (cmd[j] != '_'))
 		{
-			ft_export_unset_error(all, cmd, "unset");
+			env_print_err(all, cmd, "unset");
 			return (1);
 		}
 		j++;

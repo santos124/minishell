@@ -1,7 +1,7 @@
 
 #include "minishell.h"
 
-int	ft_count_cmd(t_cmd *cmd) //+
+int	count_cmd(t_cmd *cmd) //+
 {
 	int	i;
 
@@ -16,7 +16,7 @@ int	ft_count_cmd(t_cmd *cmd) //+
 	return (i);
 }
 
-int	ft_count_envp(t_env *envp) //+
+int	count_env(t_env *envp) //+
 {
 	int	i;
 
@@ -29,7 +29,7 @@ int	ft_count_envp(t_env *envp) //+
 	return (i);
 }
 
-void	ft_print_error(int errnum, char *str, char *cmd_name) //+
+void	print_error(int errnum, char *str, char *cmd_name) //+
 {
 	char	*error;
 
@@ -47,7 +47,7 @@ void	ft_print_error(int errnum, char *str, char *cmd_name) //+
 
 }
 
-void	ft_make_array(t_env *envp, char **env, int len) //-
+void	new_arr(t_env *envp, char **env, int len) //-
 {
 	int		i;
 	char	*arr;
@@ -74,13 +74,13 @@ void	ft_make_array(t_env *envp, char **env, int len) //-
 	env[i] = NULL;
 }
 
-void	ft_env_list_to_array(t_env *envp, t_all *all) //+
+void	env_to_arr(t_env *envp, t_all *all) //+
 {
 	int		n;
 
-	n = ft_count_envp(envp);
+	n = count_env(envp);
 	all->env = (char **)malloc(sizeof(char *) * (n + 1));
 	if (all->env == NULL)
-		ft_exit(12, "malloc"); //, all);
-	ft_make_array(envp, all->env, n);
+		err_exit(12, "malloc"); //, all);
+	new_arr(envp, all->env, n);
 }

@@ -20,7 +20,7 @@ void	remove_redirect(char *str, int start, int end)
 	}
 }
 
-char	*save_redir_name(char *str, int *i)
+char	*name_red(char *str, int *i)
 {
 	char	*result;
 	int		count;
@@ -43,7 +43,7 @@ char	*save_redir_name(char *str, int *i)
 }
 
 
-void	all_redir_list(t_red *new, t_all *all)
+void	list_reds(t_red *new, t_all *all)
 {
 	t_red	*tmp;
 
@@ -55,7 +55,7 @@ void	all_redir_list(t_red *new, t_all *all)
 		if (all->red->in && all->red->doub)
 			all->red->name = ft_strjoin("heredoc", "1");
 		if (all->red->name == NULL)
-			ft_exit(12, "malloc"); //, all);
+			err_exit(12, "malloc"); //, all);
 	}
 	else
 	{
@@ -67,7 +67,7 @@ void	all_redir_list(t_red *new, t_all *all)
 			all->red->all_next->name = ft_strjoin("heredoc", \
 				ft_itoa(all->red->all_next->cmd));
 		if (all->red->name == NULL)
-			ft_exit(12, "malloc"); //, all);
+			err_exit(12, "malloc"); //, all);
 		all->red = tmp;
 	}
 }

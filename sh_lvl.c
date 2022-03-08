@@ -18,7 +18,7 @@ static void	ft_sub_shlvl(t_env *tmp, int level) //+
 }
 
 
-void	ft_shlvl_check(t_all *all) //+
+void	shlvl_check(t_all *all) //+
 {
 	t_env	*tmp;
 	int		level;
@@ -34,5 +34,5 @@ void	ft_shlvl_check(t_all *all) //+
 		}
 		tmp = tmp->next;
 	}
-	env_add_new("SHLVL=1", &all->envp);
+	add_env("SHLVL=1", &all->envp);
 }

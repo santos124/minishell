@@ -15,7 +15,7 @@ char	*second_wrong(char *line)
 		return (NULL);
 }
 
-char	*wrong_redirects(char *line)
+char	*bad_redirects(char *line)
 {
 	int		i;
 
@@ -37,7 +37,7 @@ char	*wrong_redirects(char *line)
 	return (NULL);
 }
 
-int	empty_redirect(char *line)
+int	empty_redir(char *line)
 {
 	int	i;
 

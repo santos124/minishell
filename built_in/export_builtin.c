@@ -75,7 +75,7 @@ static int	ft_export_join(char *new, t_env *envp)
 	return (0);
 }
 
-int	ft_add_new(char	*new, t_all *all)
+static int	env_add(char	*new, t_all *all)
 {
 	char	*line;
 	int		i;
@@ -89,7 +89,7 @@ int	ft_add_new(char	*new, t_all *all)
 	line = ft_substr(new, 0, i);
 	line = ft_strjoin(line, "=");
 	line = ft_strjoin(line, &new[i + 2]);
-	env_add_new(line, &all->envp);
+	add_env(line, &all->envp);
 	free(line);
 	return (1);
 }
@@ -104,7 +104,7 @@ int	ft_export(t_all *all, t_cmd *cmd)
 		return (if_without_all(all->envp, all));
 	while (cmd->cmd[++i])
 	{
-		if (check_arg_export(cmd->cmd[i], all))
+		if (check_env(cmd->cmd[i], all))
 			continue ;
 		if (all->num != 1)
 			break ;
@@ -114,8 +114,8 @@ int	ft_export(t_all *all, t_cmd *cmd)
 			continue ;
 		if (ft_search_dups(all->envp, cmd->cmd[i]))
 			continue ;
-		if (!ft_add_new(cmd->cmd[i], all))
-			env_add_new(cmd->cmd[i], &all->envp);
+		if (!env_add(cmd->cmd[i], all))
+			add_env(cmd->cmd[i], &all->envp);
 	}
 	return (all->errnum);
 }
