@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-t_env	*create_env(char *key, char *sep, char *val)
+static t_env	*create_env(char *key, char *sep, char *val)
 {
 	t_env	*new;
 
@@ -43,7 +43,7 @@ void	add_env(char *env_str, t_env **start)
 }
 
 //добавить текущий путь
-void	add_current_path(t_all *all)
+static void	add_current_path(t_all *all)
 {
 	t_env	*tmp;
 	char	*pwd;

@@ -51,8 +51,7 @@ char	*doub_qts(char *str, int *i, t_all *all)
 	(*i)++;
 	while (str[*i] && str[*i + 1] && str[*i] != '\"')
 	{
-		if (str[*i] == '$' && (str[*i + 1] == '_' || \
-			ft_isalpha(str[*i + 1])))
+		if (str[*i] == '$' && (str[*i + 1] == '_' || ft_isalpha(str[*i + 1])))
 		{
 			str = replace_env(str, i, all->envp);
 			(*i)--;

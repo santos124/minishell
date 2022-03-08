@@ -1,12 +1,47 @@
 #include "../minishell.h"
 
+static void create_red(t_all *all, t_red *new)
+{
+		all->red = new;
+		all->red->cmd = 1;
+		if (all->red->in && all->red->doub)
+			all->red->name = ft_strjoin("heredoc", "1");
+		if (all->red->name == NULL)
+			err_exit(12, "malloc"); //, all);
+}
+
+static void append_red(t_all *all, t_red *new, t_red *tmp)
+{
+	while (all->red->all_next != NULL)
+		all->red = all->red->all_next;
+	all->red->all_next = new;
+	all->red->all_next->cmd = all->num_cmd;
+	if (all->red->all_next->in && all->red->all_next->doub)
+		all->red->all_next->name = ft_strjoin("heredoc", \
+			ft_itoa(all->red->all_next->cmd));
+	if (all->red->name == NULL)
+		err_exit(12, "malloc"); //, all);
+	all->red = tmp;
+}
+
+void	list_reds(t_red *new, t_all *all)
+{
+	t_red	*tmp;
+
+	tmp = all->red;
+	if (all->red == NULL)
+		create_red(all, new);
+	else
+		append_red(all, new, tmp);
+}
+
 void	remove_redirect(char *str, int start, int end)
 {
-	int	len;
 	int	i;
+	int	len;
 
-	len = end - start;
 	i = 0;
+	len = end - start;
 	while (str[end + i])
 	{
 		str[start + i] = str[end + i];
@@ -40,34 +75,4 @@ char	*name_red(char *str, int *i)
 	remove_redirect(str, tmp, *i);
 	*i = tmp;
 	return (result);
-}
-
-
-void	list_reds(t_red *new, t_all *all)
-{
-	t_red	*tmp;
-
-	tmp = all->red;
-	if (all->red == NULL)
-	{
-		all->red = new;
-		all->red->cmd = 1;
-		if (all->red->in && all->red->doub)
-			all->red->name = ft_strjoin("heredoc", "1");
-		if (all->red->name == NULL)
-			err_exit(12, "malloc"); //, all);
-	}
-	else
-	{
-		while (all->red->all_next != NULL)
-			all->red = all->red->all_next;
-		all->red->all_next = new;
-		all->red->all_next->cmd = all->num_cmd;
-		if (all->red->all_next->in && all->red->all_next->doub)
-			all->red->all_next->name = ft_strjoin("heredoc", \
-				ft_itoa(all->red->all_next->cmd));
-		if (all->red->name == NULL)
-			err_exit(12, "malloc"); //, all);
-		all->red = tmp;
-	}
 }

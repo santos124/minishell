@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-t_cmd	*new_command(void)
+static t_cmd	*new_command(void)
 {
 	t_cmd	*new;
 
@@ -13,7 +13,27 @@ t_cmd	*new_command(void)
 	return (new);
 }
 
-void	parse_line_loop(char **str, t_all *all, t_cmd *cmd, int *i)
+static void	replace_spaces(char **cmd)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (cmd[i] != 0)
+	{
+		j = 0;
+		while (cmd[i][j] != 0)
+		{
+			if (cmd[i][j] == '\a')
+				cmd[i][j] = ' ';
+			j++;
+		}
+		i++;
+	}
+}
+
+static void	parse_line_loop(char **str, t_all *all, t_cmd *cmd, int *i)
 {
 	while ((*str)[*i] != 0 && (*str)[*i] != '|')
 	{		
@@ -37,35 +57,15 @@ void	parse_line_loop(char **str, t_all *all, t_cmd *cmd, int *i)
 	}
 }
 
-void	replace_spaces(char **cmd)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (cmd[i] != 0)
-	{
-		j = 0;
-		while (cmd[i][j] != 0)
-		{
-			if (cmd[i][j] == '\a')
-				cmd[i][j] = ' ';
-			j++;
-		}
-		i++;
-	}
-}
-
-char	*parse_line(char **str, t_all *all, t_cmd *cmd)
+static char	*parse_line(char **str, t_all *all, t_cmd *cmd)
 {
 	char	*one_cmd;
-	int		i;
-	int		start;
 	char	*new_str;
+	int		start;
+	int		i;
 
-	i = 0;
 	start = 0;
+	i = 0;
 	if ((*str)[i] == '|')
 	{
 		start++;
