@@ -26,7 +26,8 @@ typedef struct s_env //переменные среды список
 
 typedef struct s_redirect//s_redir //редирект список
 {
-	char				*name; // команда которая учавствует обьектом редиректа или хирдок
+	char				*name; // имя файла который является обьектом
+	// редиректа или хирдок
 	char				*limiter; //при заднем редиректе двойном  << команда
 	// записывается сюда
 	// ??????????
@@ -127,3 +128,6 @@ int		run_builtin(t_cmd *cmd, t_all *all);
 void	heredoc_open(char *name, char *limiter, t_all *all);
 
 #endif
+
+
+// поменять название файлов и мэйкфайл
