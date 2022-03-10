@@ -59,10 +59,10 @@ static void	add_current_path(t_all *all)
 		tmp = tmp->next;
 	tmp_path = ft_strjoin(tmp->val, ":");
 	new_path = ft_strjoin(tmp_path, pwd);
-	free(tmp_path);
-	free(tmp->val);
+	free_null((void**)&tmp_path);
+	free_null((void**)&tmp->val);
 	tmp->val = ft_strdup(new_path); //, all);
-	free(new_path);
+	free_null((void**)&new_path);
 }
 
 //взятие переменных среды

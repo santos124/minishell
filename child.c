@@ -20,7 +20,7 @@ static char	*get_path(char *cmd, char **envp)
 	{
 		part_path = ft_strjoin(paths[i], "/");
 		path = ft_strjoin(part_path, cmd);
-		free(part_path);
+		free_null((void**)&part_path);
 		if (access(path, F_OK) == 0)
 			return (path);
 		i++;

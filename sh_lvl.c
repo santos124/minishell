@@ -4,15 +4,15 @@ static void	ft_sub_shlvl(t_env *tmp, int level) //+
 {
 	if (!tmp->val[0])
 	{
-		free(tmp->sep);
+		free_null((void**)&tmp->sep);
 		tmp->sep = ft_strdup("="); //, all);
-		free(tmp->val);
+		free_null((void**)&tmp->val);
 		tmp->val = ft_strdup("1"); //, all);
 	}
 	else
 	{
 		level = ft_atoi(tmp->val) + 1;
-		free(tmp->val);
+		free_null((void**)&tmp->val);
 		tmp->val = ft_itoa(level);
 	}
 }

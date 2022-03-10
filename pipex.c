@@ -11,7 +11,7 @@ void	ft_close(t_all *all, int *file, int num)
 			continue ;
 		close(all->fd[i][0]);
 		close(all->fd[i][1]);
-		free(all->fd[i]);
+		free_null((void**)&all->fd[i]);
 	}
 	if (!file)
 		return ;
@@ -56,7 +56,7 @@ static void	ft_waitpid(pid_t *pid, int num, t_all *all)
 		else
 			all->errnum = status + 128;
 	}
-	free(pid);
+	free_null((void**)&pid);
 }
 
 void	sig_pipex(void)

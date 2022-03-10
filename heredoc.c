@@ -27,13 +27,13 @@ static void	gnl(char **line)
 		tmp = ft_strjoin(*line, end);
 		if (!tmp)
 		{
-			free(end);
+			free_null((void**)&end);
 			err_exit(12, "malloc"); //, all);
 		}
-		free(*line);
+		free_null((void**)&*line);
 		*line = tmp;
 	}
-	free(end);
+	free_null((void**)&end);
 }
 
 void	heredoc_loop(char *name, char *limiter, int fd)
@@ -59,7 +59,7 @@ void	heredoc_loop(char *name, char *limiter, int fd)
 		}
 		else
 			break ;
-		free(line);
+		free_null((void**)&line);
 	}
 }
 

@@ -11,21 +11,21 @@ void	free_redir_env_fd(t_all *all)
 		if (all->red->in && all->red->doub)
 		{
 			unlink(all->red->name);
-			free(all->red->limiter);
+			free_null((void**)&all->red->limiter);
 		}
-		free(all->red->name);
-		free(all->red);
+		free_null((void**)&all->red->name);
+		free_null((void**)&all->red);
 		all->red = redir_temp;
 	}
 	i = 0;
 	while (all->env[i])
 	{
-		free(all->env[i]);
+		free_null((void**)&all->env[i]);
 		i++;
 	}
 	free (all->env);
 	if (all->num > 1)
-		free(all->fd);
+		free_null((void**)&all->fd);
 }
 
 void	free_commands(t_all *all)
@@ -37,14 +37,14 @@ void	free_commands(t_all *all)
 		ft_strcmp(all->cmd->cmd[0], "cd") == 0 && \
 		ft_strcmp(all->cmd->cmd[1], "~") == 0)
 	{
-		free(all->cmd->cmd[0]);
-		free(all->cmd->cmd[1]);
+		free_null((void**)&all->cmd->cmd[0]);
+		free_null((void**)&all->cmd->cmd[1]);
 	}
 	else
 	{
 		while (all->cmd->cmd[i])
 		{
-			free(all->cmd->cmd[i]);
+			free_null((void**)&all->cmd->cmd[i]);
 			i++;
 		}
 	}
@@ -58,8 +58,8 @@ void	free_struct(t_all *all)
 	{
 		cmd_temp = all->cmd->next;
 		free_commands(all);
-		free(all->cmd->cmd);
-		free(all->cmd);
+		free_null((void**)&all->cmd->cmd);
+		free_null((void**)&all->cmd);
 		all->cmd = cmd_temp;
 	}
 	free_redir_env_fd(all);

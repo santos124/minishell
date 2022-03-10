@@ -78,9 +78,9 @@ static char	*parse_line(char **str, t_all *all, t_cmd *cmd)
 		one_cmd = ft_substr(*str, start, i);
 	cmd->cmd = ft_split(one_cmd, ' ');
 	replace_spaces(cmd->cmd);
-	free(one_cmd);
+	free_null((void**)&one_cmd);
 	new_str = ft_strdup(&((*str)[i])); //, all);
-	free(*str);
+	free_null((void**)&*str);
 	return (new_str);
 }
 
@@ -109,6 +109,6 @@ int	parser(t_all *all, char *str)
 			err_exit(12, "malloc"); //, all);
 	}
 	all->cmd = tmp;
-	free(str);
+	free_null((void**)&str);
 	return (0);
 }

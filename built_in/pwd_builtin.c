@@ -8,7 +8,7 @@ int	ft_pwd(t_all *all)
 	if (!pwd)
 		err_exit(errno, "getcwd"); //, all);
 	printf("%s\n", pwd);
-	free(pwd);
+	free_null((void**)&pwd);
 	all->errnum = 0;
 	return (0);
 }

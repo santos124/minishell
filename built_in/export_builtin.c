@@ -16,13 +16,13 @@ int	ft_search_dups(t_env *envp, char *new)
 			if (envp->val)
 				envp->val = NULL;
 			envp->val = ft_strdup(&new[i + 1]); //, all);
-			free(newkey);
+			free_null((void**)&newkey);
 			return (1);
 		}
 		else
 			envp = envp->next;
 	}
-	free(newkey);
+	free_null((void**)&newkey);
 	return (0);
 }
 
@@ -62,7 +62,7 @@ static int	ft_export_join(char *new, t_env *envp)
 		if (!(ft_strcmp(envp->key, ft_substr(new, 0, i))))
 		{
 			if (envp->sep)
-				free(envp->sep);
+				free_null((void**)&envp->sep);
 			envp->sep = ft_strdup("="); //, all);
 			if (envp->val)
 				envp->val = ft_strjoin(envp->val, ft_strdup(&new[i + 2]));
@@ -90,7 +90,7 @@ static int	env_add(char	*new, t_all *all)
 	line = ft_strjoin(line, "=");
 	line = ft_strjoin(line, &new[i + 2]);
 	add_env(line, &all->envp);
-	free(line);
+	free_null((void**)&line);
 	return (1);
 }
 

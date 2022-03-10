@@ -13,9 +13,9 @@ void	env_after_cd(t_all **all)
 		tmp1 = tmp1->next;
 	if (tmp && tmp1)
 	{
-		free(tmp1->val);
+		free_null((void**)&tmp1->val);
 		tmp1->val = ft_strdup(tmp->val); //, *all);
-		free(tmp->val);
+		free_null((void**)&tmp->val);
 		tmp->val = getcwd(NULL, 0);
 		if (!tmp->val)
 			err_exit(errno, "getcwd"); //, *all);
@@ -34,9 +34,9 @@ char	*get_cd(t_cmd *cmd, t_env *envp)
 		if (!cd)
 			err_exit(errno, "getcwd"); //, all);
 		pwd = ft_strjoin(cd, "/");
-		free(cd);
+		free_null((void**)&cd);
 		cd = ft_strjoin(pwd, cmd->cmd[1]);
-		free(pwd);
+		free_null((void**)&pwd);
 		return (cd);
 	}
 	while (envp && ft_strcmp(envp->key, "HOME"))
@@ -45,7 +45,7 @@ char	*get_cd(t_cmd *cmd, t_env *envp)
 	{
 		pwd = ft_substr(cmd->cmd[1], 1, ft_strlen(cmd->cmd[1]) - 1);
 		cd = ft_strjoin(envp->val, pwd);
-		free(pwd);
+		free_null((void**)&pwd);
 	}
 	return (cd);
 }
@@ -87,6 +87,6 @@ int	ft_cd(t_all *all, t_cmd *cmd)
 	}
 	else
 		cd_error(all, cmd->cmd[1], 1);
-	free(cd);
+	free_null((void**)&cd);
 	return (all->errnum);
 }

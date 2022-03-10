@@ -6,10 +6,10 @@ void	ft_del_env(t_env *env)
 
 	tmp = env->next;
 	env->next = tmp->next;
-	free(tmp->key);
-	free(tmp->sep);
-	free(tmp->val);
-	free(tmp);
+	free_null((void**)&tmp->key);
+	free_null((void**)&tmp->sep);
+	free_null((void**)&tmp->val);
+	free_null((void**)&tmp);
 }
 
 int	ft_check_first(t_env **env, char *str)
@@ -20,10 +20,10 @@ int	ft_check_first(t_env **env, char *str)
 	if (!ft_strcmp(str, tmp->key))
 	{
 		*env = (*env)->next;
-		free(tmp->key);
-		free(tmp->sep);
-		free(tmp->val);
-		free(tmp);
+		free_null((void**)&tmp->key);
+		free_null((void**)&tmp->sep);
+		free_null((void**)&tmp->val);
+		free_null((void**)&tmp);
 		return (1);
 	}
 	return (0);

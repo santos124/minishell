@@ -59,13 +59,13 @@ void	new_arr(t_env *envp, char **env, int len) //-
 		if (envp->sep)
 		{
 			arr = ft_strjoin(env[i], envp->sep);
-			free(env[i]);
+			free_null((void**)&env[i]);
 			env[i] = arr;
 		}
 		if (envp->val)
 		{
 			arr = ft_strjoin(env[i], envp->val);
-			free(env[i]);
+			free_null((void**)&env[i]);
 			env[i] = arr;
 		}
 		envp = envp->next;
