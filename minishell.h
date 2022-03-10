@@ -64,7 +64,7 @@ typedef struct s_all
 }	t_all;
 
 void	ft_print_all(t_all *all);
-
+void free_null(void **ptr);
 /*./parser*/
 void	rl_replace_line(const char *str, int num);
 int		rl_clear_history(void);

@@ -9,7 +9,7 @@ LIST =	main.c				parser/syntax_errors.c		built_in/export_builtin.c\
 		redirects.c			parser/redirects_utils.c	built_in/cd_builtin.c\
 		pipe.c				parser/syntax_redirects.c\
 		check_open.c		parser/syntax_other.c\
-		pipex.c\
+		pipex.c				parser/true_free.c\
 		heredoc.c\
 		free_all.c\
 		sort_env.c

@@ -27,32 +27,32 @@ static char	*replace_str(char *str, char *old, char *new, int start)
 	return (ret);
 }
 
-char	*replace_env(char *str, int *i, t_env *envp)
+char	*replace_env(char *str, int *i, t_env *env)
 {
 	int		begin;
 	char	*env_key;
 	char	*env_val;
 	t_env	*temp;
 
+	temp = env;
 	begin = *i;
 	env_val = ft_strdup(""); //, all);
 	(*i)++;
 	while (str[*i] && (str[*i] == '_' || ft_isalnum(str[*i])))
 		(*i)++;
 	env_key = ft_substr(str, begin + 1, *i - begin - 1);
-	temp = envp;
 	while (temp)
 	{
-		if (ft_strcmp(temp->key, env_key) == 0)
+		if (!ft_strcmp(temp->key, env_key))
 		{
-			free(env_val);
+			free_null((void**)&env_val);
 			env_val = temp->val;
 		}
 		temp = temp->next;
 	}
 	str = replace_str(str, env_key, env_val, begin);
 	*i = begin + ft_strlen(env_val) - 1;
-	free(env_key);
+	free_null((void**)&env_key);
 	return (str);
 }
 
