@@ -1,33 +1,33 @@
 #include "../minishell.h"
 
 //пайп в конце
-int	last_pipe(char *line)
+int	last_pipe(char *str)
 {
 	int	i;
 
-	i = ft_strlen(line) - 1;
-	while (line[i] && line[i] == ' ')
+	i = ft_strlen(str) - 1;
+	while (str[i] && str[i] == ' ')
 		i--;
-	if (line[i] == '|')
+	if (str[i] == '|')
 		return (1);
 	return (0);
 }
 
 //незакрытые одинарные кавычки
-int	unclosed_quotes(char *line)
+int	unclosed_quotes(char *str)
 {
-	int	i;
 	int	quotes1;
 	int	quotes2;
+	int	i;
 
-	i = 0;
 	quotes1 = 0;
 	quotes2 = 0;
-	while (line[i])
+	i = 0;
+	while (str[i])
 	{
-		if (line[i] == '\'' && quotes1 == 0)
+		if (str[i] == '\'' && quotes1 == 0)
 			quotes1++;
-		else if (line[i] == '\'')
+		else if (str[i] == '\'')
 			quotes1--;
 		i++;
 	}
@@ -37,20 +37,20 @@ int	unclosed_quotes(char *line)
 }
 
 //незакрытые двойные кавычки
-int	unclosed_doub_qts(char *line)
+int	unclosed_doub_qts(char *str)
 {
-	int	i;
 	int	quotes1;
 	int	quotes2;
+	int	i;
 
-	i = 0;
 	quotes1 = 0;
 	quotes2 = 0;
-	while (line[i])
+	i = 0;
+	while (str[i] != 0)
 	{
-		if (line[i] == '\"' && quotes2 == 0)
+		if (str[i] == '\"' && quotes2 == 0)
 			quotes2++;
-		else if (line[i] == '\"')
+		else if (str[i] == '\"')
 			quotes2--;
 		i++;
 	}
@@ -59,28 +59,28 @@ int	unclosed_doub_qts(char *line)
 	return (0);
 }
 
-char	*next_err_syntax(char *line)
+char	*next_err_syntax(char *str)
 {
-	if (last_pipe(line))
+	if (last_pipe(str))
 		return ("minishell: syntax error: unexpected end of file");
-	else if (unclosed_quotes(line))
+	else if (unclosed_quotes(str))
 		return ("minishell: unexpected EOF while looking for matching `\'\'");
-	else if (unclosed_doub_qts(line))
+	else if (unclosed_doub_qts(str))
 		return ("minishell: unexpected EOF while looking for matching `\"\'");
 	else
 		return (NULL);
 }
 
 //табы и '\n' заменить на пробелы
-void	format_blanks(char **line)
+void	format_blanks(char **str)
 {
 	int	i;
 
 	i = 0;
-	while ((*line)[i])
+	while ((*str)[i])
 	{
-		if ((*line)[i] == '\t' || (*line)[i] == '\n')
-			(*line)[i] = ' ';
+		if ((*str)[i] == '\n' || (*str)[i] == '\t')
+			(*str)[i] = ' ';
 		i++;
 	}
 }

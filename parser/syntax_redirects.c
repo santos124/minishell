@@ -1,50 +1,50 @@
 
 #include "../minishell.h"
 
-char	*second_wrong(char *line)
+char	*second_wrong(char *str)
 {
-	if (line[1] && line[0] == '>' && line[1] == '>')
+	if (str[1] && str[0] == '>' && str[1] == '>')
 		return (">>");
-	else if (line[1] && line[0] == '<' && line[1] == '<')
-		return ("<<");
-	else if (line[0] == '>')
+	else if (str[0] == '>')
 		return (">");
-	else if (line[0] == '<')
+	else if (str[1] && str[0] == '<' && str[1] == '<')
+		return ("<<");
+	else if (str[0] == '<')
 		return ("<");
 	else
 		return (NULL);
 }
 
-char	*bad_redirects(char *line)
+char	*bad_redirects(char *str)
 {
 	int		i;
 
 	i = 0;
-	while (line[i])
+	while (str[i])
 	{
-		if (line[i] == '<' || line[i] == '>')
+		if (str[i] == '<' || str[i] == '>')
 		{
 			i++;
-			if (line[i] == '<' || line[i] == '>')
+			if (str[i] == '<' || str[i] == '>')
 				i++;
-			while (line[i] == ' ')
+			while (str[i] == ' ')
 				i++;
-			if (line[i] == '<' || line[i] == '>')
-				return (second_wrong(&line[i]));
+			if (str[i] == '<' || str[i] == '>')
+				return (second_wrong(&str[i]));
 		}
 		i++;
 	}
 	return (NULL);
 }
 
-int	empty_redir(char *line)
+int	empty_redir(char *str)
 {
 	int	i;
 
-	i = ft_strlen(line) - 1;
-	while (line[i] && line[i] == ' ')
+	i = ft_strlen(str) - 1;
+	while (str[i] && str[i] == ' ')
 		i--;
-	if (line[i] == '<' || line[i] == '>')
+	if (str[i] == '<' || str[i] == '>')
 		return (1);
 	return (0);
 }
