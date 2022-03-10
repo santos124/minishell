@@ -53,7 +53,7 @@ char	*doub_qts(char *str, int *i, t_all *all)
 	{
 		if (str[*i] == '$' && (str[*i + 1] == '_' || ft_isalpha(str[*i + 1])))
 		{
-			str = replace_env(str, i, all->envp);
+			str = replace_var(str, i, all->envp);
 			(*i)--;
 		}
 		if (str[*i] == ' ')

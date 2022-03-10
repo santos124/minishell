@@ -27,12 +27,12 @@ static char	*replace_str(char *str, char *old, char *new, int start)
 	return (ret);
 }
 
-char	*replace_env(char *str, int *i, t_env *env)
+char	*replace_var(char *str, int *i, t_env *env)
 {
-	int		begin;
 	char	*env_key;
 	char	*env_val;
 	t_env	*temp;
+	int		begin;
 
 	temp = env;
 	begin = *i;

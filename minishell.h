@@ -83,7 +83,7 @@ char	*name_red(char *line, int *i);
 void	list_reds(t_red *new, t_all *all);
 void	parse_env(char **envp, t_all *all);
 void	add_env(char *env_str, t_env **start);
-char	*replace_env(char *line, int *i, t_env *envp);
+char	*replace_var(char *line, int *i, t_env *envp);
 char	*get_last_exit_code(char *line, t_all *all, int *i);
 void	sort_env(t_all *all);
 /*signals*/

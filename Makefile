@@ -1,14 +1,14 @@
 NAME = minishell
 
-LIST =	main.c				parser/syntax_errors.c		built_in/export_builtin.c\
-		init_structs.c		parser/replace_env.c		built_in/unset_builtin.c\
+LIST =	main.c				parser/parse_err.c		built_in/export_builtin.c\
+		init_structs.c		parser/replace_var.c		built_in/unset_builtin.c\
 		child.c				parser/redirects.c			built_in/exit_builtin.c\
 		utils.c				parser/parse_env.c			built_in/echo_builtin.c\
 		sh_lvl.c			parser/parser.c				built_in/pwd_builtin.c\
-		signals.c			parser/quotes.c				built_in/env_builtin.c\
-		redirects.c			parser/redirects_utils.c	built_in/cd_builtin.c\
-		pipe.c				parser/syntax_redirects.c\
-		check_open.c		parser/syntax_other.c\
+		signals.c			parser/parse_err_sec.c		built_in/env_builtin.c\
+		redirects.c			parser/redirects_common.c	built_in/cd_builtin.c\
+		pipe.c				parser/parse_err_red.c\
+		check_open.c		parser/quotes.c\
 		pipex.c				parser/true_free.c\
 		heredoc.c\
 		free_all.c\
