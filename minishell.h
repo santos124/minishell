@@ -133,3 +133,5 @@ void	heredoc_open(char *name, char *limiter, t_all *all);
 // -n echo
 
 // поменять название файлов и мэйкфайл
+
+// заменить функции обработчики
