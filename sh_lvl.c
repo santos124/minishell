@@ -5,9 +5,9 @@ static void	ft_sub_shlvl(t_env *tmp, int level) //+
 	if (!tmp->val[0])
 	{
 		free_null((void**)&tmp->sep);
-		tmp->sep = ft_strdup("="); //, all);
+		tmp->sep = ft_strdup("=");
 		free_null((void**)&tmp->val);
-		tmp->val = ft_strdup("1"); //, all);
+		tmp->val = ft_strdup("1");
 	}
 	else
 	{

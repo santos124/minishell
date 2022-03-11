@@ -47,7 +47,7 @@ void	print_error(int errnum, char *str, char *cmd_name) //+
 
 }
 
-void	new_arr(t_env *envp, char **env, int len) //-
+void	new_arr(t_env *envp, char **env, int len) //+
 {
 	int		i;
 	char	*arr;
@@ -55,7 +55,7 @@ void	new_arr(t_env *envp, char **env, int len) //-
 	i = 0;
 	while (i < len)
 	{
-		env[i] = ft_strdup(envp->key); //, all);
+		env[i] = ft_strdup(envp->key);
 		if (envp->sep)
 		{
 			arr = ft_strjoin(env[i], envp->sep);

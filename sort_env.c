@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int ch_compare(char *s1, char *s2)
+static int ch_compare(char *s1, char *s2) // +
 {
 	int i;
 
@@ -15,7 +15,7 @@ int ch_compare(char *s1, char *s2)
 	return (0);
 }
 
-t_env	*sub_sort_env(t_all *all, char operation)
+static t_env	*sub_sort_env(t_all *all, char operation) //+
 {
 	t_env	*first;
 	t_env	*tmp;
@@ -39,7 +39,7 @@ t_env	*sub_sort_env(t_all *all, char operation)
 	return (first);
 }
 
-t_env	*sort_env_next(t_all *all, t_env *cur)
+static t_env	*sort_env_next(t_all *all, t_env *cur) //+
 {
 	t_env	*tmp;
 	t_env	*new;
@@ -57,7 +57,7 @@ t_env	*sort_env_next(t_all *all, t_env *cur)
 	return (new);
 }
 
-void	sort_env(t_all *all) // сортировка переменной окрружения
+void	sort_env(t_all *all) // сортировка переменной окрружения // +
 {
 	int		i;
 	t_env	*cur;
