@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static t_all	*init_struct(t_all *all) //+
+static t_all	*init_struct(t_all *all) // +
 {
 	all = (t_all *)malloc(sizeof (t_all));
 	if (!all)
@@ -59,7 +59,7 @@ int	run_builtin(t_cmd *cmd, t_all *all) // +
 	return (0);
 }
 
-static void	minishell_ex(t_all *all) //+
+static void	run_minishell(t_all *all) // +
 {
 	int	fd;
 
@@ -70,12 +70,15 @@ static void	minishell_ex(t_all *all) //+
 	{
 		all->num = count_cmd(all->cmd);
 		if (all->num > 1)
-			ft_pipe(all);
-		if (all->num == 1 && all->cmd->id_cmd)
+			ft_pipe(all); // в случае если команд больше 1, то дл каждой 
+			// команды записывается масив файловых дескрипторов, для каждого: 
+			// свой вход и выход 
+		if (all->num == 1 && all->cmd->id_cmd) // если одна команда и у нее 
+			// есть id, т.е. она одна из нашего задания
 		{
-			fd = dup_cmd(all->cmd);
-			all->errnum = run_builtin(all->cmd, all);
-			redup_cmd(fd);
+			fd = dup_cmd(all->cmd); // если используется редирект вправо
+			all->errnum = run_builtin(all->cmd, all); //выполнение билтинов
+			redup_cmd(fd); // закрывает дескрипторы
 		}
 		else if (all->num > 1 || (all-> num && all->cmd->cmd[0]))
 			pipex(all);
@@ -123,7 +126,7 @@ int	main(int argc, char **argv, char **env) // +
 		get_line(&str, all);
 		if (!parser(all, str))
 		{
-			minishell_ex(all);
+			run_minishell(all);
 			free_struct(all);
 		}
 	}

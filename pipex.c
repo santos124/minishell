@@ -59,7 +59,7 @@ static void	ft_waitpid(pid_t *pid, int num, t_all *all)
 	free_null((void**)&pid);
 }
 
-void	sig_pipex(void)
+static void	sig_pipex(void)
 {
 	signal(SIGINT, &handler_child);
 	signal(SIGQUIT, &handler_child);
@@ -67,14 +67,14 @@ void	sig_pipex(void)
 
 void	pipex(t_all *all)
 {
-	pid_t	*pid;
 	int		i;
+	pid_t	*pid;
 
-	pid = malloc(all->num * sizeof(pid_t));
+	i = 0;
+	pid = (pid_t *)malloc(all->num * sizeof(pid_t));
 	if (!pid)
-		err_exit(errno, "malloc"); //, all);
-	i = -1;
-	while (++i < all->num)
+		err_exit(errno, "malloc");
+	while (i < all->num)
 	{
 		pid[i] = fork();
 		if (pid[i] == 0)
@@ -88,7 +88,29 @@ void	pipex(t_all *all)
 		}
 		if (pid[i] != 0)
 			sig_pipex();
+		i++;
 	}
 	ft_close(all, NULL, all->num - 1);
 	ft_waitpid(pid, all->num, all);
 }
+
+
+
+//i = -1;
+//while (++i < all->num)
+//{
+//	pid[i] = fork();
+//	if (pid[i] == 0)
+//		child_action(i, all);
+//	if (pid[i] == -1)
+//	{
+//		all->errnum = errno;
+//		ft_close(all, NULL, all->num - 1);
+//		ft_waitpid(pid, i, NULL);
+//		err_exit(all->errnum, "fork"); //, all);
+//	}
+//	if (pid[i] != 0)
+//	sig_pipex();
+//}
+//ft_close(all, NULL, all->num - 1);
+//ft_waitpid(pid, all->num, all);

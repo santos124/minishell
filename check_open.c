@@ -18,8 +18,8 @@ static int	open_error(int err_n, char *path_msg, t_all *all) // +
 	}
 	else
 	{
-		ft_putstr_fd("minishell: ", 2);
 		err_msg = strerror(err_n);
+		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(path_msg, 2);
 		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(err_msg, 2);

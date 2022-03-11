@@ -53,7 +53,8 @@ typedef struct s_cmd //команда список
 typedef struct s_all
 {
 	t_red			*red;//ir			*redir; //редирект
-	int				**fd; //?????????
+	int				**fd; // fd[x2] канал для чтения и для записи для каждого
+	// builtin
 	t_env			*envp; //указатель на переменную окружения
 	t_env			*a_envp;//*envp_alpha; //переменная окружения самая первая
 	char			**env;

@@ -4,13 +4,13 @@ void	get_line(char **line, t_all *all)
 {
 	signal(SIGINT, &handler_parent);
 	signal(SIGQUIT, &handler_parent);
-	rl_on_new_line();
-	*line = readline("minishell>>> ");
+	rl_on_new_line(); // Сообщите процедурам обновления, что мы перешли на новую (пустую) строку, обычно после вывода новой строки
+	*line = readline("minishell: ");
 	if (*line && **line)
 		add_history(*line);
 	else if (*line == NULL)
 	{
-		printf("\033[1Aminishell>>> exit\n");
+		printf("\033[1Aminishell: exit\n");
 		err_exit(all->errnum, NULL); //, all);
 	}
 }
