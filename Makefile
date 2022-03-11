@@ -19,8 +19,7 @@ LIBFT_DIR =	./libft
 
 LIBFT =	./libft/libft.a
 
-RDLN = -lreadline -L ~/.brew/Cellar/readline/8.1.1/lib \
-			  -I~/.brew/Cellar/readline/8.1.1/include
+RDLN = -lreadline -I~/.brew/Cellar/readline/8.1.1/include
 
 CC = gcc
 
@@ -36,13 +35,12 @@ $(NAME):	$(OBJ) $(LIBFT) Makefile minishell.h
 	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(RDLN) -o $(NAME) -lreadline -L \
 	~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 
-.FORCE :
-$(LIBFT): .FORCE
+FORCE :
+$(LIBFT): FORCE
 	make -C $(LIBFT_DIR)
 
 re : fclean all
 
-# bonus : all
 
 clean :
 	$(MAKE) clean -C $(LIBFT_DIR)
