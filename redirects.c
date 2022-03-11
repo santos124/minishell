@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int	dup2_fd(int fd, int fd2) //+
+static void	dup2_fd(int fd, int fd2) //+
 {
 	if (dup2(fd, 1) == -1)
 	{
