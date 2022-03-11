@@ -28,7 +28,7 @@ void	set_built(t_cmd *cmd) //
 int	run_builtin(t_cmd *cmd, t_all *all) //
 {
 	if (cmd->id_cmd == 1)
-		return (ft_echo(all, cmd));
+		return (ft_echo(cmd));
 	if (cmd->id_cmd == 2)
 		return (ft_cd(all, cmd));
 	if (cmd->id_cmd == 3)
