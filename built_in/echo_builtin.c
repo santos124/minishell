@@ -34,7 +34,6 @@ int	ft_echo(t_cmd *cmd)
 		i = 1;
 		n = 1;
 	}
-		
 	while (cmd->cmd[++i])
 	{
 		if (ft_strcmp(cmd->cmd[i], "-n") || !n)
@@ -43,7 +42,6 @@ int	ft_echo(t_cmd *cmd)
 			if (cmd->cmd[i + 1] != NULL)
 				ft_putstr_fd(" ", 1);
 		}
-
 	}
 	if (!check_n(cmd->cmd[1]))
 		ft_putstr_fd("\n", 1);
