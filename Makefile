@@ -26,29 +26,29 @@ CC = gcc
 CFLAGS = -Wall -Werror -Wextra
 
 %.o:  %.c Makefile minishell.h
-	@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
+	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
 all : $(NAME)
 
 
 $(NAME):	$(OBJ) $(LIBFT) Makefile minishell.h
-	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(RDLN) -o $(NAME) -lreadline -L \
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(RDLN) -o $(NAME) -lreadline -L \
 	~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 
 FORCE :
 $(LIBFT): FORCE
-	@make -C $(LIBFT_DIR)
+	make -C $(LIBFT_DIR)
 
 re : fclean all
 
 
 clean :
-	@$(MAKE) clean -C $(LIBFT_DIR)
-	@rm -f $(OBJ)
+	$(MAKE) clean -C $(LIBFT_DIR)
+	rm -f $(OBJ)
 
 fclean : clean
-	@$(MAKE) fclean -C $(LIBFT_DIR)
-	@rm -f $(NAME)
+	$(MAKE) fclean -C $(LIBFT_DIR)
+	rm -f $(NAME)
 
 
 .PHONY : all clean fclean re bonus
