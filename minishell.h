@@ -113,7 +113,7 @@ void	ft_dup2(int i, int *file, t_cmd *cmd, t_all *all);
 int		ft_cd(t_all *all, t_cmd *cmd);
 int		ft_pwd(t_all *all);
 int		ft_env(t_all *all, t_cmd *cmd);
-int		ft_echo(t_all *all, t_cmd *cmd);
+int		ft_echo(t_cmd *cmd);
 int		ft_unset(t_cmd *cmd, t_all *all);
 int		ft_export(t_all *all, t_cmd *cmd);
 // int		ft_export_join(char *new, t_env *envp, t_all *all);

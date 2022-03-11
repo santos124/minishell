@@ -18,12 +18,11 @@ int	check_n(char *str)
 	return (1);
 }
 
-int	ft_echo(t_all *all, t_cmd *cmd)
+int	ft_echo(t_cmd *cmd)
 {
 	int	i;
 
 	i = 0;
-	(void)all;
 	if (!cmd->cmd[1])
 	{
 		ft_putstr_fd("\n", 1);
