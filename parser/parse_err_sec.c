@@ -64,9 +64,9 @@ char	*next_err_syntax(char *str)
 	if (last_pipe(str))
 		return ("minishell: syntax error: unexpected end of file");
 	else if (unclosed_quotes(str))
-		return ("minishell: unexpected EOF while looking for matching `\'\'");
+		return ("minishell: unexpected EOF while need `\'\'");
 	else if (unclosed_doub_qts(str))
-		return ("minishell: unexpected EOF while looking for matching `\"\'");
+		return ("minishell: unexpected EOF while need `\"\'");
 	else
 		return (NULL);
 }
