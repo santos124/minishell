@@ -22,7 +22,7 @@ t_red	*new_red(char *str, int *i, t_all *all)
 {
 	t_red	*new;
 
-	new = malloc(sizeof(t_red));
+	new = (t_red *)malloc(sizeof(t_red));
 	if (str[*i + 1] && str[*i] == '>' && str[*i + 1] != '>')
 	{
 		new->name = name_red(str, i);
