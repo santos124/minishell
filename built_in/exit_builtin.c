@@ -8,10 +8,8 @@ static int	ft_isalldigit(char *str)
 	if (str[0] == '-')
 		i++;
 	while (str[++i])
-	{
 		if (!ft_isdigit((unsigned char)str[i]) || ft_strlen(str) >= 19)
 			return (1);
-	}
 	return (0);
 }
 
@@ -22,10 +20,11 @@ int	err_exit(int errnum, char *msg)
 	if (msg)
 	{
 		errmsg = strerror(errnum);
-		write(2, msg, ft_strlen(msg));
-		write(2, ": ", 2);
-		write(2, errmsg, ft_strlen(errmsg));
-		write(2, "\n", 1);
+		ft_putstr_fd(msg, 2);
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(errmsg, 2);
+		ft_putstr_fd("\n", 2);
+		exit(errnum);
 	}
 	exit(errnum);
 }
@@ -39,7 +38,7 @@ int	ft_exit(t_all *all, t_cmd *cmd)
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		return (1);
 	}
-	if (cmd->cmd[1] && !ft_isalldigit(cmd->cmd[1]))
+	if (cmd && cmd->cmd[1] && !ft_isalldigit(cmd->cmd[1]))
 		err_exit((unsigned char)ft_atoi(all->cmd->cmd[1]), NULL);
 	else if (cmd->cmd[1])
 	{

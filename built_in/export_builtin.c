@@ -1,26 +1,26 @@
 #include "../minishell.h"
 
-int	ft_search_dups(t_env *envp, char *new)
+int	ft_search_dups(t_env *env, char *new)
 {
-	char	*newkey;
 	int		i;
+	char	*newkey;
 
 	i = 0;
 	while (new[i] && (new[i] == '_' || ft_isalnum(new[i])))
 		i++;
 	newkey = ft_substr(new, 0, i);
-	while (envp)
+	while (env)
 	{
-		if (!(ft_strcmp(envp->key, newkey)))
+		if (!(ft_strcmp(env->key, newkey)))
 		{
-			if (envp->val)
-				envp->val = NULL;
-			envp->val = ft_strdup(&new[i + 1]); //, all);
+			if (env->val)
+				env->val = NULL;
+			env->val = ft_strdup(&new[i + 1]); //, all);
 			free_null((void**)&newkey);
 			return (1);
 		}
 		else
-			envp = envp->next;
+			env = env->next;
 	}
 	free_null((void**)&newkey);
 	return (0);
@@ -36,11 +36,9 @@ int	if_without_all(t_env *env, t_all *all)
 	while (tmp)
 	{
 		if (tmp->sep && tmp->val)
-			printf("declare -x %s%s\"%s\"\n", tmp->key, \
-					tmp->sep, tmp->val);
+			printf("declare -x %s%s\"%s\"\n", tmp->key,tmp->sep, tmp->val);
 		else if (tmp->sep)
-			printf("declare -x %s%s\"\"\n", tmp->key, \
-					tmp->sep);
+			printf("declare -x %s%s\"\"\n", tmp->key, tmp->sep);
 		else
 			printf("declare -x %s\n", tmp->key);
 		tmp = tmp->a_z_next;
@@ -77,20 +75,20 @@ static int	ft_export_join(char *new, t_env *envp)
 
 static int	env_add(char	*new, t_all *all)
 {
-	char	*line;
 	int		i;
+	char	*str;
 
-	line = NULL;
+	str = NULL;
 	i = 0;
 	while (new[i] && (new[i] == '_' || ft_isalnum(new[i])))
 		i++;
 	if (new[i] != '+')
 		return (0);
-	line = ft_substr(new, 0, i);
-	line = ft_strjoin(line, "=");
-	line = ft_strjoin(line, &new[i + 2]);
-	add_env(line, &all->envp);
-	free_null((void**)&line);
+	str = ft_substr(new, 0, i);
+	str = ft_strjoin(str, "=");
+	str = ft_strjoin(str, &new[i + 2]);
+	add_env(str, &all->envp);
+	free_null((void**)&str);
 	return (1);
 }
 
