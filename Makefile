@@ -38,9 +38,9 @@ $(NAME):	$(OBJ) $(LIBFT) Makefile minishell.h
 	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(RDLN) -o $(NAME) -lreadline -L \
 	~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 
-.FORCE :
-$(LIBFT): .FORCE
-	make -C $(LIBFT_DIR)
+# .FORCE :
+# $(LIBFT): .FORCE
+# 	make -C $(LIBFT_DIR)
 
 re : fclean all
 

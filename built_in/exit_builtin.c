@@ -15,11 +15,10 @@ static int	ft_isalldigit(char *str)
 	return (0);
 }
 
-int	err_exit(int errnum, char *msg) //, t_all *all)
+int	err_exit(int errnum, char *msg)
 {
 	char	*errmsg;
 
-	//(void)all;
 	if (msg)
 	{
 		errmsg = strerror(errnum);
@@ -41,15 +40,15 @@ int	ft_exit(t_all *all, t_cmd *cmd)
 		return (1);
 	}
 	if (cmd->cmd[1] && !ft_isalldigit(cmd->cmd[1]))
-		err_exit((unsigned char)ft_atoi(all->cmd->cmd[1]), NULL); //, all);
+		err_exit((unsigned char)ft_atoi(all->cmd->cmd[1]), NULL);
 	else if (cmd->cmd[1])
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(cmd->cmd[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
-		err_exit(255, NULL); //, all);
+		err_exit(255, NULL);
 	}
 	else
-		err_exit(0, NULL); //, all);
+		err_exit(0, NULL);
 	return (0);
 }

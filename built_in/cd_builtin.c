@@ -1,5 +1,16 @@
 #include "../minishell.h"
 
+static void	cd_error(t_all *all, char *str, int flag)
+{
+	all->errnum = 1;
+	ft_putstr_fd("cd: ", 2);
+	ft_putstr_fd(str, 2);
+	if (flag == 1)
+		ft_putstr_fd(" : No such file or directory\n", 2);
+	if (flag == 2)
+		ft_putstr_fd(" : Not a directory\n", 2);
+}
+
 void	env_after_cd(t_all **all)
 {
 	t_env	*tmp;
@@ -14,15 +25,15 @@ void	env_after_cd(t_all **all)
 	if (tmp && tmp1)
 	{
 		free_null((void**)&tmp1->val);
-		tmp1->val = ft_strdup(tmp->val); //, *all);
+		tmp1->val = ft_strdup(tmp->val);
 		free_null((void**)&tmp->val);
 		tmp->val = getcwd(NULL, 0);
 		if (!tmp->val)
-			err_exit(errno, "getcwd"); //, *all);
+			err_exit(errno, "getcwd");
 	}
 }
 
-char	*get_cd(t_cmd *cmd, t_env *envp)
+char	*get_cd(t_cmd *cmd, t_env *env)
 {
 	char	*cd;
 	char	*pwd;
@@ -39,27 +50,15 @@ char	*get_cd(t_cmd *cmd, t_env *envp)
 		free_null((void**)&pwd);
 		return (cd);
 	}
-	while (envp && ft_strcmp(envp->key, "HOME"))
-		envp = envp->next;
-	if (envp)
+	while (env && ft_strcmp(env->key, "HOME"))
+		env = env->next;
+	if (env)
 	{
 		pwd = ft_substr(cmd->cmd[1], 1, ft_strlen(cmd->cmd[1]) - 1);
-		cd = ft_strjoin(envp->val, pwd);
+		cd = ft_strjoin(env->val, pwd);
 		free_null((void**)&pwd);
 	}
 	return (cd);
-}
-
-static void	cd_error(t_all *all, char *str, int flag)
-{
-	all->errnum = 1;
-	write(2, "cd", 2);
-	write(2, ": ", 2);
-	write(2, str, ft_strlen(str));
-	if (flag == 1)
-		write(2, " : No such file or directory\n", 29);
-	if (flag == 2)
-		write(2, " : Not a directory\n", 19);
 }
 
 int	ft_cd(t_all *all, t_cmd *cmd)
@@ -68,14 +67,14 @@ int	ft_cd(t_all *all, t_cmd *cmd)
 
 	cd = NULL;
 	if (!cmd->cmd[1])
-		cmd->cmd[1] = ft_strdup("~"); //, all);
+		cmd->cmd[1] = ft_strdup("~");
 	if (cmd->cmd[1][0] == '/' || cmd->cmd[1][0] == '.')
-		cd = ft_strdup(cmd->cmd[1]); //, all);
+		cd = ft_strdup(cmd->cmd[1]);
 	else
 		cd = get_cd(cmd, all->envp);
 	if (!cd)
 	{
-		write(2, "cd: HOME not set\n", 17);
+		ft_putstr_fd("cd: HOME not set\n", 2);
 		return (1);
 	}
 	if (access(cd, F_OK) == 0 && all->num == 1)
