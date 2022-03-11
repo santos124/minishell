@@ -42,7 +42,7 @@ static void	parse_line_loop(char **str, t_all *all, t_cmd *cmd, int *i)
 		if ((*str)[*i] == '\"')
 			(*str) = doub_qts((*str), i, all);
 		else if ((*str)[*i] == '\'')
-			(*str) = single_qts((*str), i, all);
+			(*str) = single_qts((*str), i);
 		if ((*str)[*i] == '$' && ((*str)[*i + 1] == '_' || \
 			ft_isalpha((*str)[*i + 1])))
 			(*str) = replace_var((*str), i, all->envp);

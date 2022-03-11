@@ -26,11 +26,10 @@ int	ft_search_dups(t_env *env, char *new)
 	return (0);
 }
 
-int	if_without_all(t_env *env, t_all *all)
+static int	if_without_all(t_all *all)
 {
 	t_env	*tmp;
 
-	(void) env;
 	sort_env(all);
 	tmp = all->a_envp;
 	while (tmp)
@@ -99,7 +98,7 @@ int	ft_export(t_all *all, t_cmd *cmd)
 	i = 0;
 	all->errnum = 0;
 	if (!cmd->cmd[1])
-		return (if_without_all(all->envp, all));
+		return (if_without_all(all));
 	while (cmd->cmd[++i])
 	{
 		if (check_env(cmd->cmd[i], all))

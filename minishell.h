@@ -76,7 +76,7 @@ char	*next_err_syntax(char *line);
 void	format_blanks(char **line);
 int		parser(t_all *all, char *line);
 int		parse_check_err(char *line, t_all *all);
-char	*single_qts(char *line, int *i, t_all *all);
+char	*single_qts(char *line, int *i);
 char	*doub_qts(char *line, int *i, t_all *all);
 char	*parsing_reds(char *line, int *i, t_cmd *cmd, t_all *all);
 t_red	*new_red(char *line, int *i, t_all *all);

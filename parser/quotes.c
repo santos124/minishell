@@ -25,11 +25,10 @@ void	remove_quotes(char *str, int start, int *i)
 }
 
 //del all
-char	*single_qts(char *str, int *i, t_all *all)
+char	*single_qts(char *str, int *i)
 {
 	int		start;
 
-	(void) all;
 	start = *i;
 	(*i)++;
 	while (str[*i] && str[*i + 1] && str[*i] != '\'')
