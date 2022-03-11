@@ -5,9 +5,9 @@ int	valid_path(t_all *all, char *cmd)
 	t_env	*tmp;
 
 	tmp = all->envp;
-	while (tmp)
+	while (tmp != NULL)
 	{
-		if (!ft_strcmp(tmp->key, "PATH"))
+		if (!ft_strcmp("PATH", tmp->key))
 			return (0);
 		tmp = tmp->next;
 	}
@@ -22,13 +22,15 @@ int	check_env(char *str, t_all *all)
 	int	i;
 
 	i = 0;
-	if (!ft_isalpha(str[0]))
+	if (!ft_isalpha(*str))
 	{
 		env_print_err(all, str, "export");
 		return (1);
 	}
 	while (str[i] && (str[i] == '_' || ft_isalnum(str[i])))
+	{
 		i++;
+	}
 	if (str[i] == '+' && str[i + 1] != '=')
 	{
 		env_print_err(all, str, "export");
@@ -40,10 +42,10 @@ int	check_env(char *str, t_all *all)
 void	ft_env_error(t_all *all, char *str)
 {
 	all->errnum = 127;
-	write(2, "env", 3);
-	write(2, ": ", 2);
-	write(2, str, ft_strlen(str));
-	write(2, " : No such file or directory\n", 29);
+
+	ft_putstr_fd("env: " ,2);
+	ft_putstr_fd(str ,2);
+	ft_putstr_fd(" : No such file or directory\n" ,2);
 }
 
 int	ft_env(t_all *all, t_cmd *cmd)
