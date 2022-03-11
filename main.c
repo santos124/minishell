@@ -59,7 +59,7 @@ int	run_builtin(t_cmd *cmd, t_all *all) // +
 	return (0);
 }
 
-static void	minishell_ex(t_all *all) //
+static void	minishell_ex(t_all *all) //+
 {
 	int	fd;
 
@@ -69,22 +69,42 @@ static void	minishell_ex(t_all *all) //
 	if (!open_file(all))
 	{
 		all->num = count_cmd(all->cmd);
-		if (all->num == 0)
-			return ;
 		if (all->num > 1)
-		{
 			ft_pipe(all);
-		}
 		if (all->num == 1 && all->cmd->id_cmd)
 		{
 			fd = dup_cmd(all->cmd);
 			all->errnum = run_builtin(all->cmd, all);
 			redup_cmd(fd);
 		}
-		else if (all->num != 1 || all->cmd->cmd[0])
+		else if (all->num > 1 || (all-> num && all->cmd->cmd[0]))
 			pipex(all);
 	}
+//	{
+//		all->num = count_cmd(all->cmd);
+//		if (all->num == 0)
+//			return ;
+//		if (all->num > 1)
+//		{
+//			ft_pipe(all);
+//		}
+//		if (all->num == 1 && all->cmd->id_cmd)
+//		{
+//			fd = dup_cmd(all->cmd);
+//			all->errnum = run_builtin(all->cmd, all);
+//			redup_cmd(fd);
+//		}
+//		else if (all->num != 1 || all->cmd->cmd[0])
+//			pipex(all);
+//	}
 }
+
+// num always >= 0
+// num = 0 return
+// num = 1
+// num > 1 pipe(all)
+
+
 
 int	main(int argc, char **argv, char **env) // +
 {
