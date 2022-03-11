@@ -33,9 +33,9 @@ void	env_print_err(t_all *all, char *str, char *namecmd)
 {
 	all->errnum = 1;
 	ft_putstr_fd(namecmd, 2);
-	write(2, ": `", 3);
-	write(2, str, ft_strlen(str));
-	write(2, "': not a valid identifier\n", 26);
+	ft_putstr_fd(": `", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
 }
 
 int	ft_check_error(char *cmd, t_all *all)
@@ -57,9 +57,9 @@ int	ft_check_error(char *cmd, t_all *all)
 
 int	ft_unset(t_cmd *cmd, t_all *all)
 {
-	int		i;
 	t_env	*tmp1;
 	t_env	*tmp2;
+	int		i;
 
 	i = 0;
 	while (cmd->cmd[++i])
