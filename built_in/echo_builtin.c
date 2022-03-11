@@ -21,6 +21,7 @@ int	check_n(char *str)
 int	ft_echo(t_cmd *cmd)
 {
 	int	i;
+	int	n = 0;
 
 	i = 0;
 	if (!cmd->cmd[1])
@@ -29,12 +30,18 @@ int	ft_echo(t_cmd *cmd)
 		return (0);
 	}
 	if (cmd->cmd[1][0] == '-' && check_n(cmd->cmd[1]))
+	{
 		i = 1;
+		n = 1;
+	}
 	while (cmd->cmd[++i])
 	{
-		ft_putstr_fd(cmd->cmd[i], 1);
-		if (cmd->cmd[i + 1] != NULL)
-			ft_putstr_fd(" ", 1);
+		if (ft_strcmp(cmd->cmd[i], "-n") || !n)
+		{
+			ft_putstr_fd(cmd->cmd[i], 1);
+			if (cmd->cmd[i + 1] != NULL)
+				ft_putstr_fd(" ", 1);
+		}
 	}
 	if (!check_n(cmd->cmd[1]))
 		ft_putstr_fd("\n", 1);
