@@ -1,6 +1,21 @@
 #include "minishell.h"
 
-void	set_built(t_cmd *cmd) //
+static t_all	*init_struct(t_all *all) //+
+{
+	all = (t_all *)malloc(sizeof (t_all));
+	if (!all)
+		err_exit(12, "malloc");
+	all->envp = NULL;
+	all->red = NULL;
+	all->cmd = NULL;
+	all->fd = NULL;
+	all->num_cmd = 0;
+	all->errnum = 0;
+	all->num = 0;
+	return (all);
+}
+
+static void	set_builtin(t_cmd *cmd) // +
 {
 	while (cmd)
 	{
@@ -25,7 +40,7 @@ void	set_built(t_cmd *cmd) //
 	}
 }
 
-int	run_builtin(t_cmd *cmd, t_all *all) //
+int	run_builtin(t_cmd *cmd, t_all *all) // +
 {
 	if (cmd->id_cmd == 1)
 		return (ft_echo(cmd));
@@ -44,12 +59,12 @@ int	run_builtin(t_cmd *cmd, t_all *all) //
 	return (0);
 }
 
-void	execution(t_all *all) //
+static void	minishell_ex(t_all *all) //
 {
 	int	fd;
 
 	fd = 0;
-	set_built(all->cmd);
+	set_builtin(all->cmd);
 	env_to_arr(all->envp, all);
 	if (!open_file(all))
 	{
@@ -62,34 +77,36 @@ void	execution(t_all *all) //
 		}
 		if (all->num == 1 && all->cmd->id_cmd)
 		{
-			fd = dup_cmd(all->cmd); //, all);
+			fd = dup_cmd(all->cmd);
 			all->errnum = run_builtin(all->cmd, all);
-			redup_cmd(fd); //, all);
+			redup_cmd(fd);
 		}
 		else if (all->num != 1 || all->cmd->cmd[0])
 			pipex(all);
 	}
 }
 
-int	main(int argc, char **argv, char **env) //
+int	main(int argc, char **argv, char **env) // +
 {
 	t_all	*all;
 	char	*str;
 
 	(void)argv;
-	init_struct(&all);
+	all = NULL;
+	all = init_struct(all);
 	if (argc != 1)
-		err_exit(1, NULL); //, all);
+		err_exit(1, NULL);
 	parse_env(env, all);
 	shlvl_check(all);
 	while (1)
 	{
 		get_line(&str, all);
-		if (parser(all, str) == 0)
+		if (!parser(all, str))
 		{
-			execution(all);
+			minishell_ex(all);
 			free_struct(all);
 		}
 	}
 	return (0);
 }
+

@@ -59,7 +59,7 @@ typedef struct s_all
 	char			**env;
 	t_cmd			*cmd;//t_cmd		*cmd; //команда
 	int				num; //число команд ???????????
-	int				num_cmd; //число команд  ???????????
+	int				num_cmd; //номер команд  ???????????
 	int				errnum; //убрать потому что не используем больше
 }	t_all;
 
@@ -123,7 +123,6 @@ int		ft_exit(t_all *all, t_cmd *cmd);
 int		err_exit(int errnum, char *msg); //, t_all *all);
 void	free_struct(t_all *all);
 void	shlvl_check(t_all *all);
-void	init_struct(t_all **all);
 int		run_builtin(t_cmd *cmd, t_all *all);
 void	heredoc_open(char *name, char *limiter, t_all *all);
 
