@@ -103,8 +103,8 @@ int		open_file(t_all *all);
 void	run_child(int i, t_all *all);
 int		valid_path(t_all *all, char *cmd);
 /*redirects.c*/
-int		dup_cmd(t_cmd *cmd); //, t_all *all);
-void	redup_cmd(int fd); //, t_all *all);
+int		dup_cmd(t_cmd *cmd);
+void	redup_cmd(int fd);
 /*pipe.c*/
 void	ft_pipe(t_all *all);
 /*pipex.c*/
@@ -117,11 +117,10 @@ int		ft_env(t_all *all, t_cmd *cmd);
 int		ft_echo(t_cmd *cmd);
 int		ft_unset(t_cmd *cmd, t_all *all);
 int		ft_export(t_all *all, t_cmd *cmd);
-// int		ft_export_join(char *new, t_env *envp, t_all *all);
 void	env_print_err(t_all *all, char *str, char *namecmd);
 int		check_env(char *str, t_all *all);
 int		ft_exit(t_all *all, t_cmd *cmd);
-int		err_exit(int errnum, char *msg); //, t_all *all);
+int		err_exit(int errnum, char *msg);
 void	free_struct(t_all *all);
 void	shlvl_check(t_all *all);
 int		run_builtin(t_cmd *cmd, t_all *all);
@@ -129,16 +128,8 @@ void	heredoc_open(char *name, char *limiter, t_all *all);
 
 #endif
 
-
-// -n echo
-
-// поменять название файлов и мэйкфайл
-
 // заменить функции обработчики
-//handler_child - child_handler
-//handler_parent - parent_handler
-//handler_heredoc - heredoc_handler
-//
-//valid_path -
-//pipex - ft_pipex
-//
+//handler_child -> child_handler
+//handler_parent -> parent_handler
+//handler_heredoc -> heredoc_handler
+//pipex -> ft_pipex

@@ -132,24 +132,3 @@ void	pipex(t_all *all) // +
 	ft_close(all, NULL, all->num - 1);
 	ft_waitpid(pid, all->num, all);
 }
-
-
-
-//i = -1;
-//while (++i < all->num)
-//{
-//	pid[i] = fork();
-//	if (pid[i] == 0)
-//		run_child(i, all);
-//	if (pid[i] == -1)
-//	{
-//		all->errnum = errno;
-//		ft_close(all, NULL, all->num - 1);
-//		ft_waitpid(pid, i, NULL);
-//		err_exit(all->errnum, "fork"); //, all);
-//	}
-//	if (pid[i] != 0)
-//	sig_pipex();
-//}
-//ft_close(all, NULL, all->num - 1);
-//ft_waitpid(pid, all->num, all);

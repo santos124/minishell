@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-static int ch_compare(char *s1, char *s2) // +
+static int	ch_compare(char *s1, char *s2)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s1[i])
@@ -15,7 +15,7 @@ static int ch_compare(char *s1, char *s2) // +
 	return (0);
 }
 
-static t_env	*sub_sort_env(t_all *all, char operation) //+
+static t_env	*sub_sort_env(t_all *all, char operation)
 {
 	t_env	*first;
 	t_env	*tmp;
@@ -39,7 +39,7 @@ static t_env	*sub_sort_env(t_all *all, char operation) //+
 	return (first);
 }
 
-static t_env	*sort_env_next(t_all *all, t_env *cur) //+
+static t_env	*sort_env_next(t_all *all, t_env *cur)
 {
 	t_env	*tmp;
 	t_env	*new;
@@ -48,16 +48,16 @@ static t_env	*sort_env_next(t_all *all, t_env *cur) //+
 	new = sub_sort_env(all, 'l');
 	while (tmp)
 	{
-		if (ch_compare(tmp->key, new->key) <= 0 &&
-			ch_compare(tmp->key, cur->key) > 0 &&
-			ft_strcmp(tmp->key, "_")) // убирает одну строчку
+		if (ch_compare(tmp->key, new->key) <= 0
+			&& ch_compare(tmp->key, cur->key) > 0
+			&& ft_strcmp(tmp->key, "_"))
 			new = tmp;
 		tmp = tmp->next;
 	}
 	return (new);
 }
 
-void	sort_env(t_all *all) // сортировка переменной окрружения // +
+void	sort_env(t_all *all)
 {
 	int		i;
 	t_env	*cur;
@@ -72,11 +72,11 @@ void	sort_env(t_all *all) // сортировка переменной окрр�
 		i++;
 	}
 	cur = sub_sort_env(all, 'f');
-	all->a_envp = cur; // первая строчка по алфавиту в списке env
+	all->a_envp = cur;
 	while (i > 0)
 	{
 		new = sort_env_next(all, cur);
-		cur->a_z_next = new; // следующий по алфавиту в списке env
+		cur->a_z_next = new;
 		cur = new;
 		i--;
 	}

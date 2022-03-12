@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void	sub_gns(char **last, char **str) // +
+static void	sub_gns(char **last, char **str)
 {
 	*str = ft_strdup("\0");
 	*last = ft_strdup("\0\0");
@@ -10,7 +10,7 @@ static void	sub_gns(char **last, char **str) // +
 		err_exit(12, "malloc");
 }
 
-static void	get_next_str(char **str) // +
+static void	get_next_str(char **str)
 {
 	char	*last;
 	char	*tmp;
@@ -29,16 +29,16 @@ static void	get_next_str(char **str) // +
 		tmp = ft_strjoin(*str, last);
 		if (!tmp)
 		{
-			free_null((void**)&last);
+			free_null((void **)&last);
 			err_exit(12, "malloc");
 		}
-		free_null((void**)&*str);
+		free_null((void **)&*str);
 		*str = tmp;
 	}
-	free_null((void**)&last);
+	free_null((void **)&last);
 }
 
-static void	ft_waitpid(pid_t pid, int status, t_all *all) // +
+static void	ft_waitpid(pid_t pid, int status, t_all *all)
 {
 	waitpid(pid, &status, 0);
 	if (all)
@@ -50,7 +50,7 @@ static void	ft_waitpid(pid_t pid, int status, t_all *all) // +
 	}
 }
 
-static void	sub_heredoc(char *name, char *limiter, int fd) //+
+static void	sub_heredoc(char *name, char *limiter, int fd)
 {
 	char	*str;
 
@@ -73,11 +73,11 @@ static void	sub_heredoc(char *name, char *limiter, int fd) //+
 		}
 		else
 			break ;
-		free_null((void**)&str);
+		free_null((void **)&str);
 	}
 }
 
-void	heredoc_open(char *name, char *limiter, t_all *all) // +
+void	heredoc_open(char *name, char *limiter, t_all *all)
 {
 	pid_t	pid;
 	int		fd;
@@ -92,8 +92,7 @@ void	heredoc_open(char *name, char *limiter, t_all *all) // +
 		err_exit(all->errnum, "fork");
 	}
 	if (pid != 0)
-		signal(SIGINT, SIG_IGN); // SIG_IGN - функция, которая игнорирует
-	// сигнал кроме сигналов sigkill и sigstop
+		signal(SIGINT, SIG_IGN);
 	if (pid == 0)
 	{
 		fd = open(name, O_RDWR | O_CREAT | O_TRUNC | O_APPEND, 0777);
