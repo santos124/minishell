@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   redirects.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: wadina <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/12 18:35:29 by wadina            #+#    #+#             */
-/*   Updated: 2022/03/12 18:35:31 by wadina           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../minishell.h"
 
 void	new_in_redir(char *str, int *i, t_red *new)
@@ -24,7 +12,7 @@ void	new_in_redir(char *str, int *i, t_red *new)
 	else if (str[*i + 1] && str[*i + 1] == '<')
 	{
 		new->limiter = ft_strtrim(ft_strtrim(name_red(str, i), "'"), "\"");
-		new->name = ft_strdup("heredoc");
+		new->name = ft_strdup("heredoc"); //, all);
 		new->doub = 1;
 		new->in = 1;
 	}

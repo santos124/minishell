@@ -101,7 +101,7 @@ static void	ft_waitpid(pid_t *pid, int num, t_all *all) // ???
 	free_null((void**)&pid);
 }
 
-void	ft_pipex(t_all *all) // +
+void	pipex(t_all *all) // +
 {
 	int		i;
 	pid_t	*pid;
@@ -124,32 +124,11 @@ void	ft_pipex(t_all *all) // +
 		}
 		if (pid[i] != 0) // для родителя, если все ок
 		{
-			signal(SIGINT, &child_handler);
-			signal(SIGQUIT, &child_handler);
+			signal(SIGINT, &handler_child);
+			signal(SIGQUIT, &handler_child);
 		}
 		i++;
 	}
 	ft_close(all, NULL, all->num - 1);
 	ft_waitpid(pid, all->num, all);
 }
-
-
-
-//i = -1;
-//while (++i < all->num)
-//{
-//	pid[i] = fork();
-//	if (pid[i] == 0)
-//		run_child(i, all);
-//	if (pid[i] == -1)
-//	{
-//		all->errnum = errno;
-//		ft_close(all, NULL, all->num - 1);
-//		ft_waitpid(pid, i, NULL);
-//		err_exit(all->errnum, "fork"); //, all);
-//	}
-//	if (pid[i] != 0)
-//	sig_ft_pipex();
-//}
-//ft_close(all, NULL, all->num - 1);
-//ft_waitpid(pid, all->num, all);

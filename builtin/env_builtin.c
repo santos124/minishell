@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   env_builtin.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: wadina <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/12 18:20:42 by wadina            #+#    #+#             */
-/*   Updated: 2022/03/12 18:21:45 by wadina           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../minishell.h"
 
 int	valid_path(t_all *all, char *cmd)
@@ -25,7 +13,7 @@ int	valid_path(t_all *all, char *cmd)
 	}
 	all->errnum = 127;
 	print_error(2, NULL, cmd);
-	err_exit(all->errnum, NULL);
+	err_exit(all->errnum, NULL); //, all);
 	return (1);
 }
 
@@ -54,9 +42,10 @@ int	check_env(char *str, t_all *all)
 void	ft_env_error(t_all *all, char *str)
 {
 	all->errnum = 127;
-	ft_putstr_fd("env: ", 2);
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd(" : No such file or directory\n", 2);
+
+	ft_putstr_fd("env: " ,2);
+	ft_putstr_fd(str ,2);
+	ft_putstr_fd(" : No such file or directory\n" ,2);
 }
 
 int	ft_env(t_all *all, t_cmd *cmd)

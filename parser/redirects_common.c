@@ -1,28 +1,16 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   redirects_common.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: wadina <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/12 18:35:43 by wadina            #+#    #+#             */
-/*   Updated: 2022/03/12 18:35:44 by wadina           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../minishell.h"
 
-static void	create_red(t_all *all, t_red *new)
+static void create_red(t_all *all, t_red *new)
 {
-	all->red = new;
-	all->red->cmd = 1;
-	if (all->red->in && all->red->doub)
-		all->red->name = ft_strjoin("heredoc", "1");
-	if (all->red->name == NULL)
-		err_exit(12, "malloc");
+		all->red = new;
+		all->red->cmd = 1;
+		if (all->red->in && all->red->doub)
+			all->red->name = ft_strjoin("heredoc", "1");
+		if (all->red->name == NULL)
+			err_exit(12, "malloc"); //, all);
 }
 
-static void	append_red(t_all *all, t_red *new, t_red *tmp)
+static void append_red(t_all *all, t_red *new, t_red *tmp)
 {
 	while (all->red->all_next != NULL)
 		all->red = all->red->all_next;
@@ -32,7 +20,7 @@ static void	append_red(t_all *all, t_red *new, t_red *tmp)
 		all->red->all_next->name = ft_strjoin("heredoc", \
 			ft_itoa(all->red->all_next->cmd));
 	if (all->red->name == NULL)
-		err_exit(12, "malloc");
+		err_exit(12, "malloc"); //, all);
 	all->red = tmp;
 }
 

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	parent_handler(int sig_num) // +
+void	handler_parent(int sig_num) // +
 {
 	if (sig_num == SIGINT)
 	{
@@ -22,7 +22,7 @@ void	parent_handler(int sig_num) // +
 	}
 }
 
-void	child_handler(int sig_num) // +
+void	handler_child(int sig_num) // +
 {
 	if (sig_num == SIGINT)
 		rl_on_new_line();
@@ -30,7 +30,7 @@ void	child_handler(int sig_num) // +
 		ft_putstr_fd("", 1);
 }
 
-void	heredoc_handler(int sig) // +
+void	handler_heredoc(int sig) // +
 {
 	(void)sig;
 	ft_putstr_fd("\b\b  \b\b\n", 1);
@@ -40,9 +40,9 @@ void	heredoc_handler(int sig) // +
 
 void	get_line(char **line, t_all *all) // +
 {
-	signal(SIGINT, &parent_handler); // SIGINT (Ctrl-C) - сигнал, применяемый в
+	signal(SIGINT, &handler_parent); // SIGINT (Ctrl-C) - сигнал, применяемый в
 	// POSIX-системах для остановки процесса пользователем с терминала
-	signal(SIGQUIT, &parent_handler); // SIGQUIT (Ctrl-\) - сигнал, используемый в
+	signal(SIGQUIT, &handler_parent); // SIGQUIT (Ctrl-\) - сигнал, используемый в
 	// POSIX-системах, посылаемый процессу для остановки и указывающий, что система должна выполнить дамп памяти для процесса
 	rl_on_new_line(); // cообщите процедурам обновления, что мы перешли на
 	// новую (пустую) строку, обычно после вывода новой строки

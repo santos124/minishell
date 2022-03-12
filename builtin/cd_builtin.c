@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cd_builtin.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: wadina <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/12 18:28:40 by wadina            #+#    #+#             */
-/*   Updated: 2022/03/12 18:29:06 by wadina           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../minishell.h"
 
 static void	cd_error(t_all *all, char *str, int flag)
@@ -36,9 +24,9 @@ void	env_after_cd(t_all **all)
 		tmp1 = tmp1->next;
 	if (tmp && tmp1)
 	{
-		free_null((void **)&tmp1->val);
+		free_null((void**)&tmp1->val);
 		tmp1->val = ft_strdup(tmp->val);
-		free_null((void **)&tmp->val);
+		free_null((void**)&tmp->val);
 		tmp->val = getcwd(NULL, 0);
 		if (!tmp->val)
 			err_exit(errno, "getcwd");
@@ -55,11 +43,11 @@ char	*get_cd(t_cmd *cmd, t_env *env)
 	{
 		cd = getcwd(NULL, 0);
 		if (!cd)
-			err_exit(errno, "getcwd");
+			err_exit(errno, "getcwd"); //, all);
 		pwd = ft_strjoin(cd, "/");
-		free_null((void **)&cd);
+		free_null((void**)&cd);
 		cd = ft_strjoin(pwd, cmd->cmd[1]);
-		free_null((void **)&pwd);
+		free_null((void**)&pwd);
 		return (cd);
 	}
 	while (env && ft_strcmp(env->key, "HOME"))
@@ -68,7 +56,7 @@ char	*get_cd(t_cmd *cmd, t_env *env)
 	{
 		pwd = ft_substr(cmd->cmd[1], 1, ft_strlen(cmd->cmd[1]) - 1);
 		cd = ft_strjoin(env->val, pwd);
-		free_null((void **)&pwd);
+		free_null((void**)&pwd);
 	}
 	return (cd);
 }
@@ -98,6 +86,6 @@ int	ft_cd(t_all *all, t_cmd *cmd)
 	}
 	else
 		cd_error(all, cmd->cmd[1], 1);
-	free_null((void **)&cd);
+	free_null((void**)&cd);
 	return (all->errnum);
 }

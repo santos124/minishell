@@ -88,9 +88,9 @@ char	*replace_var(char *line, int *i, t_env *envp);
 char	*get_last_exit_code(char *line, t_all *all, int *i);
 void	sort_env(t_all *all);
 /*signals*/
-void	child_handler(int sig_num);
-void	parent_handler(int sig_num);
-void	heredoc_handler(int sig);
+void	handler_child(int sig_num);
+void	handler_parent(int sig_num);
+void	handler_heredoc(int sig);
 /*utils*/
 int		count_cmd(t_cmd *cmd);
 int		count_env(t_env *envp);
@@ -103,12 +103,12 @@ int		open_file(t_all *all);
 void	run_child(int i, t_all *all);
 int		valid_path(t_all *all, char *cmd);
 /*redirects.c*/
-int		dup_cmd(t_cmd *cmd); //, t_all *all);
-void	redup_cmd(int fd); //, t_all *all);
+int		dup_cmd(t_cmd *cmd);
+void	redup_cmd(int fd);
 /*pipe.c*/
 void	ft_pipe(t_all *all);
-/*ft_pipex.c*/
-void	ft_pipex(t_all *all);
+/*pipex.c*/
+void	pipex(t_all *all);
 void	ft_dup2(int *fd, t_all *all, t_cmd *cmd, int i);
 /*./builtin*/
 int		ft_cd(t_all *all, t_cmd *cmd);
@@ -117,11 +117,10 @@ int		ft_env(t_all *all, t_cmd *cmd);
 int		ft_echo(t_cmd *cmd);
 int		ft_unset(t_cmd *cmd, t_all *all);
 int		ft_export(t_all *all, t_cmd *cmd);
-// int		ft_export_join(char *new, t_env *envp, t_all *all);
 void	env_print_err(t_all *all, char *str, char *namecmd);
 int		check_env(char *str, t_all *all);
 int		ft_exit(t_all *all, t_cmd *cmd);
-int		err_exit(int errnum, char *msg); //, t_all *all);
+int		err_exit(int errnum, char *msg);
 void	free_struct(t_all *all);
 void	shlvl_check(t_all *all);
 int		run_builtin(t_cmd *cmd, t_all *all);
@@ -129,16 +128,8 @@ void	heredoc_open(char *name, char *limiter, t_all *all);
 
 #endif
 
-
-// -n echo
-
-// поменять название файлов и мэйкфайл
-
 // заменить функции обработчики
-//child_handler - child_handler
-
-//heredoc_handler - heredoc_handler
-//
-//valid_path -
-//ft_pipex - ft_ft_pipex
-//
+//handler_child -> child_handler
+//handler_parent -> parent_handler
+//handler_heredoc -> heredoc_handler
+//pipex -> ft_pipex

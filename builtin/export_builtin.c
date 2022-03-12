@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   export_builtin.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: wadina <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/12 18:18:28 by wadina            #+#    #+#             */
-/*   Updated: 2022/03/12 18:20:15 by wadina           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../minishell.h"
 
 int	ft_search_dups(t_env *env, char *new)
@@ -27,14 +15,14 @@ int	ft_search_dups(t_env *env, char *new)
 		{
 			if (env->val)
 				env->val = NULL;
-			env->val = ft_strdup(&new[i + 1]);
-			free_null((void **)&newkey);
+			env->val = ft_strdup(&new[i + 1]); //, all);
+			free_null((void**)&newkey);
 			return (1);
 		}
 		else
 			env = env->next;
 	}
-	free_null((void **)&newkey);
+	free_null((void**)&newkey);
 	return (0);
 }
 
@@ -47,7 +35,7 @@ static int	if_without_all(t_all *all)
 	while (tmp)
 	{
 		if (tmp->sep && tmp->val)
-			printf("declare -x %s%s\"%s\"\n", tmp->key, tmp->sep, tmp->val);
+			printf("declare -x %s%s\"%s\"\n", tmp->key,tmp->sep, tmp->val);
 		else if (tmp->sep)
 			printf("declare -x %s%s\"\"\n", tmp->key, tmp->sep);
 		else
@@ -71,12 +59,12 @@ static int	ft_export_join(char *new, t_env *envp)
 		if (!(ft_strcmp(envp->key, ft_substr(new, 0, i))))
 		{
 			if (envp->sep)
-				free_null((void **)&envp->sep);
-			envp->sep = ft_strdup("=");
+				free_null((void**)&envp->sep);
+			envp->sep = ft_strdup("="); //, all);
 			if (envp->val)
 				envp->val = ft_strjoin(envp->val, ft_strdup(&new[i + 2]));
 			else
-				envp->val = ft_strdup(ft_strdup(&new[i + 2]));
+				envp->val = ft_strdup(ft_strdup(&new[i + 2])); //, all), all);
 			return (1);
 		}
 		envp = envp->next;
@@ -99,7 +87,7 @@ static int	env_add(char	*new, t_all *all)
 	str = ft_strjoin(str, "=");
 	str = ft_strjoin(str, &new[i + 2]);
 	add_env(str, &all->envp);
-	free_null((void **)&str);
+	free_null((void**)&str);
 	return (1);
 }
 
