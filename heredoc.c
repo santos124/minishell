@@ -1,42 +1,44 @@
 #include "minishell.h"
 
-static void	gnl_init_strings(char **end, char **str) //, t_all *all)
+static void	sub_gns(char **last, char **str) // +
 {
 	*str = ft_strdup("\0");
-	*end = ft_strdup("\0\0");
-	if (!*str || !*end)
+	*last = ft_strdup("\0\0");
+	if (!*str)
+		err_exit(12, "malloc");
+	if (!*last)
 		err_exit(12, "malloc");
 }
 
-static void	get_next_str(char **str)
+static void	get_next_str(char **str) // +
 {
-	char	*end;
+	char	*last;
 	char	*tmp;
 
-	gnl_init_strings(&end, str);
-	while (*end != '\n')
+	sub_gns(&last, str);
+	while (*last != '\n')
 	{
-		read(0, end, 1);
-		if (*end == '\n')
+		read(0, last, 1);
+		if (*last == '\n')
 			break ;
-		if (!*end)
+		if (!*last)
 		{
 			*str = NULL;
 			return ;
 		}
-		tmp = ft_strjoin(*str, end);
+		tmp = ft_strjoin(*str, last);
 		if (!tmp)
 		{
-			free_null((void**)&end);
-			err_exit(12, "malloc"); //, all);
+			free_null((void**)&last);
+			err_exit(12, "malloc");
 		}
 		free_null((void**)&*str);
 		*str = tmp;
 	}
-	free_null((void**)&end);
+	free_null((void**)&last);
 }
 
-static void	ft_waitpid(pid_t pid, int status, t_all *all)
+static void	ft_waitpid(pid_t pid, int status, t_all *all) // +
 {
 	waitpid(pid, &status, 0);
 	if (all)
@@ -48,18 +50,18 @@ static void	ft_waitpid(pid_t pid, int status, t_all *all)
 	}
 }
 
-void	heredoc_loop(char *name, char *limiter, int fd)
+static void	sub_heredoc(char *name, char *limiter, int fd) //+
 {
 	char	*str;
 
 	while (1)
 	{
-		f(1, "> ", 2);
+		ft_putstr_fd(">", 1);
 		signal(SIGINT, &handler_heredoc);
 		get_next_str(&str);
 		if (!str)
 		{
-			write(1, "  \b\b", 1);
+			ft_putstr_fd("  \b\b", 1);
 			break ;
 		}
 		if (ft_strcmp(str, limiter))
@@ -75,7 +77,7 @@ void	heredoc_loop(char *name, char *limiter, int fd)
 	}
 }
 
-void	heredoc_open(char *name, char *limiter, t_all *all)
+void	heredoc_open(char *name, char *limiter, t_all *all) // +
 {
 	pid_t	pid;
 	int		fd;
@@ -91,15 +93,15 @@ void	heredoc_open(char *name, char *limiter, t_all *all)
 	}
 	if (pid != 0)
 		signal(SIGINT, SIG_IGN); // SIG_IGN - функция, которая игнорирует
-		// сигнал кроме сигналов sigkill и sigstop
+	// сигнал кроме сигналов sigkill и sigstop
 	if (pid == 0)
 	{
 		fd = open(name, O_RDWR | O_CREAT | O_TRUNC | O_APPEND, 0777);
 		if (fd == -1)
-			err_exit(errno, name); //, all);
-		heredoc_loop(name, limiter, fd);
+			err_exit(errno, name);
+		sub_heredoc(name, limiter, fd);
 		close(fd);
-		err_exit(all->errnum, NULL); //, all);
+		err_exit(all->errnum, NULL);
 	}
 	ft_waitpid(pid, status, all);
 	signal(SIGINT, &handler_parent);

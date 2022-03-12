@@ -84,7 +84,7 @@ void	execve_faild(t_all *all, char *path, t_cmd *cmd)
 	}
 }
 
-void	child_action(int i, t_all *all)
+void	run_child(int i, t_all *all)
 {
 	t_cmd		*cmd;
 	char		*path;
