@@ -11,7 +11,7 @@ void	new_in_redir(char *str, int *i, t_red *new)
 	}
 	else if (str[*i + 1] && str[*i + 1] == '<')
 	{
-		new->limiter = name_red(str, i);
+		new->limiter = ft_strtrim(name_red(str, i), "'");
 		new->name = ft_strdup("heredoc"); //, all);
 		new->doub = 1;
 		new->in = 1;

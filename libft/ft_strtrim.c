@@ -24,7 +24,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	i = 0;
 	j = 0;
 	k = 0;
-	if (!s1)
+	if (!s1 || !set)
 		return (NULL);
 	j = ft_strlen(s1);
 	if (!set)

@@ -63,7 +63,7 @@ static void	sub_heredoc(char *name, char *limiter, int fd) //+
 		{
 			ft_putstr_fd("  \b\b", 1);
 			break ;
-		}
+		}		
 		if (ft_strcmp(str, limiter))
 		{
 			if (write(fd, str, ft_strlen(str)) == -1)
