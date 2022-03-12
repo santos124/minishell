@@ -110,6 +110,7 @@ int		valid_path(t_all *all, char *cmd);
 int		dup_cmd(t_cmd *cmd);
 void	redup_cmd(int fd);
 /*pipe.c*/
+void	ft_close(t_all *all, int *fd, int num);
 void	ft_pipe(t_all *all);
 /*pipex.c*/
 void	pipex(t_all *all);
