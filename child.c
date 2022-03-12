@@ -4,7 +4,7 @@ static char	*get_path(char *cmd, char **envp)
 {
 	char	**paths;
 	char	*path;
-	char	*part_path;
+	char	*path_part;
 	int		i;
 
 	i = 0;
@@ -18,9 +18,9 @@ static char	*get_path(char *cmd, char **envp)
 	i = 0;
 	while (paths[i])
 	{
-		part_path = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(part_path, cmd);
-		free_null((void**)&part_path);
+		path_part = ft_strjoin(paths[i], "/");
+		path = ft_strjoin(path_part, cmd);
+		free_null((void**)&path_part);
 		if (access(path, F_OK) == 0)
 			return (path);
 		i++;
@@ -47,16 +47,16 @@ static void	open_dup(int i, t_cmd *cmd, t_all *all)
 		while (!cmd->out->last)
 			cmd->out = cmd->out->next;
 		if (cmd->out && cmd->out->doub)
-			file[1] = open(cmd->out->name, O_WRONLY | O_CREAT | O_APPEND, 0777);
+			file[1] = open(cmd->out->name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		else if (cmd->out && !cmd->out->doub)
-			file[1] = open(cmd->out->name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+			file[1] = open(cmd->out->name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	}
 	if (file[1] == -1)
-		err_exit(errno, cmd->out->name);
-	ft_dup2(file, all, cmd, i);
+		err_exit(errno, cmd->out->name); //, all);
+	ft_dup2(i, file, cmd, all);
 }
 
-static void	execve_error(t_all *all, char *path, t_cmd *cmd)
+void	execve_faild(t_all *all, char *path, t_cmd *cmd)
 {
 	all->errnum = 127;
 	if (!path)
@@ -83,12 +83,12 @@ static void	execve_error(t_all *all, char *path, t_cmd *cmd)
 	}
 }
 
-void	run_child(int i, t_all *all)
+void	child_action(int i, t_all *all)
 {
-	int			num;
 	t_cmd		*cmd;
 	char		*path;
-
+	int			num;
+	
 	num = 0;
 	cmd = all->cmd;
 	while (num < i)
@@ -100,9 +100,9 @@ void	run_child(int i, t_all *all)
 		exit(0);
 	open_dup(i, cmd, all);
 	if (cmd->id_cmd)
-		err_exit(run_builtin(cmd, all), NULL);
+		err_exit(run_builtin(cmd, all), NULL); //, all);
 	valid_path(all, cmd->cmd[0]);
 	path = get_path(cmd->cmd[0], all->env);
-	if (execve(path, cmd->cmd, all->env) == -1) // запускает исполняемый файл
-		execve_error(all, path, cmd);
+	if (execve(path, cmd->cmd, all->env) == -1)
+		execve_faild(all, path, cmd);
 }
