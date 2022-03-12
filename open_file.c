@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int	open_error(int err_n, char *path_msg, t_all *all) // +
+static int	open_error(int err_n, char *path_msg, t_all *all)
 {
 	char	*err_msg;
 
@@ -29,7 +29,7 @@ static int	open_error(int err_n, char *path_msg, t_all *all) // +
 	return (1);
 }
 
-static int check_env_for_open(t_red *tmp, t_env *env) // +
+static int	check_env_for_open(t_red *tmp, t_env *env)
 {
 	if (!(ft_strcmp(env->key, ft_substr(tmp->name, \
 		1, ft_strlen(tmp->name)))))
@@ -44,7 +44,7 @@ static int check_env_for_open(t_red *tmp, t_env *env) // +
 	return (1);
 }
 
-static int	false_red(t_red *tmp, t_all *all) // +
+static int	false_red(t_red *tmp, t_all *all)
 {
 	t_env	*env;
 
@@ -57,49 +57,17 @@ static int	false_red(t_red *tmp, t_all *all) // +
 	{
 		if (!check_env_for_open(tmp, env))
 			return (0);
-//		if (!(ft_strcmp(env->key, ft_substr(tmp->name, \
-//		1, ft_strlen(tmp->name)))))
-//		{
-//			if (env->val)
-//			{
-//				free (tmp->name);
-//				tmp->name = ft_strdup(env->val);
-//				return (0);
-//			}
-//		}
 		env = env->next;
 	}
 	return (1);
 }
 
-static int	common_open(t_red *tmp, t_all *all) // +
+static int	common_open(t_red *tmp, t_all *all)
 {
 	int	fd;
 
 	if (false_red(tmp, all) != 0)
 		return (open_error(false_red(tmp, all), tmp->name, all));
-//	if (!tmp->in && tmp->doub) // исходящий И 2
-//	{
-//		fd = open(tmp->name, O_RDWR | O_CREAT | O_APPEND, 0666); //
-//		// файл открыт одновременно для чтения и записи // новый файл создан
-//		// и открыт для записи  // указатель на
-//		// файл перемещен в конец файла // с правами 0644 -rw-r-r
-//		if (fd == -1)
-//			return (open_error(errno, tmp->name, all));
-//	}
-//	else if (!tmp->in && !tmp->doub) // исходящий И 1
-//	{
-//		fd = open(tmp->name, O_RDWR | O_CREAT | O_TRUNC, 0666); // содержимое
-//		// файла уничтожается
-//		if (fd == -1)
-//			return (open_error(errno, tmp->name, all));
-//	}
-//	else //в остальных
-//	{
-//		fd = open(tmp->name, O_RDWR);
-//		if (fd == -1)
-//			return (open_error(errno, tmp->name, all));
-//	}
 	if (tmp->in)
 	{
 		fd = open(tmp->name, O_RDWR);
@@ -108,17 +76,13 @@ static int	common_open(t_red *tmp, t_all *all) // +
 	}
 	else if (tmp->doub)
 	{
-		fd = open(tmp->name, O_RDWR | O_CREAT | O_APPEND, 0666); //
-		// файл открыт одновременно для чтения и записи // новый файл создан
-		// и открыт для записи  // указатель на
-		// файл перемещен в конец файла // с правами 0644 -rw-r-r
+		fd = open(tmp->name, O_RDWR | O_CREAT | O_APPEND, 0666);
 		if (fd == -1)
 			return (open_error(errno, tmp->name, all));
 	}
 	else
 	{
-		fd = open(tmp->name, O_RDWR | O_CREAT | O_TRUNC, 0666); // содержимое
-		// файла уничтожается
+		fd = open(tmp->name, O_RDWR | O_CREAT | O_TRUNC, 0666);
 		if (fd == -1)
 			return (open_error(errno, tmp->name, all));
 	}
@@ -126,7 +90,7 @@ static int	common_open(t_red *tmp, t_all *all) // +
 	return (0);
 }
 
-int	open_file(t_all *all) // +
+int	open_file(t_all *all)
 {
 	t_red	*tmp;
 
@@ -141,14 +105,6 @@ int	open_file(t_all *all) // +
 				return (1);
 		}
 		tmp = tmp->all_next;
-//		if (!tmp->in || !tmp->doub) //не входящий ИЛИ не двойной
-//		{
-//			if (common_open(tmp, all))
-//				return (1);
-//		}
-//		else
-//			heredoc_open(tmp->name, tmp->limiter, all);
-//		tmp = tmp->all_next;
 	}
 	return (0);
 }
