@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wadina <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/12 18:36:08 by wadina            #+#    #+#             */
+/*   Updated: 2022/03/12 18:36:10 by wadina           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 static t_cmd	*new_command(void)
@@ -78,9 +90,9 @@ static char	*parse_line(char **str, t_all *all, t_cmd *cmd)
 		one_cmd = ft_substr(*str, start, i);
 	cmd->cmd = ft_split(one_cmd, ' ');
 	replace_spaces(cmd->cmd);
-	free_null((void**)&one_cmd);
-	new_str = ft_strdup(&((*str)[i])); //, all);
-	free_null((void**)&*str);
+	free_null((void **)&one_cmd);
+	new_str = ft_strdup(&((*str)[i]));
+	free_null((void **)&*str);
 	return (new_str);
 }
 
@@ -89,7 +101,7 @@ int	parser(t_all *all, char *str)
 	t_cmd	*tmp;
 
 	if (!str)
-		err_exit(12, "malloc"); //, all);
+		err_exit(12, "malloc");
 	format_blanks(&str);
 	if (parse_check_err(str, all))
 		return (1);
@@ -98,7 +110,7 @@ int	parser(t_all *all, char *str)
 	tmp = all->cmd;
 	str = parse_line(&str, all, all->cmd);
 	if (!str)
-		err_exit(12, "malloc"); //, all);
+		err_exit(12, "malloc");
 	while (str[0] && str[0] == '|')
 	{
 		all->cmd->next = new_command();
@@ -106,9 +118,9 @@ int	parser(t_all *all, char *str)
 		all->num_cmd++;
 		str = parse_line(&str, all, all->cmd);
 		if (!str)
-			err_exit(12, "malloc"); //, all);
+			err_exit(12, "malloc");
 	}
 	all->cmd = tmp;
-	free_null((void**)&str);
+	free_null((void **)&str);
 	return (0);
 }

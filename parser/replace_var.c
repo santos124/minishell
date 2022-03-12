@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   replace_var.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wadina <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/12 18:33:42 by wadina            #+#    #+#             */
+/*   Updated: 2022/03/12 18:34:24 by wadina           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 static char	*replace_str(char *str, char *old, char *new, int start)
@@ -36,7 +48,7 @@ char	*replace_var(char *str, int *i, t_env *env)
 
 	temp = env;
 	begin = *i;
-	env_val = ft_strdup(""); //, all);
+	env_val = ft_strdup("");
 	(*i)++;
 	while (str[*i] && (str[*i] == '_' || ft_isalnum(str[*i])))
 		(*i)++;
@@ -45,14 +57,14 @@ char	*replace_var(char *str, int *i, t_env *env)
 	{
 		if (!ft_strcmp(temp->key, env_key))
 		{
-			free_null((void**)&env_val);
+			free_null((void **)&env_val);
 			env_val = temp->val;
 		}
 		temp = temp->next;
 	}
 	str = replace_str(str, env_key, env_val, begin);
 	*i = begin + ft_strlen(env_val) - 1;
-	free_null((void**)&env_key);
+	free_null((void **)&env_key);
 	return (str);
 }
 
