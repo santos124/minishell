@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wadina <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/12 19:12:11 by wadina            #+#    #+#             */
+/*   Updated: 2022/03/12 19:12:13 by wadina           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -14,58 +26,50 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-typedef struct s_env //переменные среды список
+typedef struct s_env
 {
-	char			*key; //ключ
-	char			*sep; //*separator; //разделитель
-	char			*val;//*value; //значение
-	struct s_env	*next; //следующая в первоначальном порядке
-	struct s_env	*a_z_next; //*alpha_next; //следующая в упорядоченном
-			// алфавитном порядке
+	char			*key;
+	char			*sep;
+	char			*val;
+	struct s_env	*next;
+	struct s_env	*a_z_next;
 }	t_env;
 
-typedef struct s_redirect//s_redir //редирект список
+typedef struct s_redirect
 {
-	char				*name; // имя файла который является обьектом
-	// редиректа или хирдок
-	char				*limiter; //при заднем редиректе двойном  << команда
-	// записывается сюда
-	// ??????????
-	int					cmd; // порядковый номер команды для редиректа
-	int					last;//target; // крайний редирект 1/0
-	int					doub; //two; //двойной редирект >> 1/0
-	int					in; //входной редирект 1/0
-	struct s_redirect	*next;//s_redir	*next; //следующий редирект после этого
-	struct s_redirect	*all_next;//s_redir	*all_next; //следующий редирект в
-	// общем
-	// списке
-}	t_red; //t_redir;
+	char				*name;
+	char				*limiter;
+	int					cmd;
+	int					last;
+	int					doub;
+	int					in;
+	struct s_redirect	*next;
+	struct s_redirect	*all_next;
+}	t_red;
 
-typedef struct s_cmd //команда список
+typedef struct s_cmd
 {
-	char			**cmd; //команда в терминал
-	t_red			*in;   //редирект < /УКАЗАТЕЛЬ
-	t_red			*out;  //редирект > /УКАЗАТЕЛЬ
-	int				id_cmd;//built; //номер реализованной команды 1-7
-	struct s_cmd	*next; // указатель на следующий элемент команды
-}	t_cmd; //t_cmd;
+	char			**cmd;
+	t_red			*in;
+	t_red			*out;
+	int				id_cmd;
+	struct s_cmd	*next;
+}	t_cmd;
 
 typedef struct s_all
 {
-	t_red			*red;//ir			*redir; //редирект
-	int				**fd; // fd[x2] канал для чтения и для записи для каждого
-	// builtin
-	t_env			*envp; //указатель на переменную окружения
-	t_env			*a_envp;//*envp_alpha; //переменная окружения самая первая
+	t_red			*red;
+	int				**fd;
+	t_env			*envp;
+	t_env			*a_envp;
 	char			**env;
-	t_cmd			*cmd;//t_cmd		*cmd; //команда
-	int				num; //число команд ???????????
-	int				num_cmd; //номер команд  ???????????
-	int				errnum; //убрать потому что не используем больше
+	t_cmd			*cmd;
+	int				num;
+	int				num_cmd;
+	int				errnum;
 }	t_all;
 
-void	ft_print_all(t_all *all);
-void 	free_null(void **ptr);
+void	free_null(void **ptr);
 /*./parser*/
 void	rl_replace_line(const char *str, int num);
 int		rl_clear_history(void);
@@ -127,9 +131,3 @@ int		run_builtin(t_cmd *cmd, t_all *all);
 void	heredoc_open(char *name, char *limiter, t_all *all);
 
 #endif
-
-// заменить функции обработчики
-//handler_child -> child_handler
-//handler_parent -> parent_handler
-//handler_heredoc -> heredoc_handler
-//pipex -> ft_pipex
