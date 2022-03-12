@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_env.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wadina <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/12 18:39:10 by wadina            #+#    #+#             */
+/*   Updated: 2022/03/12 18:39:12 by wadina           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 static t_env	*create_env(char *key, char *sep, char *val)
@@ -12,7 +24,6 @@ static t_env	*create_env(char *key, char *sep, char *val)
 	return (new);
 }
 
-//добавить одну переменную среды
 void	add_env(char *env_str, t_env **start)
 {
 	t_env	*tmp;
@@ -30,7 +41,7 @@ void	add_env(char *env_str, t_env **start)
 	if (ft_strchr(env_str, '='))
 		sep = ft_substr(env_str, i, 1);
 	if (env_str[i + 1])
-		val = ft_strdup(&env_str[i + 1]); //, all);
+		val = ft_strdup(&env_str[i + 1]);
 	if (*start == NULL)
 		*start = create_env(key, sep, val);
 	else
@@ -42,7 +53,6 @@ void	add_env(char *env_str, t_env **start)
 	}
 }
 
-//добавить текущий путь
 static void	add_current_path(t_all *all)
 {
 	t_env	*tmp;
@@ -59,13 +69,12 @@ static void	add_current_path(t_all *all)
 		tmp = tmp->next;
 	tmp_path = ft_strjoin(tmp->val, ":");
 	new_path = ft_strjoin(tmp_path, pwd);
-	free_null((void**)&tmp_path);
-	free_null((void**)&tmp->val);
-	tmp->val = ft_strdup(new_path); //, all);
-	free_null((void**)&new_path);
+	free_null((void **)&tmp_path);
+	free_null((void **)&tmp->val);
+	tmp->val = ft_strdup(new_path);
+	free_null((void **)&new_path);
 }
 
-//взятие переменных среды
 void	parse_env(char **env, t_all *all)
 {
 	int	i;

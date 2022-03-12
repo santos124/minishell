@@ -1,17 +1,17 @@
 NAME = minishell
 
 LIST =	main.c				parser/parse_err.c			builtin/export_builtin.c\
-		env_sort.c			parser/replace_var.c		builtin/unset_builtin.c\
-		child_process.c		parser/redirects.c			builtin/exit_builtin.c\
+		sort_env.c			parser/replace_var.c		builtin/unset_builtin.c\
+		child.c				parser/redirects.c			builtin/exit_builtin.c\
 		utils.c				parser/parse_env.c			builtin/echo_builtin.c\
-		shlvl.c				parser/parser.c				builtin/pwd_builtin.c\
-		signal_handlers.c	parser/parse_err_sec.c		builtin/env_builtin.c\
-		redirect.c			parser/redirects_common.c	builtin/cd_builtin.c\
+		sh_lvl.c			parser/parser.c				builtin/pwd_builtin.c\
+		signals.c			parser/parse_err_sec.c		builtin/env_builtin.c\
+		redirects.c			parser/redirects_common.c	builtin/cd_builtin.c\
 		pipe.c				parser/parse_err_red.c\
-		open_file.c			parser/quotes.c\
+		check_open.c		parser/quotes.c\
 		pipex.c				parser/true_free.c\
 		heredoc.c\
-		free.c\
+		free_all.c\
 
 OBJ = $(LIST:.c=.o)
 
