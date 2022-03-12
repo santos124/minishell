@@ -110,7 +110,7 @@ void	ft_pipe(t_all *all);
 /*pipex.c*/
 void	pipex(t_all *all);
 void	ft_dup2(int *fd, t_all *all, t_cmd *cmd, int i);
-/*./built_in*/
+/*./builtin*/
 int		ft_cd(t_all *all, t_cmd *cmd);
 int		ft_pwd(t_all *all);
 int		ft_env(t_all *all, t_cmd *cmd);
