@@ -53,7 +53,7 @@ static void	open_dup(int i, t_cmd *cmd, t_all *all)
 	}
 	if (file[1] == -1)
 		err_exit(errno, cmd->out->name); //, all);
-	ft_dup2(i, file, cmd, all);
+	ft_dup2(file, all, cmd, i);
 }
 
 void	execve_faild(t_all *all, char *path, t_cmd *cmd)
