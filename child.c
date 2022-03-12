@@ -58,9 +58,9 @@ static void	open_dup(int i, t_cmd *cmd, t_all *all)
 
 void	execve_faild(t_all *all, char *path, t_cmd *cmd)
 {
-	all->errnum = 127;
 	if (!path)
 	{
+		all->errnum = 127;
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd->cmd[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
@@ -68,6 +68,7 @@ void	execve_faild(t_all *all, char *path, t_cmd *cmd)
 	}
 	if (access(path, F_OK) != 0)
 	{
+		all->errnum = 127;
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd->cmd[0], 2);
 		write(2, " : No such file or directory\n", 29);
