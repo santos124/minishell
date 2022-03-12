@@ -30,10 +30,10 @@ void	handler_child(int sig_num) // +
 		ft_putstr_fd("", 1);
 }
 
-void	handler_heredoc(int sig) // -
+void	handler_heredoc(int sig) // +
 {
 	(void)sig;
-	write(STDOUT_FILENO, "\b\b  \b\b\n", 7);
+	ft_putstr_fd("\b\b  \b\b\n", 1);
 	rl_on_new_line();
 	err_exit(1, NULL);
 }

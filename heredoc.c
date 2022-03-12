@@ -1,19 +1,19 @@
 #include "minishell.h"
 
-static void	gnl_init_strings(char **end, char **line) //, t_all *all)
+static void	gnl_init_strings(char **end, char **str) //, t_all *all)
 {
-	*line = ft_strdup("\0"); //, all);
-	*end = ft_strdup("\0\0"); //, all);
-	if (!*line || !*end)
-		err_exit(12, "malloc"); //, all);
+	*str = ft_strdup("\0");
+	*end = ft_strdup("\0\0");
+	if (!*str || !*end)
+		err_exit(12, "malloc");
 }
 
-static void	gnl(char **line)
+static void	get_next_str(char **str)
 {
 	char	*end;
 	char	*tmp;
 
-	gnl_init_strings(&end, line); //, all);
+	gnl_init_strings(&end, str);
 	while (*end != '\n')
 	{
 		read(0, end, 1);
@@ -21,46 +21,19 @@ static void	gnl(char **line)
 			break ;
 		if (!*end)
 		{
-			*line = NULL;
+			*str = NULL;
 			return ;
 		}
-		tmp = ft_strjoin(*line, end);
+		tmp = ft_strjoin(*str, end);
 		if (!tmp)
 		{
 			free_null((void**)&end);
 			err_exit(12, "malloc"); //, all);
 		}
-		free_null((void**)&*line);
-		*line = tmp;
+		free_null((void**)&*str);
+		*str = tmp;
 	}
 	free_null((void**)&end);
-}
-
-void	heredoc_loop(char *name, char *limiter, int fd)
-{
-	char	*line;
-
-	while (1)
-	{
-		write(1, "> ", 2);
-		signal(SIGINT, &handler_heredoc);
-		gnl(&line);
-		if (!line)
-		{
-			write(1, "  \b\b", 1);
-			break ;
-		}
-		if (ft_strcmp(line, limiter))
-		{
-			if (write(fd, line, ft_strlen(line)) == -1)
-				err_exit(errno, name); //, all);
-			if (write(fd, "\n", 1) == -1)
-				err_exit(errno, name); //, all);
-		}
-		else
-			break ;
-		free_null((void**)&line);
-	}
 }
 
 static void	ft_waitpid(pid_t pid, int status, t_all *all)
@@ -75,11 +48,38 @@ static void	ft_waitpid(pid_t pid, int status, t_all *all)
 	}
 }
 
+void	heredoc_loop(char *name, char *limiter, int fd)
+{
+	char	*str;
+
+	while (1)
+	{
+		f(1, "> ", 2);
+		signal(SIGINT, &handler_heredoc);
+		get_next_str(&str);
+		if (!str)
+		{
+			write(1, "  \b\b", 1);
+			break ;
+		}
+		if (ft_strcmp(str, limiter))
+		{
+			if (write(fd, str, ft_strlen(str)) == -1)
+				err_exit(errno, name);
+			if (write(fd, "\n", 1) == -1)
+				err_exit(errno, name);
+		}
+		else
+			break ;
+		free_null((void**)&str);
+	}
+}
+
 void	heredoc_open(char *name, char *limiter, t_all *all)
 {
+	pid_t	pid;
 	int		fd;
 	int		status;
-	pid_t	pid;
 
 	status = 0;
 	pid = fork();
@@ -87,13 +87,14 @@ void	heredoc_open(char *name, char *limiter, t_all *all)
 	{
 		all->errnum = errno;
 		waitpid(pid, &status, 0);
-		err_exit(all->errnum, "fork"); //, all);
+		err_exit(all->errnum, "fork");
 	}
 	if (pid != 0)
-		signal(SIGINT, SIG_IGN);
+		signal(SIGINT, SIG_IGN); // SIG_IGN - функция, которая игнорирует
+		// сигнал кроме сигналов sigkill и sigstop
 	if (pid == 0)
 	{
-		fd = open(name, O_RDWR | O_CREAT | O_TRUNC | O_APPEND, 0644);
+		fd = open(name, O_RDWR | O_CREAT | O_TRUNC | O_APPEND, 0777);
 		if (fd == -1)
 			err_exit(errno, name); //, all);
 		heredoc_loop(name, limiter, fd);

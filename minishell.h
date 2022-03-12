@@ -65,7 +65,7 @@ typedef struct s_all
 }	t_all;
 
 void	ft_print_all(t_all *all);
-void free_null(void **ptr);
+void 	free_null(void **ptr);
 /*./parser*/
 void	rl_replace_line(const char *str, int num);
 int		rl_clear_history(void);
@@ -100,7 +100,7 @@ void	print_error(int errnum, char *str, char *cmd_name);
 /*check_open.c*/
 int		open_file(t_all *all);
 /*child.c*/
-void	child_action(int i, t_all *all);
+void	run_child(int i, t_all *all);
 int		valid_path(t_all *all, char *cmd);
 /*redirects.c*/
 int		dup_cmd(t_cmd *cmd); //, t_all *all);
@@ -109,7 +109,7 @@ void	redup_cmd(int fd); //, t_all *all);
 void	ft_pipe(t_all *all);
 /*pipex.c*/
 void	pipex(t_all *all);
-void	ft_dup2(int i, int *file, t_cmd *cmd, t_all *all);
+void	ft_dup2(int *fd, t_all *all, t_cmd *cmd, int i);
 /*./built_in*/
 int		ft_cd(t_all *all, t_cmd *cmd);
 int		ft_pwd(t_all *all);
@@ -135,3 +135,10 @@ void	heredoc_open(char *name, char *limiter, t_all *all);
 // поменять название файлов и мэйкфайл
 
 // заменить функции обработчики
+//handler_child - child_handler
+//handler_parent - parent_handler
+//handler_heredoc - heredoc_handler
+//
+//valid_path -
+//pipex - ft_pipex
+//

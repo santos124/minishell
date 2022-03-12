@@ -47,16 +47,16 @@ static void	open_dup(int i, t_cmd *cmd, t_all *all)
 		while (!cmd->out->last)
 			cmd->out = cmd->out->next;
 		if (cmd->out && cmd->out->doub)
-			file[1] = open(cmd->out->name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			file[1] = open(cmd->out->name, O_WRONLY | O_CREAT | O_APPEND, 0777);
 		else if (cmd->out && !cmd->out->doub)
-			file[1] = open(cmd->out->name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			file[1] = open(cmd->out->name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	}
 	if (file[1] == -1)
-		err_exit(errno, cmd->out->name); //, all);
-	ft_dup2(i, file, cmd, all);
+		err_exit(errno, cmd->out->name);
+	ft_dup2(file, all, cmd, i);
 }
 
-void	execve_faild(t_all *all, char *path, t_cmd *cmd)
+static void	execve_error(t_all *all, char *path, t_cmd *cmd)
 {
 	all->errnum = 127;
 	if (!path)
@@ -83,23 +83,26 @@ void	execve_faild(t_all *all, char *path, t_cmd *cmd)
 	}
 }
 
-void	child_action(int i, t_all *all)
+void	run_child(int i, t_all *all)
 {
 	int			num;
 	t_cmd		*cmd;
 	char		*path;
 
-	cmd = all->cmd;
 	num = 0;
-	while (num++ < i)
+	cmd = all->cmd;
+	while (num < i)
+	{
 		cmd = cmd->next;
+		num++;
+	}
 	if (!cmd->cmd || !cmd->cmd[0])
 		exit(0);
 	open_dup(i, cmd, all);
 	if (cmd->id_cmd)
-		err_exit(run_builtin(cmd, all), NULL); //, all);
+		err_exit(run_builtin(cmd, all), NULL);
 	valid_path(all, cmd->cmd[0]);
 	path = get_path(cmd->cmd[0], all->env);
-	if (execve(path, cmd->cmd, all->env) == -1)
-		execve_faild(all, path, cmd);
+	if (execve(path, cmd->cmd, all->env) == -1) // запускает исполняемый файл
+		execve_error(all, path, cmd);
 }

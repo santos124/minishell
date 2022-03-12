@@ -1,13 +1,13 @@
 #include "minishell.h"
 
-void	free_redir_env_fd(t_all *all)
+static void	free_redir_env_fd(t_all *all)
 {
-	t_red	*redir_temp;
+	t_red	*red_tmp;
 	int		i;
 
 	while (all && all->red)
 	{
-		redir_temp = all->red->all_next;
+		red_tmp = all->red->all_next;
 		if (all->red->in && all->red->doub)
 		{
 			unlink(all->red->name);
@@ -15,7 +15,7 @@ void	free_redir_env_fd(t_all *all)
 		}
 		free_null((void**)&all->red->name);
 		free_null((void**)&all->red);
-		all->red = redir_temp;
+		all->red = red_tmp;
 	}
 	i = 0;
 	while (all && all->env[i])
@@ -28,7 +28,7 @@ void	free_redir_env_fd(t_all *all)
 		free_null((void**)&all->fd);
 }
 
-void	free_commands(t_all *all)
+static void	free_commands(t_all *all)
 {
 	int	i;
 
@@ -52,15 +52,15 @@ void	free_commands(t_all *all)
 
 void	free_struct(t_all *all)
 {
-	t_cmd	*cmd_temp;
+	t_cmd	*cmd_tmp;
 
 	while (all && all->cmd)
 	{
-		cmd_temp = all->cmd->next;
+		cmd_tmp = all->cmd->next;
 		free_commands(all);
 		free_null((void**)&all->cmd->cmd);
 		free_null((void**)&all->cmd);
-		all->cmd = cmd_temp;
+		all->cmd = cmd_tmp;
 	}
 	free_redir_env_fd(all);
 }

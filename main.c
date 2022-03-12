@@ -80,7 +80,7 @@ static void	run_minishell(t_all *all) // +
 			all->errnum = run_builtin(all->cmd, all); //выполнение билтинов
 			redup_cmd(fd); // закрывает дескрипторы
 		}
-		else if (all->num > 1 || (all-> num && all->cmd->cmd[0]))
+		else if (all->num > 1 || (all->num && all->cmd->cmd[0]))
 			pipex(all);
 	}
 //	{
